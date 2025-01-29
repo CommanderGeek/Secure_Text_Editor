@@ -9,6 +9,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import services.EncryptionMetaDataConverter;
+import services.KeyStoreService;
 
 import java.security.Security;
 
@@ -20,6 +21,7 @@ public class Decryption {
     @POST
     public String decryptText(String encryptedTextWithId) {
         Security.addProvider(new BouncyCastleProvider());
+        KeyStoreService ks = new KeyStoreService();
         logger.info("Received the encrypted Text with id at beginning: "+encryptedTextWithId);
 
         String[] parts = encryptedTextWithId.split("\\.");// Split on the first dot
@@ -31,7 +33,9 @@ public class Decryption {
             encryptedText = "";
         }
 
+
         EncryptionMetadata metadata = converter.lookUpMetaData(fileID);
+        metadata.setKey(ks.retrieveKey(metadata));
         // Decrypt the text
         String decryptedText = decryptText(encryptedText, metadata);
 
@@ -45,7 +49,7 @@ public class Decryption {
 
     private String decryptText(String encryptedText, EncryptionMetadata metadata) {
         String algorithm = metadata.getAlgorithm();
-        //TODO: Fix this or the code police will haunt u till u are retired. This is a piece of garbage code!!!!
+        //TODO: Fix this or the code mk will haunt u till u are retired. This is a piece of garbage code!!!!
         metadata.setAlgorithm(metadata.getAlgorithm().split("_")[0]);
         return AlgorithmHandlerFactory.getHandler(algorithm).decrypt(encryptedText, metadata);
     }

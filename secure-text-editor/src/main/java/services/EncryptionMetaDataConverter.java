@@ -14,6 +14,9 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 public class EncryptionMetaDataConverter {
+
+    final Path baseDir = Paths.get(System.getProperty("user.home"), "STE", "encryption", "MetaData");
+
     private static final Logger logger = LoggerFactory.getLogger(EncryptionMetaDataConverter.class);
     public EncryptionMetadata lookUpMetaData(String id){
         String json = getMetaDataFromSystem(id);
@@ -37,7 +40,7 @@ public class EncryptionMetaDataConverter {
     }
 
     public void storeMetaData(String json, UUID uuid) {
-        Path baseDir = Paths.get(System.getProperty("user.home"), "STE", "encryption", "MetaData");
+
         createDirectories(baseDir);
 
         Path filePath = baseDir.resolve(uuid.toString() + ".json");
@@ -49,7 +52,7 @@ public class EncryptionMetaDataConverter {
         }
     }
 
-    private void createDirectories(Path directory) {
+    public void createDirectories(Path directory) {
         try {
             if (Files.notExists(directory)) {
                 Files.createDirectories(directory);

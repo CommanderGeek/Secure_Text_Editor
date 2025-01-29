@@ -21,6 +21,7 @@ public class EncryptionMetadata {
     private String publicKey;
     private String privateKey;
 
+    private String keyStorePassword;
 
     public EncryptionMetadata(Builder builder){
         fileId = builder.fileId;
@@ -155,6 +156,14 @@ public class EncryptionMetadata {
         this.privateKey = privateKey;
     }
 
+    public String getKeyStorePassword() {
+        return keyStorePassword;
+    }
+
+    public void setKeyStorePassword(String keyStorePassword) {
+        this.keyStorePassword = keyStorePassword;
+    }
+
     public static class Builder {
         private String fileId;
         private String algorithm;
@@ -176,12 +185,78 @@ public class EncryptionMetadata {
         private String publicKey;
         private String privateKey;
 
-        public String getTagLen() {
+        private String getTagLen() {
             return tagLen;
         }
 
-        public void setTagLen(String tagLen) {
+        private void setTagLen(String tagLen) {
             this.tagLen = tagLen;
+        }
+
+        private String keyStorePassword;
+
+        public String getFileId() {
+            return fileId;
+        }
+
+        public String getAlgorithm() {
+            return algorithm;
+        }
+
+        public String getMode() {
+            return mode;
+        }
+
+        public String getPadding() {
+            return padding;
+        }
+
+        public String getKeySize() {
+            return keySize;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public String getIv() {
+            return iv;
+        }
+
+        public String getHash() {
+            return hash;
+        }
+
+        public String getHashValue() {
+            return hashValue;
+        }
+
+        public String getEncryptedText() {
+            return encryptedText;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+
+        public String getSalt() {
+            return salt;
+        }
+
+        public void setSalt(String salt) {
+            this.salt = salt;
+        }
+
+        public String getKeyStorePassword() {
+            return keyStorePassword;
+        }
+
+        public void setKeyStorePassword(String keyStorePassword) {
+            this.keyStorePassword = keyStorePassword;
         }
 
         // Builder methods for each field

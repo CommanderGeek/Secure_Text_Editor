@@ -35,28 +35,28 @@ public class EncryptionService {
     /**
      * serializes the MetaData into Json files and triggers the storing function
      * @param algorithm
-     * @param mode
-     * @param padding
      * @param key
      * @param iv
-     * @param keyLength
-     * @param encryptedText
      * @return the UUID of the encrypted file
      */
-    public String prepareAndSerializeMetadata(String algorithm, String mode, String padding,
-                                              byte[] key, byte[] iv, String keyLength, byte[] encryptedText) {
+    public String prepareAndSerializeMetadata(String algorithm, EncryptionMetadata metadata,
+                                              byte[] key, byte[] iv) {
         Security.addProvider(new BouncyCastleProvider());
-        logger.debug("here are the parameters: \n mode: " +mode +" \n padding: "+ padding+" \n key: " + key.toString());
-        EncryptionMetadata metadata = new EncryptionMetadata.Builder().setAlgorithm(algorithm)//
-                .setMode(mode)//
-                .setPadding(padding)//
-                .setKey(Hex.toHexString(key))//
-                .setKeySize(keyLength)//
+        logger.debug("here are the parameters: \n mode: " +metadata.getMode() +" \n padding: "+ metadata.getPadding()+" \n key: " + key.toString());
+        metadata = new EncryptionMetadata.Builder().setAlgorithm(algorithm)//
+                .setMode(metadata.getMode())//
+                .setPadding(metadata.getPadding())//
+                .setKeySize(metadata.getKeySize())//
                 .setIv(Hex.toHexString(Objects.requireNonNullElseGet(iv, "null"::getBytes)))//
                 .setFileId(java.util.UUID.randomUUID().toString())//
                 .build();
+        KeyStoreService ks = new KeyStoreService();
+        ks.storeKey(metadata, key);
         converter.storeMetaData(converter.serializeMetadata(metadata), UUID.fromString(metadata.getFileId()));
-        return metadata.getFileId();  // Return serialized JSON
+
+
+
+        return metadata.getFileId();
     }
 
     public String serializeMetadata(EncryptionMetadata encryptionMetadata){
@@ -95,7 +95,7 @@ public class EncryptionService {
             key = buildKey(Hex.decode(metadata.getKey()), algorithm);
         }
         byte[] encryptedText =  encrypt(c, plainText, key);
-        String fileId = prepareAndSerializeMetadata(algorithm, metadata.getMode(), metadata.getPadding(), key.getEncoded(),c.getIV(), metadata.getKeySize(),encryptedText);
+        String fileId = prepareAndSerializeMetadata(algorithm, metadata, key.getEncoded(),c.getIV());
         String encEncryptedText = Hex.toHexString(encryptedText);
         logger.info("finished encryption!");
         return fileId+"."+encEncryptedText;

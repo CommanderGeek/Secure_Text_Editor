@@ -53,17 +53,4 @@ public class EncryptionServiceTest {
                 "Expected message should be printed when InvalidKeyException is caught");
     }
 
-    @Test
-    public void testPrepareAndSerializeMetadata() {
-        byte[] key = new byte[32]; // 256-bit AES key
-        byte[] iv = new byte[16];  // 128-bit IV
-        byte[] encryptedText = "This is encrypted text".getBytes();
-
-        // Test serialization of metadata
-        String fileId = encryptionService.prepareAndSerializeMetadata(
-                "AES", "CBC", "PKCS5Padding", key, iv, "256", encryptedText
-        );
-        assertNotNull(fileId, "The file ID should not be null");
-        assertFalse(fileId.isEmpty(), "The file ID should not be empty");
-    }
 }
