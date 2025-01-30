@@ -212,31 +212,38 @@
 
     <div *ngIf="selectedEncryptionType !== 'AES_AEM'" class="symmetric-encryption">
       <h3>Manipulation Detection</h3>
+
+      <!-- Checkbox to enable MAC -->
       <mat-checkbox [(ngModel)]="enableMAC" (change)="onMACEnableChange()">
-        <mat-label>Enable Detection</mat-label>
+        Enable MAC
       </mat-checkbox>
+
+      <!-- Show MAC selection only if MAC is enabled -->
       <div *ngIf="enableMAC">
         <mat-form-field>
-          <mat-label>Method</mat-label>
+          <mat-label>MAC Method</mat-label>
           <mat-select [(ngModel)]="selectedMAC" name="MAC" required>
             <mat-option value="SHA-256_MAC">SHA-256</mat-option>
             <mat-option value="AESCMAC_MAC">AESCMAC</mat-option>
             <mat-option value="HMACSHA256_MAC">HMAC SHA-256</mat-option>
           </mat-select>
         </mat-form-field>
-    </div>
-      <mat-checkbox [(ngModel)]="enableSignature">
-        <mat-label>Enable Signature</mat-label>
+      </div>
+      <!-- Checkbox to enable Signature -->
+      <mat-checkbox [(ngModel)]="enableSignature" (change)="onSignatureEnableChange()">
+        Enable Signature
       </mat-checkbox>
+
+      <!-- Show Signature selection only if Signature is enabled -->
       <div *ngIf="enableSignature">
         <mat-form-field>
-          <mat-label>Method</mat-label>
-          <mat-select [(ngModel)]="selectedSignature" name="Signature" required>
+          <mat-label>Signature Method</mat-label>
+          <mat-select [(ngModel)]="selectedSignature" name="signatureMethod" required>
             <mat-option value="SHA256withDSA">SHA256withDSA</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
-      </div>
+    </div>
     <!-- Save Buttons -->
     <div class="sidenav-footer">
       <button mat-raised-button color="primary" class="save-btn" (click)="normalSave()">

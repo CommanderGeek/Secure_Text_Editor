@@ -45,17 +45,17 @@ public class Encryption {
                 .setHash(mac)
                 .setAlgorithm(request.getEncryptionType())
                 .build();
-        if (!request.getKey().equals("")){
+        if (!request.getKey().isEmpty()){
             metadata.setKey(request.getKey());
         }
-        if(!mac.equals("")) {
+        if(!mac.isEmpty()) {
             SecretKey key  = service.buildKey(encryptionType, "BC", Integer.parseInt(metadata.getKeySize()));
             metadata.setMacKey(Hex.toHexString(key.getEncoded()));
             metadata.setHashValue(IntegrityHandlerFactory.getHandler(mac).compute(plainText2Bytes, metadata));
-        }else if (!signature.equals("")){
-            logger.info("I live!");
+        }else if (!signature.isEmpty()){
+            metadata.setHashValue(IntegrityHandlerFactory.getHandler(signature).compute(plainText2Bytes, metadata));
         }
-        if(!password.equals("")){
+        if(!password.isEmpty()){
             metadata.setPassword(password);
         }
         return AlgorithmHandlerFactory.getHandler(request.getEncryptionType()).encrypt(plainText2Bytes,metadata);

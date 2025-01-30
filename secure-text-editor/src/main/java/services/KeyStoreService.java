@@ -98,22 +98,4 @@ public class KeyStoreService {
         }
     }
 
-
-    public static void main(String[] args) {
-        KeyStoreService ks = new KeyStoreService();
-        EncryptionMetadata.Builder metadataBuilder = new EncryptionMetadata.Builder();
-        metadataBuilder.setKey(Hex.toHexString("x4z17UqN9hACtneJ7wQJNsqWd/WOrHzJ+89rZqNIy5I=".getBytes()))
-                .setFileId(java.util.UUID.randomUUID().toString());
-        EncryptionMetadata metadata = metadataBuilder.build();
-       // ks.storeKey(metadata);
-        EncryptionService service = new EncryptionService();
-        service.serializeMetadata(metadata);
-
-        String fileId = metadata.getFileId();
-
-        EncryptionMetaDataConverter converter = new EncryptionMetaDataConverter();
-        metadata = converter.lookUpMetaData(fileId);
-        ks.retrieveKey(metadata);
-    }
-
 }

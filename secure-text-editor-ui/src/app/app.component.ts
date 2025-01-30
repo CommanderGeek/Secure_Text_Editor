@@ -23,7 +23,7 @@ import {MatCheckbox} from "@angular/material/checkbox";
   selector: 'app-root',
   standalone: true,
   imports: [
-    RouterOutlet, FormsModule, MatFormFieldModule, MatInputModule, MatDividerModule, MatButtonModule,
+    FormsModule, MatFormFieldModule, MatInputModule, MatDividerModule, MatButtonModule,
     MatIcon, MatOption, MatSelect, MatRadioGroup, MatRadioButton, CommonModule, MatMenu, MatMenuModule,
     MatSidenavContainer, MatSidenavModule, MatSnackBarModule, ReactiveFormsModule, MatCheckbox
   ],
@@ -50,6 +50,7 @@ export class AppComponent {
   hidePassword: boolean = true;
   enableSignature: boolean = false;
   selectedSignature: string = '';
+  selectedDetection: string = '';
 
 
   noPaddingModes = ['GCM_SYM', 'CTS_SYM', 'OFB_SYM', 'CTR_SYM', 'CFB_SYM', 'ChaCha20_SYM', 'CCM_SYM'];
@@ -281,8 +282,9 @@ export class AppComponent {
     this.selectedEncryptionType = 'AES_AEM';
   }
   onMACEnableChange(): void {
-    if (!this.enableMAC) {
-      this.selectedMAC = ''; // Clear the MAC field if disabled
+    if (this.enableMAC) {
+      this.enableSignature = false; // Disable signature if MAC is enabled
+      this.selectedSignature = '';  // Clear signature selection
     }
   }
 
@@ -308,5 +310,12 @@ export class AppComponent {
 // Add the method to toggle password visibility
   togglePasswordVisibility(): void {
     this.hidePassword = !this.hidePassword;
+  }
+
+  onSignatureEnableChange(): void {
+    if (this.enableSignature) {
+      this.enableMAC = false; // Disable MAC if Signature is enabled
+      this.selectedMAC = '';  // Clear MAC selection
+    }
   }
 }

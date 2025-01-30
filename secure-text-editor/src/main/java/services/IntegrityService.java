@@ -16,6 +16,7 @@ public class IntegrityService {
             signature.update(plaintext);
             metadata.setPublicKey(Hex.toHexString(kp.getPublic().getEncoded()));
             metadata.setPrivateKey(Hex.toHexString(kp.getPrivate().getEncoded()));
+            metadata.setIntegrityAlgorithm("SHA256withDSA");
             return signature.sign();
         }
 
@@ -30,7 +31,6 @@ public class IntegrityService {
             PublicKey key = KeyFactory.getInstance("DSA").generatePublic(new X509EncodedKeySpec(Hex.decode(metadata.getPublicKey())));
             Signature signature = Signature.getInstance("SHA256withDSA", "BC");
             signature.initVerify(key);
-            //ToDo: add here the right plaintext
             signature.update(Hex.decode(metadata.getHashValue()));
             return  signature.verify(plaintext);
         } catch (InvalidKeySpecException | NoSuchAlgorithmException | NoSuchProviderException | InvalidKeyException |

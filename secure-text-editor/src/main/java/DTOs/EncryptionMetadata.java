@@ -36,6 +36,10 @@ public class EncryptionMetadata {
         macKey = builder.macKey;
         tagLen = builder.tagLen;
         password = builder.password;
+        salt = builder.salt;
+        publicKey = builder.publicKey;
+        privateKey = builder.privateKey;
+        keyStorePassword = builder.keyStorePassword;
     }
 
 
@@ -313,24 +317,27 @@ public class EncryptionMetadata {
             return macKey;
         }
 
-        public void setMacKey(String macKey) {
+        public Builder setMacKey(String macKey) {
             this.macKey = macKey;
+            return this;
         }
 
         public String getPublicKey() {
             return publicKey;
         }
 
-        public void setPublicKey(String publicKey) {
+        public Builder setPublicKey(String publicKey) {
             this.publicKey = publicKey;
+            return this;
         }
 
         public String getPrivateKey() {
             return privateKey;
         }
 
-        public void setPrivateKey(String privateKey) {
+        public Builder setPrivateKey(String privateKey) {
             this.privateKey = privateKey;
+            return this;
         }
 
         // Build method to create EncryptionMetadata object

@@ -49,14 +49,11 @@ public class EncryptionService {
                 .setKeySize(metadata.getKeySize())//
                 .setIv(Hex.toHexString(Objects.requireNonNullElseGet(iv, "null"::getBytes)))//
                 .setFileId(java.util.UUID.randomUUID().toString())//
+                .setPublicKey(metadata.getPublicKey())//
                 .build();
         KeyStoreService ks = new KeyStoreService();
         ks.storeKey(metadata, key);
-        converter.storeMetaData(converter.serializeMetadata(metadata), UUID.fromString(metadata.getFileId()));
-
-
-
-        return metadata.getFileId();
+        return serializeMetadata(metadata);
     }
 
     public String serializeMetadata(EncryptionMetadata encryptionMetadata){
