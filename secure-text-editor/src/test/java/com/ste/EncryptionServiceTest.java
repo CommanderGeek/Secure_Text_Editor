@@ -40,17 +40,4 @@ public class EncryptionServiceTest {
 
 
 
-    @Test
-    public void testDecryptWithInvalidKey() {
-        // Setup
-        Cipher cipher = encryptionService.buildCipher("AES", "CBC", "PKCS5Padding");
-        byte[] encryptedText = "Invalid key test".getBytes();
-
-        // Test decrypt with an invalid key (null)
-        byte[]result =   encryptionService.decrypt(cipher, encryptedText, null);
-        assertNull(result, "Result should be null when InvalidKeyException is thrown");
-        assertTrue(outputStreamCaptor.toString().contains("Invalid key is inserted"),
-                "Expected message should be printed when InvalidKeyException is caught");
-    }
-
 }

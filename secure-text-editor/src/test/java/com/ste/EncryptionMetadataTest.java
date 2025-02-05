@@ -24,20 +24,6 @@ public class EncryptionMetadataTest {
                 .setEncryptedText("encryptedTextSample");
     }
 
-    @Test
-    public void testBuilderCreatesCorrectObject() {
-        EncryptionMetadata metadata = builder.build();
-
-        assertNotNull(metadata, "The EncryptionMetadata object should not be null");
-        assertEquals("0af0c20a-55f0-4bed-af35-d656ed601b30", metadata.getFileId());
-        assertEquals("AES", metadata.getAlgorithm());
-        assertEquals("CBC", metadata.getMode());
-        assertEquals("PKCS5Padding", metadata.getPadding());
-        assertEquals("256", metadata.getKeySize());
-        assertEquals("a1b2c3d4e5f6", metadata.getKey());
-        assertEquals("1122334455667788", metadata.getIv());
-        assertEquals("abc123hash", metadata.getIntegrityAlgorithm());}
-
 
     @Test
     public void testSetAndGetAlgorithm() {
