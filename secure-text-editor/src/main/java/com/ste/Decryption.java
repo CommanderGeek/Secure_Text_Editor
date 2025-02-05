@@ -6,6 +6,7 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import DTOs.EncryptionMetadata;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.util.encoders.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import services.EncryptionMetaDataConverter;
@@ -26,25 +27,23 @@ public class Decryption {
 
         String[] parts = encryptedTextWithId.split("\\.");// Split on the first dot
         String fileID = parts[0];
-        String encryptedText;
+        String cipherText;
         if(parts.length > 1) {
-            encryptedText = parts[1];
+            cipherText = parts[1];
         }else{
-            encryptedText = "";
+            cipherText = "";
         }
 
 
         EncryptionMetadata metadata = converter.lookUpMetaData(fileID);
         metadata.setKey(ks.retrieveKey(metadata));
-        // Decrypt the text
-        String decryptedText = decryptText(encryptedText, metadata);
 
         // Verify message integrity if a hash is provided
-        if (isMessageCompromised(decryptedText, metadata)) {
+        if (isMessageCompromised(cipherText, metadata)) {
             return "MESSAGE COMPROMISED!";
         }
-
-        return decryptedText;
+        // Decrypt the text
+        return decryptText(cipherText, metadata);
     }
 
     private String decryptText(String encryptedText, EncryptionMetadata metadata) {
@@ -59,10 +58,11 @@ public class Decryption {
     }
 
     private boolean isMessageCompromised(String text, EncryptionMetadata metadata) {
+        byte[] decodedText = Hex.decode(text);
         String hashAlgorithm = metadata.getIntegrityAlgorithm();
         if (hashAlgorithm == null || hashAlgorithm.isEmpty()) {
             return false; // No integrity check required if hash is absent
         }
-        return !IntegrityHandlerFactory.getHandler(hashAlgorithm).verify(text.getBytes(), metadata);
+        return !IntegrityHandlerFactory.getHandler(hashAlgorithm).verify(decodedText, metadata);
     }
 }

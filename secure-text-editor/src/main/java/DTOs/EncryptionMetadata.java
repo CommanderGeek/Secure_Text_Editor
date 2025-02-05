@@ -31,7 +31,6 @@ public class EncryptionMetadata {
         keySize = builder.keySize;
         key = builder.key;
         iv = builder.iv;
-        integrityAlgorithm = builder.hash;
         hashValue = builder.hashValue;
         macKey = builder.macKey;
         tagLen = builder.tagLen;
@@ -39,6 +38,7 @@ public class EncryptionMetadata {
         salt = builder.salt;
         publicKey = builder.publicKey;
         privateKey = builder.privateKey;
+        integrityAlgorithm = builder.integrityAlgorithm;
         keyStorePassword = builder.keyStorePassword;
     }
 
@@ -188,6 +188,7 @@ public class EncryptionMetadata {
 
         private String publicKey;
         private String privateKey;
+        private String integrityAlgorithm;
 
         private String getTagLen() {
             return tagLen;
@@ -337,6 +338,11 @@ public class EncryptionMetadata {
 
         public Builder setPrivateKey(String privateKey) {
             this.privateKey = privateKey;
+            return this;
+        }
+
+        public Builder setIntegrityAlgorithm(String integrityAlgorithm) {
+            this.integrityAlgorithm = integrityAlgorithm;
             return this;
         }
 

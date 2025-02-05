@@ -2,6 +2,7 @@ package Handler;
 
 import Builder.KeyBuilder;
 import DTOs.EncryptionMetadata;
+import DTOs.IntegrityData;
 import org.bouncycastle.util.encoders.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,11 +18,11 @@ public class ChaCha20AlgorithmHandler implements CryptoAlgorithmHandler{
     private static final Logger logger = LoggerFactory.getLogger(ChaCha20AlgorithmHandler.class);
 
     @Override
-    public String encrypt(byte[] plainText, EncryptionMetadata metadata) {
+    public String encrypt(byte[] plainText, EncryptionMetadata metadata, IntegrityData data) {
         final String chaCha = "ChaCha7539";
         logger.info("Building Cipher for algorithm: " + chaCha);
         Cipher c = service.buildCipher(chaCha);
-        return service.encryptAndStore(chaCha,c,plainText, metadata);
+        return service.encryptAndStore(chaCha,c,plainText, metadata, data);
     }
 
     @Override

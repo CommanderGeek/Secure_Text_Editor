@@ -3,6 +3,8 @@ package services;
 import Builder.CipherBuilder;
 import Builder.KeyBuilder;
 import DTOs.EncryptionMetadata;
+import DTOs.IntegrityData;
+import Factory.IntegrityHandlerFactory;
 import Handler.AESAlgorithmHandler;
 import org.bouncycastle.jcajce.spec.ScryptKeySpec;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -48,6 +50,9 @@ public class EncryptionService {
                 .setPadding(metadata.getPadding())//
                 .setKeySize(metadata.getKeySize())//
                 .setIv(Hex.toHexString(Objects.requireNonNullElseGet(iv, "null"::getBytes)))//
+                .setHashValue(metadata.getHashValue())
+                .setMacKey(metadata.getMacKey())
+                .setIntegrityAlgorithm(metadata.getIntegrityAlgorithm())
                 .setFileId(java.util.UUID.randomUUID().toString())//
                 .setPublicKey(metadata.getPublicKey())//
                 .build();
@@ -84,7 +89,8 @@ public class EncryptionService {
         return new byte[0];
     }
 
-    public String encryptAndStore(String algorithm, Cipher c, byte[] plainText, EncryptionMetadata metadata){
+    public String encryptAndStore(String algorithm, Cipher c, byte[] plainText, EncryptionMetadata metadata,
+                                  IntegrityData data){
         SecretKey key;
         if(metadata.getKey() == null){
             key = buildKey(algorithm,"BC",Integer.parseInt(metadata.getKeySize()));
@@ -92,8 +98,19 @@ public class EncryptionService {
             key = buildKey(Hex.decode(metadata.getKey()), algorithm);
         }
         byte[] encryptedText =  encrypt(c, plainText, key);
+        if(!data.getMac().isEmpty()) {
+            SecretKey macKey  = buildKey(data.getEncryptionType(), "BC", Integer.parseInt(metadata.getKeySize()));
+            metadata.setMacKey(Hex.toHexString(macKey.getEncoded()));
+            metadata.setIntegrityAlgorithm(data.getMac());
+            metadata.setHashValue(IntegrityHandlerFactory.getHandler(data.getMac()).compute(encryptedText, metadata));
+        }else if (!data.getSignature().isEmpty()){
+            metadata.setIntegrityAlgorithm(data.getSignature());
+            metadata.setHashValue(IntegrityHandlerFactory.getHandler(data.getSignature()).compute(encryptedText, metadata));
+        }
         String fileId = prepareAndSerializeMetadata(algorithm, metadata, key.getEncoded(),c.getIV());
         String encEncryptedText = Hex.toHexString(encryptedText);
+
+
         logger.info("finished encryption and stored file!");
         return fileId+"."+encEncryptedText;
     }

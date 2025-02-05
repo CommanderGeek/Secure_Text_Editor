@@ -2,6 +2,7 @@ package Handler;
 
 import Builder.KeyBuilder;
 import DTOs.EncryptionMetadata;
+import DTOs.IntegrityData;
 import org.bouncycastle.util.encoders.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,11 +20,11 @@ public class AESAlgorithmHandler implements CryptoAlgorithmHandler{
     private static final Logger logger = LoggerFactory.getLogger(AESAlgorithmHandler.class);
 
     @Override
-    public String encrypt(byte[] plainText, EncryptionMetadata metadata) {
+    public String encrypt(byte[] plainText, EncryptionMetadata metadata, IntegrityData data) {
 
         final String AES = "AES";
         Cipher c = service.buildCipher(AES, metadata.getMode(), metadata.getPadding());
-        return service.encryptAndStore(AES, c, plainText, metadata);
+        return service.encryptAndStore(AES, c, plainText, metadata, data);
     }
 
     @Override

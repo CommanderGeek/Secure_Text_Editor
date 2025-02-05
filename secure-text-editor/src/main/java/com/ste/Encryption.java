@@ -1,5 +1,6 @@
 package com.ste;
 import DTOs.EncryptionMetadata;
+import DTOs.IntegrityData;
 import Factory.AlgorithmHandlerFactory;
 import Factory.IntegrityHandlerFactory;
 import jakarta.ws.rs.*;
@@ -48,17 +49,12 @@ public class Encryption {
         if (!request.getKey().isEmpty()){
             metadata.setKey(request.getKey());
         }
-        if(!mac.isEmpty()) {
-            SecretKey key  = service.buildKey(encryptionType, "BC", Integer.parseInt(metadata.getKeySize()));
-            metadata.setMacKey(Hex.toHexString(key.getEncoded()));
-            metadata.setHashValue(IntegrityHandlerFactory.getHandler(mac).compute(plainText2Bytes, metadata));
-        }else if (!signature.isEmpty()){
-            metadata.setHashValue(IntegrityHandlerFactory.getHandler(signature).compute(plainText2Bytes, metadata));
-        }
+
+     IntegrityData data = new IntegrityData(mac, signature, encryptionType);
         if(!password.isEmpty()){
             metadata.setPassword(password);
         }
-        return AlgorithmHandlerFactory.getHandler(request.getEncryptionType()).encrypt(plainText2Bytes,metadata);
+        return AlgorithmHandlerFactory.getHandler(request.getEncryptionType()).encrypt(plainText2Bytes,metadata, data);
     }
     @POST
     @Path("/generate-key")
