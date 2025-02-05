@@ -48,7 +48,7 @@ public class EncryptionServiceTest {
 
         // Test decrypt with an invalid key (null)
         byte[]result =   encryptionService.decrypt(cipher, encryptedText, null);
-        assertNull(result, "Result should be null when InvalidKeyException is thrown");
+        assertEquals(new byte[0], result, "Result should be null when InvalidKeyException is thrown");
         assertTrue(outputStreamCaptor.toString().contains("Invalid key is inserted"),
                 "Expected message should be printed when InvalidKeyException is caught");
     }
