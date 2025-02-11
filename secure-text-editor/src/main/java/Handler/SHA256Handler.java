@@ -1,6 +1,7 @@
 package Handler;
 
 import DTOs.EncryptionMetadata;
+import Enums.Const;
 import org.bouncycastle.util.encoders.Hex;
 
 import java.security.MessageDigest;
@@ -11,7 +12,7 @@ public class SHA256Handler implements IntegrityHandler {
     @Override
     public String compute(byte[] plainText, EncryptionMetadata metadata) {
         try {
-            MessageDigest digest = MessageDigest.getInstance(metadata.getIntegrityAlgorithm(), "BC");
+            MessageDigest digest = MessageDigest.getInstance(metadata.getIntegrityAlgorithm(), Const.BC.getConst());
             return Hex.toHexString(digest.digest(plainText));
         } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
             throw new RuntimeException(e);

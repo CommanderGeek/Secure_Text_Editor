@@ -4,6 +4,7 @@ import Builder.CipherBuilder;
 import Builder.KeyBuilder;
 import DTOs.EncryptionMetadata;
 import DTOs.IntegrityData;
+import Enums.Const;
 import Factory.IntegrityHandlerFactory;
 import Handler.AESAlgorithmHandler;
 import org.bouncycastle.jcajce.spec.ScryptKeySpec;
@@ -93,13 +94,13 @@ public class EncryptionService {
                                   IntegrityData data){
         SecretKey key;
         if(metadata.getKey() == null){
-            key = buildKey(algorithm,"BC",Integer.parseInt(metadata.getKeySize()));
+            key = buildKey(algorithm, Const.BC.getConst(), Integer.parseInt(metadata.getKeySize()));
         }else{
             key = buildKey(Hex.decode(metadata.getKey()), algorithm);
         }
         byte[] encryptedText =  encrypt(c, plainText, key);
         if(!data.getMac().isEmpty()) {
-            SecretKey macKey  = buildKey(data.getEncryptionType(), "BC", Integer.parseInt(metadata.getKeySize()));
+            SecretKey macKey  = buildKey(data.getEncryptionType(), Const.BC.getConst(), Integer.parseInt(metadata.getKeySize()));
             metadata.setMacKey(Hex.toHexString(macKey.getEncoded()));
             metadata.setIntegrityAlgorithm(data.getMac());
             metadata.setHashValue(IntegrityHandlerFactory.getHandler(data.getMac()).compute(encryptedText, metadata));
@@ -118,7 +119,7 @@ public class EncryptionService {
 
     public byte[] encryptAEM(Cipher c, byte[] byteText, SecretKey key, EncryptionMetadata metadata){
         try{
-            AlgorithmParameterGenerator pGen = AlgorithmParameterGenerator.getInstance(metadata.getMode(),"BC");
+            AlgorithmParameterGenerator pGen = AlgorithmParameterGenerator.getInstance(metadata.getMode(),Const.CBC.getConst());
             AlgorithmParameters pGCM = pGen.generateParameters();
             GCMParameterSpec gcmSpec = pGCM.getParameterSpec(GCMParameterSpec.class);
             metadata.setTagLen(String.valueOf(gcmSpec.getTLen()));
@@ -213,8 +214,8 @@ public class EncryptionService {
 
 
     public Cipher buildCipher(String algorithm, String mode, String padding){
-        if(algorithm.equals("PBE")){
-            return new CipherBuilder().setAlgorithm("AES")//
+        if(algorithm.equals(Const.PBE.getConst())){
+            return new CipherBuilder().setAlgorithm(Const.AES.getConst())//
                     .setMode(mode)//
                     .setPadding(padding)//
                     .build();
@@ -249,7 +250,7 @@ public class EncryptionService {
         int n = 16384;
         int r = 8;
         int p = 1;
-        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("SCRYPT", "BC");
+        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(Const.SCRYPT.getConst(), Const.BC.getConst());
         ScryptKeySpec scryptKeySpec = new ScryptKeySpec(
                 metadata.getPassword().toCharArray(),
                 salt,
@@ -271,7 +272,7 @@ public class EncryptionService {
                 generateSalt(Integer.parseInt(metadata.getKeySize())/8), 20000,
                 Integer.parseInt(metadata.getKeySize()));
         SecretKeyFactory factory =
-                SecretKeyFactory.getInstance("PBEWithSHA256And128BitAES-CBC-BC", "BC");
+                SecretKeyFactory.getInstance(Const.PBEWithSHA256And128BitAES.getConst(), Const.BC.getConst());
         return factory.generateSecret(spec);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException | NoSuchProviderException e) {
             throw new RuntimeException(e);

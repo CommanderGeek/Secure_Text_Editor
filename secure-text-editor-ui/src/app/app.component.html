@@ -215,7 +215,7 @@
 
       <!-- Checkbox to enable MAC -->
       <mat-checkbox [(ngModel)]="enableMAC" (change)="onMACEnableChange()">
-        Enable MAC
+        Enable MAC/SHA
       </mat-checkbox>
 
       <!-- Show MAC selection only if MAC is enabled -->
@@ -273,6 +273,7 @@
       <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="uploader.click()">Upload Plain Text File</button>
         <button mat-menu-item (click)="decryptUploader.click()">Upload Encrypted File to Decrypt</button>
+        <button></button>
       </mat-menu>
       <input type="file" name="upload-plaintext" (change)="onFileSelected($event)" accept=".txt" class="file-input" #uploader hidden>
       <input type="file" name="upload-decrypt" (change)="onFileSelected($event, true)" accept=".txt" class="file-input" #decryptUploader hidden>

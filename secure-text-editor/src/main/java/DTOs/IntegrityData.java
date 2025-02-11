@@ -11,7 +11,6 @@ public class IntegrityData {
         this.encryptionType = encryptionType;
     }
 
-
     public String getSignature() {
         return signature;
     }

@@ -1,6 +1,7 @@
 package Handler;
 
 import DTOs.EncryptionMetadata;
+import Enums.Const;
 import org.bouncycastle.util.encoders.Hex;
 import services.EncryptionService;
 
@@ -17,8 +18,8 @@ public class HMACSHA256Handler implements IntegrityHandler {
     @Override
     public String compute(byte[] plainText, EncryptionMetadata metadata) {
         try {
-            SecretKey key = service.buildKey(Hex.decode(metadata.getMacKey()), "HmacSHA256");
-            Mac mac = Mac.getInstance("HmacSHA256", "BC");
+            SecretKey key = service.buildKey(Hex.decode(metadata.getMacKey()), Const.HmacSHA256.getConst());
+            Mac mac = Mac.getInstance(Const.HmacSHA256.getConst(), Const.BC.getConst());
             mac.init(key);
             return Hex.toHexString(mac.doFinal(plainText));
         } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchProviderException e) {

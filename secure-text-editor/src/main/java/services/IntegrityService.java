@@ -1,6 +1,7 @@
 package services;
 
 import DTOs.EncryptionMetadata;
+import Enums.Const;
 import com.ste.Encryption;
 import org.bouncycastle.util.encoders.Hex;
 import org.slf4j.Logger;
@@ -15,13 +16,13 @@ public class IntegrityService {
     public byte[] sign(EncryptionMetadata metadata, byte[] plaintext, KeyPair kp){
 
         try {
-            Signature signature = Signature.getInstance("SHA256withDSA", "BC");
+            Signature signature = Signature.getInstance(Const.SHA256withDSA.getConst(), Const.BC.getConst());
             logger.info("Beginning to initSign");
             signature.initSign(kp.getPrivate());
             signature.update(plaintext);
             metadata.setPublicKey(Hex.toHexString(kp.getPublic().getEncoded()));
             metadata.setPrivateKey(Hex.toHexString(kp.getPrivate().getEncoded()));
-            metadata.setIntegrityAlgorithm("SHA256withDSA");
+            metadata.setIntegrityAlgorithm(Const.SHA256withDSA.getConst());
             logger.info("Beginning to sign");
             return signature.sign();
         }
@@ -32,10 +33,10 @@ public class IntegrityService {
 
     public boolean verify(EncryptionMetadata metadata, byte[] signedData) {
         try {
-            PublicKey key = KeyFactory.getInstance("DSA")
+            PublicKey key = KeyFactory.getInstance(Const.DSA.getConst())
                     .generatePublic(new X509EncodedKeySpec(Hex.decode(metadata.getPublicKey())));
 
-            Signature signature = Signature.getInstance("SHA256withDSA", "BC");
+            Signature signature = Signature.getInstance(Const.SHA256withDSA.getConst(), Const.BC.getConst());
             signature.initVerify(key);
 
             signature.update(signedData);
