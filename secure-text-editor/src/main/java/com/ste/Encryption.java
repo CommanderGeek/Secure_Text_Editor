@@ -1,6 +1,7 @@
 package com.ste;
 import DTOs.EncryptionMetadata;
 import DTOs.IntegrityData;
+import Enums.Const;
 import Factory.AlgorithmHandlerFactory;
 import Factory.IntegrityHandlerFactory;
 import jakarta.ws.rs.*;
@@ -63,6 +64,6 @@ public class Encryption {
     public String generateKey(EncryptionRequest request) {
         String encryptionType = request.getEncryptionType().split("_")[0];
         int keySize = Integer.parseInt(request.getKeySize().substring(0, 3));
-        return Hex.toHexString(service.buildKey(encryptionType, "BC", keySize).getEncoded());
+        return Hex.toHexString(service.buildKey(encryptionType, Const.BC.getConst(), keySize).getEncoded());
     }
 }

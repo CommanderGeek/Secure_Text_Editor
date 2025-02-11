@@ -14,7 +14,6 @@ public class EncryptionMetadata {
     private String macKey;
     private String tagLen;
 
-    //ToDo: Hash it!
     private String password;
 
     private String salt;

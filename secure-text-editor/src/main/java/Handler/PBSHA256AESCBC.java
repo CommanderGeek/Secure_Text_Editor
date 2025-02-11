@@ -2,6 +2,7 @@ package Handler;
 
 import DTOs.EncryptionMetadata;
 import DTOs.IntegrityData;
+import Enums.Const;
 import org.bouncycastle.util.encoders.Hex;
 
 public class PBSHA256AESCBC implements CryptoAlgorithmHandler {
@@ -9,7 +10,7 @@ public class PBSHA256AESCBC implements CryptoAlgorithmHandler {
     public String encrypt(byte[] plainText, EncryptionMetadata metadata, IntegrityData data) {
         byte[] derivedKey = service.buildPBEKey(metadata).getEncoded();
         metadata.setKey(Hex.toHexString(derivedKey));
-        metadata.setMode("CBC");
+        metadata.setMode(Const.CBC.getConst());
         return new AESAlgorithmHandler().encrypt(plainText, metadata, data);
     }
 

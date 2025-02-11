@@ -1,5 +1,6 @@
 package Builder;
 
+import Enums.Const;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import javax.crypto.Cipher;
@@ -34,8 +35,7 @@ public class CipherBuilder {
             if (algo != null && mode != null && padding != null) {
                 Security.addProvider(new BouncyCastleProvider());
                 String input = algo + "/" + mode + "/" + padding;
-                String provider = "BC";
-                return Cipher.getInstance(input, provider);
+                return Cipher.getInstance(input, Const.BC.getConst());
             }
         }catch (NoSuchPaddingException e){
             System.out.println("The given Padding does not exists. Check the String input with setPadding! ");

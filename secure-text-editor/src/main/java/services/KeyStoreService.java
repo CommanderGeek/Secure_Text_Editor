@@ -2,6 +2,7 @@ package services;
 
 import Builder.KeyBuilder;
 import DTOs.EncryptionMetadata;
+import Enums.Const;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Hex;
 import javax.crypto.SecretKey;
@@ -26,11 +27,11 @@ public class KeyStoreService {
 
             EncryptionMetaDataConverter converter = new EncryptionMetaDataConverter();
             converter.createDirectories(baseDir);
-            KeyStore keyStore = KeyStore.getInstance("JCEKS");
+            KeyStore keyStore = KeyStore.getInstance(Const.JCEKS.getConst());
             keyStore.load(null, null);
             SecretKey secretKey = new KeyBuilder().setKey(key).setAlgorithm(metadata.getAlgorithm()).build();
 
-            SecureRandom random = SecureRandom.getInstance("DEFAULT", "BC");
+            SecureRandom random = SecureRandom.getInstance(Const.DEFAULT.getConst(), Const.BC.getConst());
             byte[] password = new byte[32];
             random.nextBytes(password);
 
@@ -61,7 +62,7 @@ public class KeyStoreService {
     public String retrieveKey(EncryptionMetadata metadata) {
         try {
             FileInputStream fis = new FileInputStream(baseDir.resolve(metadata.getFileId() + ".p12").toFile());
-            KeyStore keyStore = KeyStore.getInstance("JCEKS");
+            KeyStore keyStore = KeyStore.getInstance(Const.JCEKS.getConst());
             char[] password = Arrays.toString(Hex.decode(metadata.getKeyStorePassword())).toCharArray();
             keyStore.load(fis, password);
 

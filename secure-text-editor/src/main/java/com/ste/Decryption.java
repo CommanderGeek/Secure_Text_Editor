@@ -23,7 +23,7 @@ public class Decryption {
     public String decryptText(String encryptedTextWithId) {
         Security.addProvider(new BouncyCastleProvider());
         KeyStoreService ks = new KeyStoreService();
-        logger.info("Received the encrypted Text with id at beginning: "+encryptedTextWithId);
+        logger.info("Received the encrypted text");
 
         String[] parts = encryptedTextWithId.split("\\.");// Split on the first dot
         String fileID = parts[0];
