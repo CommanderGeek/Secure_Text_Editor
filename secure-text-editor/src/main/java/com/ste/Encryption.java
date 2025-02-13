@@ -32,7 +32,7 @@ public class Encryption {
         // Extract the text and encryption parameters from the request
        logger.info("Received Text, ready to encrypt!");
         String plainText = request.getText();
-        String encryptionType = request.getEncryptionType().split("_")[0];
+        String encryptionType = request.getEncryptionType();
         String keySize = request.getKeySize().substring(0,3);
         String padding = request.getPadding().split("_")[0];
         String blockMode = request.getBlockMode().split("_")[0];

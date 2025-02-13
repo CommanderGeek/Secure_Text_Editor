@@ -127,7 +127,7 @@
         </mat-form-field>
         <mat-form-field>
           <mat-label>Mode</mat-label>
-          <mat-select [(ngModel)]="selectedPasswordAlgorithm" name="passwordAlgorithm" required>
+          <mat-select [(ngModel)]="selectedBlockMode" name="selectedBlockMode" required>
             <mat-option value="GCM_PAS">GCM</mat-option>
           </mat-select>
         </mat-form-field>
@@ -273,7 +273,6 @@
       <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="uploader.click()">Upload Plain Text File</button>
         <button mat-menu-item (click)="decryptUploader.click()">Upload Encrypted File to Decrypt</button>
-        <button></button>
       </mat-menu>
       <input type="file" name="upload-plaintext" (change)="onFileSelected($event)" accept=".txt" class="file-input" #uploader hidden>
       <input type="file" name="upload-decrypt" (change)="onFileSelected($event, true)" accept=".txt" class="file-input" #decryptUploader hidden>
