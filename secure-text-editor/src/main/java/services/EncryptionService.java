@@ -7,6 +7,7 @@ import DTOs.IntegrityData;
 import Enums.Const;
 import Factory.IntegrityHandlerFactory;
 import Handler.AESAlgorithmHandler;
+import Handler.SHA256Handler;
 import org.bouncycastle.jcajce.spec.ScryptKeySpec;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Hex;
@@ -42,23 +43,29 @@ public class EncryptionService {
      * @param iv
      * @return the UUID of the encrypted file
      */
-    public String prepareAndSerializeMetadata(String algorithm, EncryptionMetadata metadata,
+    public String prepareAndSerializeMetadata(String algorithm, EncryptionMetadata md,
                                               byte[] key, byte[] iv) {
         Security.addProvider(new BouncyCastleProvider());
-        logger.debug("here are the parameters: \n mode: " +metadata.getMode() +" \n padding: "+ metadata.getPadding()+" \n key: " + key.toString());
-        metadata = new EncryptionMetadata.Builder().setAlgorithm(algorithm)//
-                .setMode(metadata.getMode())//
-                .setPadding(metadata.getPadding())//
-                .setKeySize(metadata.getKeySize())//
+        logger.debug("here are the parameters: \n mode: " +md.getMode() +" \n padding: "+ md.getPadding()+" \n key: " + key.toString());
+        EncryptionMetadata metadata = new EncryptionMetadata.Builder().setAlgorithm(md.getAlgorithm())//
+                .setMode(md.getMode())//
+                .setPadding(md.getPadding())//
+                .setKeySize(md.getKeySize())//
                 .setIv(Hex.toHexString(Objects.requireNonNullElseGet(iv, "null"::getBytes)))//
-                .setHashValue(metadata.getHashValue())
-                .setMacKey(metadata.getMacKey())
-                .setIntegrityAlgorithm(metadata.getIntegrityAlgorithm())
+                .setHashValue(md.getHashValue())
+                .setMacKey(md.getMacKey())
+                .setIntegrityAlgorithm(md.getIntegrityAlgorithm())
                 .setFileId(java.util.UUID.randomUUID().toString())//
-                .setPublicKey(metadata.getPublicKey())//
+                .setPublicKey(md.getPublicKey())//
+                .setSalt(md.getSalt())
                 .build();
-        KeyStoreService ks = new KeyStoreService();
-        ks.storeKey(metadata, key);
+        if (md.getPassword() == null) {
+            KeyStoreService ks = new KeyStoreService();
+            ks.storeKey(metadata, key);
+        }else{
+            md.setIntegrityAlgorithm("SHA-256");
+            metadata.setPasswordHash(new SHA256Handler().compute(md.getPassword().getBytes(), md));
+        }
         return serializeMetadata(metadata);
     }
 
@@ -95,6 +102,8 @@ public class EncryptionService {
         SecretKey key;
         if(metadata.getKey() == null){
             key = buildKey(algorithm, Const.BC.getConst(), Integer.parseInt(metadata.getKeySize()));
+        }else if(metadata.getAlgorithm().equals("AES_PAS") || metadata.getAlgorithm().equals("ChaCha20_PAS")){
+           key = buildKey(buildScryptKey(metadata), "AES");
         }else{
             key = buildKey(Hex.decode(metadata.getKey()), algorithm);
         }
@@ -199,7 +208,13 @@ public class EncryptionService {
     public String decrypt(String cipherText, Cipher c,EncryptionMetadata metadata){
         byte[] text = Hex.decode(cipherText);
         byte[] keyByte = Hex.decode(metadata.getKey());
-        SecretKey key = buildKey(keyByte, metadata.getAlgorithm());
+        SecretKey key;
+        if(metadata.getAlgorithm().equals(Const.PBEWithSHA256And128BitAES.getConst())) {
+            key = buildPBEKey(metadata);
+        }else {
+            key = buildKey(keyByte, metadata.getAlgorithm());
+        }
+
         byte[] iv = Hex.decode(metadata.getIv());
         byte[] decryptedByteText;
         if (Arrays.equals(iv, Hex.decode("6e756c6c"))){
@@ -211,6 +226,21 @@ public class EncryptionService {
         logger.info("Successfully decrypted the text with result: \n"+decryptedText);
         return decryptedText;
     }
+
+    public String decrypt(String cipherText, Cipher c,EncryptionMetadata metadata, SecretKey key){
+        byte[] text = Hex.decode(cipherText);
+        byte[] iv = Hex.decode(metadata.getIv());
+        byte[] decryptedByteText;
+        if (Arrays.equals(iv, Hex.decode("6e756c6c"))){
+            decryptedByteText = decrypt(c,text,key);
+        }else {
+            decryptedByteText = decrypt(c, text, key, new IvParameterSpec(iv));
+        }
+        String decryptedText = new String(decryptedByteText);
+        logger.info("Successfully decrypted the text with result: \n"+decryptedText);
+        return decryptedText;
+    }
+
 
 
     public Cipher buildCipher(String algorithm, String mode, String padding){
@@ -245,8 +275,7 @@ public class EncryptionService {
 
     public byte[] buildScryptKey(EncryptionMetadata metadata){
         try {
-        byte[] salt = generateSalt(Integer.parseInt(metadata.getKeySize())/8);
-        metadata.setSalt(Hex.toHexString(salt));
+        byte[] salt = metadata.getSalt() == null ? generateSalt(Integer.parseInt(metadata.getKeySize())/8, metadata) : Hex.decode(metadata.getSalt());
         int n = 16384;
         int r = 8;
         int p = 1;
@@ -268,8 +297,10 @@ public class EncryptionService {
 
     public SecretKey buildPBEKey(EncryptionMetadata metadata)  {
         try {
+            int iterations = 20000;
+            byte[] salt = metadata.getSalt() == null ? generateSalt(Integer.parseInt(metadata.getKeySize())/8, metadata) : Hex.decode(metadata.getSalt());
         KeySpec spec = new PBEKeySpec(metadata.getPassword().toCharArray(),
-                generateSalt(Integer.parseInt(metadata.getKeySize())/8), 20000,
+                salt, iterations,
                 Integer.parseInt(metadata.getKeySize()));
         SecretKeyFactory factory =
                 SecretKeyFactory.getInstance(Const.PBEWithSHA256And128BitAES.getConst(), Const.BC.getConst());
@@ -279,10 +310,11 @@ public class EncryptionService {
         }
     }
 
-    private byte[] generateSalt(int length) {
+    private byte[] generateSalt(int length, EncryptionMetadata metadata) {
         byte[] salt = new byte[length];
         SecureRandom random = new SecureRandom();
         random.nextBytes(salt);
+        metadata.setSalt(Hex.toHexString(salt));
         return salt;
     }
 }

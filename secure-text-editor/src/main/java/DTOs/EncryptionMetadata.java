@@ -15,6 +15,7 @@ public class EncryptionMetadata {
     private String tagLen;
 
     private String password;
+    private String passwordHash;
 
     private String salt;
     private String publicKey;
@@ -39,6 +40,7 @@ public class EncryptionMetadata {
         privateKey = builder.privateKey;
         integrityAlgorithm = builder.integrityAlgorithm;
         keyStorePassword = builder.keyStorePassword;
+        passwordHash = builder.passwordHash;
     }
 
 
@@ -167,7 +169,16 @@ public class EncryptionMetadata {
         this.keyStorePassword = keyStorePassword;
     }
 
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
     public static class Builder {
+        private String passwordHash;
         private String fileId;
         private String algorithm;
         private String mode;
@@ -251,9 +262,7 @@ public class EncryptionMetadata {
             return salt;
         }
 
-        public void setSalt(String salt) {
-            this.salt = salt;
-        }
+
 
         public String getKeyStorePassword() {
             return keyStorePassword;
@@ -344,10 +353,21 @@ public class EncryptionMetadata {
             this.integrityAlgorithm = integrityAlgorithm;
             return this;
         }
+        public Builder setSalt(String salt) {
+            this.salt = salt;
+            return this;
+        }
+
+        public Builder setPasswordHash(String passwordHash) {
+            this.passwordHash = passwordHash;
+            return this;
+        }
 
         // Build method to create EncryptionMetadata object
         public EncryptionMetadata build() {
             return new EncryptionMetadata(this);
         }
+
+
     }
 }

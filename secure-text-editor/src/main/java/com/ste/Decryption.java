@@ -1,24 +1,33 @@
 package com.ste;
 
+import DTOs.DecryptPBERequest;
+import Enums.Const;
 import Factory.AlgorithmHandlerFactory;
 import Factory.IntegrityHandlerFactory;
+import Handler.SHA256Handler;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import DTOs.EncryptionMetadata;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import services.EncryptionMetaDataConverter;
+import services.EncryptionService;
 import services.KeyStoreService;
 
+import javax.crypto.SecretKey;
 import java.security.Security;
 
 @Path("/api/decrypt")
 public class Decryption {
 
-   private static final Logger logger =  LoggerFactory.getLogger(Decryption.class);
+    private static final Logger logger =  LoggerFactory.getLogger(Decryption.class);
     private static final EncryptionMetaDataConverter converter = new EncryptionMetaDataConverter();
+    private static final EncryptionService service = new EncryptionService();
     @POST
     public String decryptText(String encryptedTextWithId) {
         Security.addProvider(new BouncyCastleProvider());
@@ -33,8 +42,6 @@ public class Decryption {
         }else{
             cipherText = "";
         }
-
-
         EncryptionMetadata metadata = converter.lookUpMetaData(fileID);
         metadata.setKey(ks.retrieveKey(metadata));
 
@@ -46,13 +53,58 @@ public class Decryption {
         return decryptText(cipherText, metadata);
     }
 
+    /**
+     * API for Password-Based Encryption Decryption
+     */
+    @POST
+    @Path("/pbe")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String decryptPBE(DecryptPBERequest request) {
+        logger.info("Received PBE decryption request");
+        String[] parts = request.getText().split("\\.");// Split on the first dot
+        String fileID = parts[0];
+        String cipherText;
+        if(parts.length > 1) {
+            cipherText = parts[1];
+        }else{
+            cipherText = "";
+        }
+        EncryptionMetadata metadata = converter.lookUpMetaData(fileID);
+        metadata.setPassword(request.getPassword());
+
+        if (request.getPassword() == null || request.getText() == null) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Missing password or text").toString();
+        }
+            if(metadata.getAlgorithm().equals("PBE_PAS")) {
+                SecretKey derivedKey = service.buildPBEKey(metadata);
+                metadata.setKey(Hex.toHexString(derivedKey.getEncoded()));
+            }else{
+                metadata.setKey(Hex.toHexString(service.buildScryptKey(metadata)));
+            }
+            // Verify message integrity if a hash is provided
+            if (isMessageCompromised(cipherText, metadata)) {
+                return "MESSAGE COMPROMISED!";
+            }
+
+            if(!new SHA256Handler().verify(metadata.getPassword().getBytes(), Hex.decode(metadata.getPasswordHash()))){
+                return "WRONG PASSWORD!";
+            }
+
+            // Decrypt the text
+        if (metadata.getAlgorithm() == null || metadata.getAlgorithm().isEmpty()) {
+            throw new IllegalArgumentException("Algorithm cannot be null or empty");
+        }
+
+            return AlgorithmHandlerFactory.getHandler(metadata.getAlgorithm()).decrypt(cipherText, metadata);
+    }
+
     private String decryptText(String encryptedText, EncryptionMetadata metadata) {
         if (metadata.getAlgorithm() == null || metadata.getAlgorithm().isEmpty()) {
             throw new IllegalArgumentException("Algorithm cannot be null or empty");
         }
         String baseAlgorithm = metadata.getAlgorithm().contains("_")
                 ? metadata.getAlgorithm().split("_")[0]
-                : metadata.getAlgorithm();
+               : metadata.getAlgorithm();
         metadata.setAlgorithm(baseAlgorithm);
         return AlgorithmHandlerFactory.getHandler(metadata.getAlgorithm()).decrypt(encryptedText, metadata);
     }
@@ -65,4 +117,5 @@ public class Decryption {
         }
         return !IntegrityHandlerFactory.getHandler(hashAlgorithm).verify(decodedText, metadata);
     }
+
 }

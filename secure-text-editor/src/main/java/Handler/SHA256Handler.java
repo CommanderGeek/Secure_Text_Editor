@@ -26,4 +26,10 @@ public class SHA256Handler implements IntegrityHandler {
         return MessageDigest.isEqual(computedHash, storedHash);
     }
 
+    public boolean verify(byte[] password, byte[] storedHash) {
+        byte[] computedHash = Hex.decode(compute(password,
+                new EncryptionMetadata(new EncryptionMetadata.Builder().setIntegrityAlgorithm("SHA-256"))));
+        return MessageDigest.isEqual(computedHash, storedHash);
+    }
+
 }

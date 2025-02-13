@@ -18,6 +18,10 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from "ngx-toastr";
 import {MatCheckbox} from "@angular/material/checkbox";
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { InputDialogComponent } from './components/input-dialog/input-dialog.component';
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+
 
 @Component({
   selector: 'app-root',
@@ -25,7 +29,7 @@ import {MatCheckbox} from "@angular/material/checkbox";
   imports: [
     FormsModule, MatFormFieldModule, MatInputModule, MatDividerModule, MatButtonModule,
     MatIcon, MatOption, MatSelect, MatRadioGroup, MatRadioButton, CommonModule, MatMenu, MatMenuModule,
-    MatSidenavContainer, MatSidenavModule, MatSnackBarModule, ReactiveFormsModule, MatCheckbox
+    MatSidenavContainer, MatSidenavModule, MatSnackBarModule, ReactiveFormsModule, MatCheckbox, MatDialogModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
@@ -38,7 +42,7 @@ export class AppComponent {
   selectedPasswordAlgorithm: string = '';
   selectedChaCha20Algorithm:string = '';
   selectedEncryptionType: string = '';
-  selectedPadding: string = '';
+  selectedPadding: string = 'NoPadding';
   selectedBlockMode: string = '';
   submitted: boolean = false;
   fileName: string= '';
@@ -50,24 +54,29 @@ export class AppComponent {
   hidePassword: boolean = true;
   enableSignature: boolean = false;
   selectedSignature: string = '';
-  selectedDetection: string = '';
 
 
   noPaddingModes = ['GCM_SYM', 'CTS_SYM', 'OFB_SYM', 'CTR_SYM', 'CFB_SYM', 'ChaCha20_SYM', 'CCM_SYM'];
-  constructor(private encryptionService: EncryptionService, private snackBar: MatSnackBar, private toastr:ToastrService) {
-
-
+  constructor(private encryptionService: EncryptionService,
+              private snackBar: MatSnackBar,
+              private toastr:ToastrService,
+              private dialog: MatDialog
+              ) {
   }
   // Function that is triggered when a file is selected
   onFileSelected(event: any, isDecrypt: boolean = false) {
     console.log('You uploaded the file at: '+ new Date());
     let file = event.target.files[0];
+
+
     const reader = new FileReader();
     reader.onload = (e: any) => {
       const fileContent = e.target.result; // Store file content temporarily
+      let isPBE : boolean = fileContent.indexOf(":") >= 0;
       if (isDecrypt) {
         // Call the decryption service
-        if(fileContent.indexOf(".") >= 0){
+
+        if(fileContent.indexOf(".") >= 0 && !isPBE){
         this.encryptionService.decryptText(fileContent).subscribe({
             next: (decryptedText) => {
               this.toastr.success('Decryption successful');
@@ -79,7 +88,12 @@ export class AppComponent {
               this.toastr.error('Decryption failed', 'Decryption Failure');
             }
           });
-        }else {
+        }
+        else if(isPBE){
+          var newContent = fileContent.substring(4);
+          this.openInputDialog(newContent);
+        }
+        else {
           this.toastr.error('This does not seem to be an encrypted text, try upload "Plain Text"', );
         }
 
@@ -110,8 +124,7 @@ export class AppComponent {
       this.toastr.warning('Please fill in all the fields for AES Symmetric encryption.');
       return;
     }
-
-    if (this.selectedEncryptionType === 'AES_PAS' && !this.selectedPasswordAlgorithm) {
+    if (this.selectedEncryptionType === 'AES_PAS' && !this.selectedKeySize) {
       this.toastr.warning('Please fill in the key length for AES Password-based encryption.');
       return;
     }
@@ -119,6 +132,10 @@ export class AppComponent {
     if (this.selectedEncryptionType === 'ChaCha20_PAS' && !this.selectedKeySize) {
       this.toastr.warning('Please fill in the key length for ChaCha20 Password-based encryption.');
       return;
+    }
+
+    if(this.selectedEncryptionType === 'AES_PAS'){
+      this.selectedPadding = 'NoPadding';
     }
 
     if(this.selectedEncryptionType === 'PBE_PAS'){
@@ -313,4 +330,36 @@ export class AppComponent {
       this.selectedMAC = '';  // Clear MAC selection
     }
   }
+
+  openInputDialog(encryptedContent: string): void {
+    const dialogRef = this.dialog.open(InputDialogComponent, {
+      width: '400px',
+      data: { title: 'Enter Password for decryption!', placeholder: 'Enter your password' }
+    });
+
+    dialogRef.afterClosed().subscribe(password => {
+      if (password) {
+        console.log('Entered Password:', password);
+        // Erstelle das Decrypt-Payload
+        const payload = {
+          text: encryptedContent,
+          password: password
+        };
+
+        //Sende die Anfrage ans Backend**
+        this.encryptionService.decryptPBE(payload).subscribe({
+          next: (decryptedText) => {
+            this.toastr.success('Decryption successful!');
+            this.fileContent = decryptedText; // Speichere das entschlüsselte Ergebnis
+            console.log('Decrypted Content:', decryptedText);
+          },
+          error: (err) => {
+            console.error('Decryption failed:', err);
+            this.toastr.error('Decryption failed', 'Error');
+          }
+        });
+      }
+    });
+  }
+
 }

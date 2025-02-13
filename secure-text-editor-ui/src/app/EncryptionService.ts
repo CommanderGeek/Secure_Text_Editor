@@ -10,6 +10,7 @@ export class EncryptionService {
   private apiEncrypt = '/api/encrypt';
   private apiDecrypt = '/api/decrypt';
   private apiGenerateKey = '/api/generate-key';
+  private apiPBE = '/api/decrypt/pbe';
 
   constructor(private http: HttpClient) { }
 
@@ -23,6 +24,12 @@ export class EncryptionService {
   decryptText(payload: any): Observable<string>{
     return this.http.post(this.apiDecrypt, payload, {  responseType: 'text' });
   }
+
+
+  decryptPBE(payload: any): Observable<string>{
+    return this.http.post(this.apiPBE, payload, {  responseType: 'text' });
+  }
+
 
   generateKey(request: any): Observable<string> {
     return this.http.post<string>(this.apiGenerateKey, request, { responseType: 'text' as 'json' });
