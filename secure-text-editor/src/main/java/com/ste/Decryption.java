@@ -98,7 +98,7 @@ public class Decryption {
             return AlgorithmHandlerFactory.getHandler(metadata.getAlgorithm()).decrypt(cipherText, metadata);
     }
 
-    private String decryptText(String encryptedText, EncryptionMetadata metadata) {
+    String decryptText(String encryptedText, EncryptionMetadata metadata) {
         if (metadata.getAlgorithm() == null || metadata.getAlgorithm().isEmpty()) {
             throw new IllegalArgumentException("Algorithm cannot be null or empty");
         }

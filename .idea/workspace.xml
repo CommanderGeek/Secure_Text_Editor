@@ -4,18 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="982cfcbf-422f-4344-94e8-23a20747ace7" name="Changes" comment="Introducing keyStores!&#10;&#10;Now KeyStores are available for storing keys seperately from the metadata!">
+    <list default="true" id="982cfcbf-422f-4344-94e8-23a20747ace7" name="Changes" comment="Password based encryption with entering password is now possible!">
+      <change afterPath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/CipherBuilderTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/DecryptionTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/KeyPairBuilderTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/src/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/styles.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/KeyBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/KeyBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/ChaCha20AlgorithmHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/ChaCha20AlgorithmHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/KeyPairBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/KeyPairBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/DTOs/EncryptionMetadata.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/DTOs/EncryptionMetadata.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Decryption.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Decryption.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionMetaDataConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionMetaDataConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/IntegrityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/IntegrityService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/KeyStoreService.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/KeyStoreService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Encryption.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Encryption.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/KeyBuilderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/KeyBuilderTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +24,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
@@ -37,7 +37,7 @@
     </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="ReadyForPresentation" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -54,11 +54,14 @@
     &quot;accountId&quot;: &quot;df00b2db-8a27-4e5a-81f1-17b9625c1d2c&quot;
   }
 }</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$MAVEN_REPOSITORY$/org/jboss/resteasy/resteasy-core/6.2.4.Final/resteasy-core-6.2.4.Final.jar!/org/jboss/resteasy/core/ResourceMethodInvoker.class" root0="SKIP_INSPECTION" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
@@ -76,12 +79,20 @@
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "Application.KeyStoreService.executor": "Debug",
     "Attach to process.localhost:5005.executor": "ProcessAttachDebug",
+    "JUnit.CipherBuilderTest.executor": "Run",
+    "JUnit.DecryptionTest.executor": "Run",
+    "JUnit.EncryptionMetaDataConverterTest.executor": "Run",
+    "JUnit.KeyBuilderTest.executor": "Run",
+    "JUnit.KeyPairBuilderTest.executor": "Run",
+    "JUnit.KeyPairBuilderTest.testBuildKeyPairWithDSAAlgorithm.executor": "Debug",
+    "JUnit.KeyPairBuilderTest.testBuildKeyPairWithECAlgorithm.executor": "Run",
+    "JUnit.KeyPairBuilderTest.testBuildKeyPairWitheEd448.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "Test",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
@@ -90,13 +101,14 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "run.configurations.included.in.services": "true",
-    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "ts.external.directory.path": "D:\\Entwicklung\\Projekts\\Secure_Text_Editor\\secure-text-editor-ui\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Entwicklung\Projekts\Secure_Text_Editor\secure-text-editor-ui\src\app" />
       <recent name="C:\Users\elharb\Documents\Studium\7.Semester\Fortgeschrittene IT-Sicherheit\Projekt\STE\Secure Text Editor\secure-text-editor\src\main\java" />
       <recent name="C:\Users\elharb\Documents\Studium\7.Semester\Fortgeschrittene IT-Sicherheit\Projekt\STE\Secure Text Editor\secure-text-editor-ui\src\app" />
       <recent name="C:\Users\elharb\Documents\Studium\7.Semester\Fortgeschrittene IT-Sicherheit\Projekt\STE\Secure Text Editor\secure-text-editor-ui\src\app\app" />
@@ -112,29 +124,81 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Application.KeyStoreService">
-    <configuration name="Example_1" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="bouncyCastleExamples.Example_1" />
-      <module name="secure-text-editor" />
+  <component name="RunManager" selected="JUnit.DecryptionTest">
+    <configuration name="DecryptionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="secure-text-editor (2) (com.ste)" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="bouncyCastleExamples.*" />
+          <option name="PATTERN" value="com.ste.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <option name="PACKAGE_NAME" value="com.ste" />
+      <option name="MAIN_CLASS_NAME" value="com.ste.DecryptionTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="KeyStoreService" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="services.KeyStoreService" />
+    <configuration name="KeyPairBuilderTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="secure-text-editor (2) (com.ste)" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="services.*" />
+          <option name="PATTERN" value="com.ste.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <option name="PACKAGE_NAME" value="com.ste" />
+      <option name="MAIN_CLASS_NAME" value="com.ste.KeyPairBuilderTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="KeyPairBuilderTest.testBuildKeyPairWithDSAAlgorithm" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="secure-text-editor (2) (com.ste)" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ste.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.ste" />
+      <option name="MAIN_CLASS_NAME" value="com.ste.KeyPairBuilderTest" />
+      <option name="METHOD_NAME" value="testBuildKeyPairWithDSAAlgorithm" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="KeyPairBuilderTest.testBuildKeyPairWithECAlgorithm" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="secure-text-editor (2) (com.ste)" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ste.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.ste" />
+      <option name="MAIN_CLASS_NAME" value="com.ste.KeyPairBuilderTest" />
+      <option name="METHOD_NAME" value="testBuildKeyPairWithECAlgorithm" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="KeyPairBuilderTest.testBuildKeyPairWitheEd448" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="secure-text-editor (2) (com.ste)" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ste.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.ste" />
+      <option name="MAIN_CLASS_NAME" value="com.ste.KeyPairBuilderTest" />
+      <option name="METHOD_NAME" value="testBuildKeyPairWitheEd448" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -255,19 +319,19 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.KeyStoreService" />
-        <item itemvalue="Application.Example_1" />
-        <item itemvalue="Application.KeyStoreService" />
-        <item itemvalue="Application.Example_1" />
-        <item itemvalue="Application.KeyStoreService" />
+        <item itemvalue="JUnit.DecryptionTest" />
+        <item itemvalue="JUnit.KeyPairBuilderTest.testBuildKeyPairWitheEd448" />
+        <item itemvalue="JUnit.KeyPairBuilderTest.testBuildKeyPairWithECAlgorithm" />
+        <item itemvalue="JUnit.KeyPairBuilderTest.testBuildKeyPairWithDSAAlgorithm" />
+        <item itemvalue="JUnit.KeyPairBuilderTest" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.22562.218" />
-        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-IU-243.22562.218" />
+        <option value="bundled-jdk-9823dce3aa75-125ca727e0f0-intellij.indexing.shared.core-IU-243.23654.189" />
+        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-IU-243.23654.189" />
       </set>
     </attachedChunks>
   </component>
@@ -300,6 +364,18 @@
       <workItem from="1737723204087" duration="670000" />
       <workItem from="1738143607802" duration="19610000" />
       <workItem from="1738226999548" duration="6550000" />
+      <workItem from="1738695093389" duration="733000" />
+      <workItem from="1738709301044" duration="2078000" />
+      <workItem from="1738711417253" duration="302000" />
+      <workItem from="1738711729160" duration="4744000" />
+      <workItem from="1738775156221" duration="38000" />
+      <workItem from="1738775249711" duration="4212000" />
+      <workItem from="1739284998896" duration="4014000" />
+      <workItem from="1739314045540" duration="5505000" />
+      <workItem from="1739381092014" duration="39000" />
+      <workItem from="1739381201743" duration="2811000" />
+      <workItem from="1739465683647" duration="19264000" />
+      <workItem from="1739486117495" duration="4459000" />
     </task>
     <task id="LOCAL-00001" summary="Frontend and backend wired up&#10;&#10;you can send now requests to the frontend via a proxy. Also added Angular Material">
       <created>1726901455813</created>
@@ -352,7 +428,71 @@
       <option name="project" value="LOCAL" />
       <updated>1738175926452</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="refactoring the frontend and bit the backend">
+      <option name="closed" value="true" />
+      <created>1738240701023</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1738240701023</updated>
+    </task>
+    <task id="LOCAL-00009" summary="new bc update!">
+      <option name="closed" value="true" />
+      <created>1738711368090</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1738711368090</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Encrypt-then-MAC/Hash&#10;&#10;making this possible:&#10;&#10;Encrypt-then-MAC take a look at it here:&#10;&#10;https://crypto.stackexchange.com/questions/202/should-we-mac-then-encrypt-or-encrypt-then-mac#:~:text=Sometimes%2C%20encryption%20and%20integrity%20are,integrity%2C%20but%20no%20ciphertext%20integrity">
+      <option name="closed" value="true" />
+      <created>1738716301729</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1738716301729</updated>
+    </task>
+    <task id="LOCAL-00011" summary="fix tests">
+      <option name="closed" value="true" />
+      <created>1738775512938</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1738775512938</updated>
+    </task>
+    <task id="LOCAL-00012" summary="fix tests">
+      <option name="closed" value="true" />
+      <created>1738775741574</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1738775741574</updated>
+    </task>
+    <task id="LOCAL-00013" summary="fix tests">
+      <option name="closed" value="true" />
+      <created>1738775907996</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1738775907996</updated>
+    </task>
+    <task id="LOCAL-00014" summary="small refactor">
+      <option name="closed" value="true" />
+      <created>1739317229978</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1739317229978</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Password based encryption with entering password is now possible!">
+      <option name="closed" value="true" />
+      <created>1739484852473</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1739484852473</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -369,7 +509,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="ReadyForPresentation" />
+                        <option value="Test" />
                       </list>
                     </value>
                   </entry>
@@ -390,75 +530,61 @@
     <MESSAGE value="another day, another dollar!" />
     <MESSAGE value="verify of sha256 finished!" />
     <MESSAGE value="Introducing keyStores!&#10;&#10;Now KeyStores are available for storing keys seperately from the metadata!" />
-    <option name="LAST_COMMIT_MESSAGE" value="Introducing keyStores!&#10;&#10;Now KeyStores are available for storing keys seperately from the metadata!" />
+    <MESSAGE value="refactoring the frontend and bit the backend" />
+    <MESSAGE value="new bc update!" />
+    <MESSAGE value="Encrypt-then-MAC/Hash&#10;&#10;making this possible:&#10;&#10;Encrypt-then-MAC take a look at it here:&#10;&#10;https://crypto.stackexchange.com/questions/202/should-we-mac-then-encrypt-or-encrypt-then-mac#:~:text=Sometimes%2C%20encryption%20and%20integrity%20are,integrity%2C%20but%20no%20ciphertext%20integrity" />
+    <MESSAGE value="fix tests" />
+    <MESSAGE value="small refactor" />
+    <MESSAGE value="Password based encryption with entering password is now possible!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Password based encryption with entering password is now possible!" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Encryption.java</url>
-          <line>51</line>
-          <option name="timeStamp" value="57" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Encryption.java</url>
-          <line>52</line>
-          <option name="timeStamp" value="58" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Encryption.java</url>
-          <line>53</line>
-          <option name="timeStamp" value="59" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Encryption.java</url>
-          <line>50</line>
-          <option name="timeStamp" value="60" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Encryption.java</url>
-          <line>56</line>
-          <option name="timeStamp" value="62" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Encryption.java</url>
-          <line>39</line>
-          <option name="timeStamp" value="63" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java</url>
-          <line>44</line>
+          <line>48</line>
           <option name="timeStamp" value="73" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java</url>
-          <line>48</line>
-          <option name="timeStamp" value="74" />
+          <line>111</line>
+          <option name="timeStamp" value="91" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java</url>
-          <line>50</line>
-          <option name="timeStamp" value="75" />
+          <line>110</line>
+          <option name="timeStamp" value="92" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/SHA256Handler.java</url>
+          <line>14</line>
+          <option name="timeStamp" value="94" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/SHA256Handler.java</url>
+          <line>15</line>
+          <option name="timeStamp" value="95" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java</url>
-          <line>53</line>
-          <option name="timeStamp" value="76" />
+          <line>113</line>
+          <option name="timeStamp" value="96" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java</url>
-          <line>54</line>
-          <option name="timeStamp" value="77" />
+          <line>112</line>
+          <option name="timeStamp" value="97" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java</url>
-          <line>55</line>
-          <option name="timeStamp" value="78" />
+          <line>116</line>
+          <option name="timeStamp" value="99" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java</url>
-          <line>51</line>
-          <option name="timeStamp" value="79" />
+          <line>117</line>
+          <option name="timeStamp" value="100" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -467,10 +593,18 @@
         <PinnedItemInfo parentTag="java.security.AlgorithmParameters" memberName="paramSpi" />
       </pinned-members>
     </pin-to-top-manager>
+    <watches-manager>
+      <configuration name="ProcessAttachRunConfigurationType">
+        <watch expression="metadata" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Secure_Text_Editor$Example_1.ic" NAME="Example_1 Coverage Results" MODIFIED="1727771862967" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>bouncyCastleExamples.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/Secure_Text_Editor$KeyPairBuilderTest_testBuildKeyPairWithECAlgorithm.ic" NAME="KeyPairBuilderTest.testBuildKeyPairWithECAlgorithm Coverage Results" MODIFIED="1739490209923" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>com.ste.*</FILTER>
     </SUITE>
   </component>
 </project>

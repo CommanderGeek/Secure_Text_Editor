@@ -254,8 +254,9 @@ public class EncryptionMetadata {
             return password;
         }
 
-        public void setPassword(String password) {
+        public Builder setPassword(String password) {
             this.password = password;
+            return this;
         }
 
         public String getSalt() {

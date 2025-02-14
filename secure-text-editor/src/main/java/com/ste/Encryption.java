@@ -28,8 +28,6 @@ public class Encryption {
  @Consumes(MediaType.APPLICATION_JSON)
     public String encryptText(EncryptionRequest request) {
      Security.addProvider(new BouncyCastleProvider());
-        //TODO: pls first concat the Hashvalue with the plaintext and then encrypt! Output length of Hashvalue is same!
-        // Extract the text and encryption parameters from the request
        logger.info("Received Text, ready to encrypt!");
         String plainText = request.getText();
         String encryptionType = request.getEncryptionType();
