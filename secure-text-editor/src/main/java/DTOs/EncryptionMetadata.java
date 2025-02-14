@@ -23,6 +23,7 @@ public class EncryptionMetadata {
 
     private String keyStorePassword;
 
+    public EncryptionMetadata(){}
     public EncryptionMetadata(Builder builder){
         fileId = builder.fileId;
         algorithm = builder.algorithm;

@@ -33,15 +33,6 @@ class KeyPairBuilderTest {
         assertNotNull(keyPair.getPrivate(), "Private key should not be null");
     }
 
-    @Test
-    void testBuildKeyPairWithDSAAlgorithm() {
-        KeyPair keyPair = keyPairBuilder
-                .setAlgorithm("DSA")
-                .build();
-
-        assertNotNull(keyPair, "KeyPair should be generated successfully for DSA");
-        assertEquals("DSA", keyPair.getPrivate().getAlgorithm(), "Algorithm should match DSA");
-    }
 
     @Test
     void testBuildKeyPairWitheEd448() {

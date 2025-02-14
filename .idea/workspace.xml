@@ -4,17 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="982cfcbf-422f-4344-94e8-23a20747ace7" name="Changes" comment="Password based encryption with entering password is now possible!">
-      <change afterPath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/CipherBuilderTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/DecryptionTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/KeyPairBuilderTest.java" afterDir="false" />
+    <list default="true" id="982cfcbf-422f-4344-94e8-23a20747ace7" name="Changes" comment="test cases for exam">
+      <change afterPath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/AEMAlgorithmHandlerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/AESAlgorithmHandlerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/EncryptionTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/KeyPairBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/KeyPairBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/KeyBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/KeyBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/DTOs/EncryptionMetadata.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/DTOs/EncryptionMetadata.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Decryption.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Decryption.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Encryption.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Encryption.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/KeyBuilderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/KeyBuilderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/AEMAlgorithmHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/AEMAlgorithmHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/DecryptionTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/KeyPairBuilderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/KeyPairBuilderTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +57,13 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="jar://$MAVEN_REPOSITORY$/org/jboss/resteasy/resteasy-core/6.2.4.Final/resteasy-core-6.2.4.Final.jar!/org/jboss/resteasy/core/ResourceMethodInvoker.class" root0="SKIP_INSPECTION" />
   </component>
+  <component name="JavaAutoRunManager">
+    <enabled-run-configurations>
+      <run-configuration type="JUnit" name="AEMAlgorithmHandlerTest.testDecryptWithInvalidCiphertext" />
+      <run-configuration type="JUnit" name="AESAlgorithmHandlerTest.testEncryptAndDecrypt_ValidAES" />
+      <run-configuration type="JUnit" name="AESAlgorithmHandlerTest.testDecryptWithInvalidCiphertext" />
+    </enabled-run-configurations>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -79,9 +86,26 @@
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "Application.KeyStoreService.executor": "Debug",
     "Attach to process.localhost:5005.executor": "ProcessAttachDebug",
+    "JUnit.AEMAlgorithmHandlerTest.executor": "Run",
+    "JUnit.AEMAlgorithmHandlerTest.testDecryptWithInvalidCiphertext.executor": "Debug",
+    "JUnit.AEMAlgorithmHandlerTest.testEncryptAndDecrypt_ValidAES_AEM.executor": "Run",
+    "JUnit.AEMAlgorithmHandlerTest.testEncryptWithMissingKey.executor": "Run",
+    "JUnit.AESAlgorithmHandlerTest.executor": "Run",
+    "JUnit.AESAlgorithmHandlerTest.testDecryptWithInvalidCiphertext.executor": "Run",
+    "JUnit.AESAlgorithmHandlerTest.testEncryptAndDecrypt_ValidAES.executor": "Debug",
+    "JUnit.AESAlgorithmHandlerTest.testEncryptWithMissingKey.executor": "Run",
     "JUnit.CipherBuilderTest.executor": "Run",
     "JUnit.DecryptionTest.executor": "Run",
+    "JUnit.DecryptionTest.testDecryptAES_CBC_InvalidIV.executor": "Debug",
+    "JUnit.DecryptionTest.testDecryptPBE_Valid.executor": "Run",
     "JUnit.EncryptionMetaDataConverterTest.executor": "Run",
+    "JUnit.EncryptionTest.executor": "Run",
+    "JUnit.EncryptionTest.testEncryptAES_CBC_Valid.executor": "Run",
+    "JUnit.EncryptionTest.testEncryptPBE_Valid.executor": "Run",
+    "JUnit.EncryptionTest.testEncryptWithMissingParameters.executor": "Run",
+    "JUnit.EncryptionTest.testEncryptWithSignature.executor": "Run",
+    "JUnit.EncryptionTest.testGenerateKey_InvalidAlgorithm.executor": "Run",
+    "JUnit.EncryptionTest.testGenerateKey_ValidPBE.executor": "Run",
     "JUnit.KeyBuilderTest.executor": "Run",
     "JUnit.KeyPairBuilderTest.executor": "Run",
     "JUnit.KeyPairBuilderTest.testBuildKeyPairWithDSAAlgorithm.executor": "Debug",
@@ -124,8 +148,56 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.DecryptionTest">
-    <configuration name="DecryptionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.DecryptionTest.testDecryptPBE_Valid">
+    <configuration name="AESAlgorithmHandlerTest.testDecryptWithInvalidCiphertext" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="secure-text-editor (2) (com.ste)" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ste.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.ste" />
+      <option name="MAIN_CLASS_NAME" value="com.ste.AESAlgorithmHandlerTest" />
+      <option name="METHOD_NAME" value="testDecryptWithInvalidCiphertext" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AESAlgorithmHandlerTest.testEncryptAndDecrypt_ValidAES" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="secure-text-editor (2) (com.ste)" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ste.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.ste" />
+      <option name="MAIN_CLASS_NAME" value="com.ste.AESAlgorithmHandlerTest" />
+      <option name="METHOD_NAME" value="testEncryptAndDecrypt_ValidAES" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AESAlgorithmHandlerTest.testEncryptWithMissingKey" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="secure-text-editor (2) (com.ste)" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ste.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.ste" />
+      <option name="MAIN_CLASS_NAME" value="com.ste.AESAlgorithmHandlerTest" />
+      <option name="METHOD_NAME" value="testEncryptWithMissingKey" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DecryptionTest.testDecryptAES_CBC_InvalidIV" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="secure-text-editor (2) (com.ste)" />
       <extension name="coverage">
         <pattern>
@@ -135,43 +207,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.ste" />
       <option name="MAIN_CLASS_NAME" value="com.ste.DecryptionTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="KeyPairBuilderTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="secure-text-editor (2) (com.ste)" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.ste.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.ste" />
-      <option name="MAIN_CLASS_NAME" value="com.ste.KeyPairBuilderTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="KeyPairBuilderTest.testBuildKeyPairWithDSAAlgorithm" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="secure-text-editor (2) (com.ste)" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.ste.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.ste" />
-      <option name="MAIN_CLASS_NAME" value="com.ste.KeyPairBuilderTest" />
-      <option name="METHOD_NAME" value="testBuildKeyPairWithDSAAlgorithm" />
+      <option name="METHOD_NAME" value="testDecryptAES_CBC_InvalidIV" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="KeyPairBuilderTest.testBuildKeyPairWithECAlgorithm" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="DecryptionTest.testDecryptPBE_Valid" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="secure-text-editor (2) (com.ste)" />
       <extension name="coverage">
         <pattern>
@@ -180,24 +222,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.ste" />
-      <option name="MAIN_CLASS_NAME" value="com.ste.KeyPairBuilderTest" />
-      <option name="METHOD_NAME" value="testBuildKeyPairWithECAlgorithm" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="KeyPairBuilderTest.testBuildKeyPairWitheEd448" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="secure-text-editor (2) (com.ste)" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.ste.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.ste" />
-      <option name="MAIN_CLASS_NAME" value="com.ste.KeyPairBuilderTest" />
-      <option name="METHOD_NAME" value="testBuildKeyPairWitheEd448" />
+      <option name="MAIN_CLASS_NAME" value="com.ste.DecryptionTest" />
+      <option name="METHOD_NAME" value="testDecryptPBE_Valid" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -319,11 +345,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.DecryptionTest" />
-        <item itemvalue="JUnit.KeyPairBuilderTest.testBuildKeyPairWitheEd448" />
-        <item itemvalue="JUnit.KeyPairBuilderTest.testBuildKeyPairWithECAlgorithm" />
-        <item itemvalue="JUnit.KeyPairBuilderTest.testBuildKeyPairWithDSAAlgorithm" />
-        <item itemvalue="JUnit.KeyPairBuilderTest" />
+        <item itemvalue="JUnit.DecryptionTest.testDecryptPBE_Valid" />
+        <item itemvalue="JUnit.DecryptionTest.testDecryptAES_CBC_InvalidIV" />
+        <item itemvalue="JUnit.AESAlgorithmHandlerTest.testDecryptWithInvalidCiphertext" />
+        <item itemvalue="JUnit.AESAlgorithmHandlerTest.testEncryptWithMissingKey" />
+        <item itemvalue="JUnit.AESAlgorithmHandlerTest.testEncryptAndDecrypt_ValidAES" />
       </list>
     </recent_temporary>
   </component>
@@ -375,7 +401,11 @@
       <workItem from="1739381092014" duration="39000" />
       <workItem from="1739381201743" duration="2811000" />
       <workItem from="1739465683647" duration="19264000" />
-      <workItem from="1739486117495" duration="4459000" />
+      <workItem from="1739486117495" duration="4488000" />
+      <workItem from="1739525656891" duration="4180000" />
+      <workItem from="1739529881645" duration="659000" />
+      <workItem from="1739530554475" duration="75000" />
+      <workItem from="1739530642857" duration="7664000" />
     </task>
     <task id="LOCAL-00001" summary="Frontend and backend wired up&#10;&#10;you can send now requests to the frontend via a proxy. Also added Angular Material">
       <created>1726901455813</created>
@@ -492,7 +522,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739484852473</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="test cases for exam">
+      <option name="closed" value="true" />
+      <created>1739493533688</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1739493533688</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -536,58 +574,10 @@
     <MESSAGE value="fix tests" />
     <MESSAGE value="small refactor" />
     <MESSAGE value="Password based encryption with entering password is now possible!" />
-    <option name="LAST_COMMIT_MESSAGE" value="Password based encryption with entering password is now possible!" />
+    <MESSAGE value="test cases for exam" />
+    <option name="LAST_COMMIT_MESSAGE" value="test cases for exam" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java</url>
-          <line>48</line>
-          <option name="timeStamp" value="73" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java</url>
-          <line>111</line>
-          <option name="timeStamp" value="91" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java</url>
-          <line>110</line>
-          <option name="timeStamp" value="92" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/SHA256Handler.java</url>
-          <line>14</line>
-          <option name="timeStamp" value="94" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/SHA256Handler.java</url>
-          <line>15</line>
-          <option name="timeStamp" value="95" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java</url>
-          <line>113</line>
-          <option name="timeStamp" value="96" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java</url>
-          <line>112</line>
-          <option name="timeStamp" value="97" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java</url>
-          <line>116</line>
-          <option name="timeStamp" value="99" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java</url>
-          <line>117</line>
-          <option name="timeStamp" value="100" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="java.security.AlgorithmParameters" memberName="paramSpi" />
