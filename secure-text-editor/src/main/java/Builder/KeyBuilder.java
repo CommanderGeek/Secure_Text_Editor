@@ -1,5 +1,6 @@
 package Builder;
 
+import Enums.Const;
 import org.bouncycastle.util.encoders.Hex;
 
 import javax.crypto.KeyGenerator;
@@ -38,8 +39,8 @@ public class KeyBuilder {
         try {
             if(key != null && algorithm != null) {
                 return  new SecretKeySpec(key,algorithm);
-            }else if (provider != null && algorithm != null && keySize > 0) {
-                KeyGenerator keyGenerator = KeyGenerator.getInstance(algorithm, provider);
+            }else if (algorithm != null && keySize > 0) {
+                KeyGenerator keyGenerator = KeyGenerator.getInstance(algorithm, Const.BC.getConst());
                 keyGenerator.init(keySize);
             return keyGenerator.generateKey();
             }

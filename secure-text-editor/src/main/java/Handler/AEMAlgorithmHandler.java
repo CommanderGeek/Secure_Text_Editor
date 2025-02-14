@@ -24,7 +24,7 @@ public class AEMAlgorithmHandler implements CryptoAlgorithmHandler {
 
     @Override
     public String decrypt(String cipherText, EncryptionMetadata metadata) {
-        Cipher c = service.buildCipher(metadata.getAlgorithm(), metadata.getMode(), metadata.getPadding());
+        Cipher c = service.buildCipher(Const.AES.getConst(), metadata.getMode(), metadata.getPadding());
         return service.decrypt(cipherText, c, metadata);
     }
 }

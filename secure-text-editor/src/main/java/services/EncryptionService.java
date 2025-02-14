@@ -117,45 +117,13 @@ public class EncryptionService {
             metadata.setIntegrityAlgorithm(data.getSignature());
             metadata.setHashValue(IntegrityHandlerFactory.getHandler(data.getSignature()).compute(encryptedText, metadata));
         }
+        metadata.setIv(Hex.toHexString(c.getIV()));
         String fileId = prepareAndSerializeMetadata(algorithm, metadata, key.getEncoded(),c.getIV());
         String encEncryptedText = Hex.toHexString(encryptedText);
 
 
         logger.info("finished encryption and stored file!");
         return fileId+"."+encEncryptedText;
-    }
-
-
-    public byte[] encryptAEM(Cipher c, byte[] byteText, SecretKey key, EncryptionMetadata metadata){
-        try{
-            AlgorithmParameterGenerator pGen = AlgorithmParameterGenerator.getInstance(metadata.getMode(),Const.CBC.getConst());
-            AlgorithmParameters pGCM = pGen.generateParameters();
-            GCMParameterSpec gcmSpec = pGCM.getParameterSpec(GCMParameterSpec.class);
-            metadata.setTagLen(String.valueOf(gcmSpec.getTLen()));
-            c.init(Cipher.ENCRYPT_MODE, key, pGCM);
-            return c.doFinal(byteText);
-        }catch (InvalidKeyException e){
-            System.out.println("Invalid key is inserted, someone did an upsi here!");
-            System.out.println("-------------------------------");
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            System.out.println("This blocksize is not suitable. Look up!");
-            System.out.println("-------------------------------");
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        } catch (BadPaddingException e) {
-            System.out.println("Bad padding! take a look at the inserted padding");
-            System.out.println("-------------------------------");
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        } catch (InvalidAlgorithmParameterException e) {
-            System.out.println("Invalid Algorithm Parameter! take a look at the inserted parameters");
-            System.out.println("-------------------------------");
-            throw new RuntimeException(e);
-        } catch (NoSuchAlgorithmException | NoSuchProviderException | InvalidParameterSpecException e) {
-            throw new RuntimeException(e);
-        }
-        return new byte[0];
     }
 
     public byte[] decrypt(Cipher c, byte[] encryptedByteText,SecretKey key){
