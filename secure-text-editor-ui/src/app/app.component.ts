@@ -72,11 +72,11 @@ export class AppComponent {
     const reader = new FileReader();
     reader.onload = (e: any) => {
       const fileContent = e.target.result; // Store file content temporarily
-      let isPBE : boolean = fileContent.indexOf(":") >= 0;
+      let isPBE : boolean = fileContent.indexOf("PBE:") >= 0;
+      let isPT : boolean = fileContent.indexOf("PT:") >= 0;
       if (isDecrypt) {
         // Call the decryption service
-
-        if(fileContent.indexOf(".") >= 0 && !isPBE){
+        if(fileContent.indexOf(".") >= 0 && !isPBE && fileContent.indexOf(":") < 0){
         this.encryptionService.decryptText(fileContent).subscribe({
             next: (decryptedText) => {
               this.toastr.success('Decryption successful');
@@ -92,6 +92,22 @@ export class AppComponent {
         else if(isPBE){
           var newContent = fileContent.substring(4);
           this.openInputDialog(newContent);
+        }else if(isPT){
+          var newContent = fileContent.substring(3);
+          this.encryptionService.verify(newContent).subscribe(
+            {
+              next: (verifiedText) => {
+                this.toastr.success('Verification successful');
+                this.fileContent = verifiedText;
+                console.log(fileContent.length);
+                console.log('The file was successfully decrypted: ' + new Date());
+              },
+              error: (err) => {
+                console.error('Decryption failed:', err);
+                this.toastr.error('Decryption failed', 'Decryption Failure');
+              }
+            }
+          );
         }
         else {
           this.toastr.error('This does not seem to be an encrypted text, try upload "Plain Text"', );
@@ -183,7 +199,37 @@ export class AppComponent {
   }
 
   normalSave(): void {
-    this.saveFile(this.fileContent); // Save the encrypted content
+
+    if(this.enableSignature || this.enableMAC){
+
+      if (this.selectedSignature || this.selectedMAC) {
+
+        const payload = {
+          text: this.fileContent,
+          mac: this.selectedMAC,
+          signatureType: this.selectedSignature
+        };
+        this.encryptionService.protect(payload).subscribe({
+          next: (protectedData) => {
+            this.encryptedContent = protectedData;
+            this.saveFile(this.encryptedContent);
+          },
+          error: (err) => {
+            console.error('Encryption failed', err)
+            alert('Encryption failed :( ');
+          }
+        });
+      }else{
+        console.log(this.selectedMAC);
+        console.log(this.selectedSignature);
+        this.toastr.warning('Please select a signature or mac!');
+        return;
+      }
+
+
+    }else{
+      this.saveFile(this.fileContent);
+    }
   }
 
   // Save the encrypted content to a file on the client's machine

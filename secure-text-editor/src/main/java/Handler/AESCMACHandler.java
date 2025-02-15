@@ -2,6 +2,7 @@ package Handler;
 
 import Builder.MacBuilder;
 import DTOs.EncryptionMetadata;
+import Enums.Const;
 import org.bouncycastle.util.encoders.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,7 @@ public class AESCMACHandler implements IntegrityHandler {
     public String compute(byte[] plainText, EncryptionMetadata metadata) {
         try {
             Mac mac = new MacBuilder(metadata.getIntegrityAlgorithm()).build();
-            SecretKey key = service.buildKey(Hex.decode(metadata.getMacKey()), metadata.getAlgorithm());
+            SecretKey key = service.buildKey(Hex.decode(metadata.getMacKey()), Const.AES.getConst());
             String k = Hex.toHexString(key.getEncoded());
            logger.info(k);
             mac.init(key);

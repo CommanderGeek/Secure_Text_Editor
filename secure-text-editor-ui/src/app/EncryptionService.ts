@@ -11,6 +11,8 @@ export class EncryptionService {
   private apiDecrypt = '/api/decrypt';
   private apiGenerateKey = '/api/generate-key';
   private apiPBE = '/api/decrypt/pbe';
+  private apiProtect = '/api/protect';
+  private apiVerify = '/api/verify';
 
   constructor(private http: HttpClient) { }
 
@@ -33,6 +35,16 @@ export class EncryptionService {
 
   generateKey(request: any): Observable<string> {
     return this.http.post<string>(this.apiGenerateKey, request, { responseType: 'text' as 'json' });
+  }
+
+  protect(payload: any): Observable<string> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    console.log('Payload:', payload);
+    return this.http.post(this.apiProtect, payload, { headers: headers, responseType: 'text' });
+  }
+
+  verify(payload: any): Observable<string>{
+    return this.http.post(this.apiVerify, payload, {  responseType: 'text' });
   }
 
 }

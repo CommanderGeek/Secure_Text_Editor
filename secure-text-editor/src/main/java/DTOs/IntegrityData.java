@@ -1,5 +1,7 @@
 package DTOs;
 
+import Enums.Const;
+
 public class IntegrityData {
     private String mac;
     private String signature;
@@ -9,6 +11,11 @@ public class IntegrityData {
         this.mac = mac;
         this.signature = signature;
         this.encryptionType = encryptionType;
+    }
+    public IntegrityData(String mac, String signature) {
+        this.mac = mac;
+        this.signature = signature;
+        this.encryptionType = Const.NONE.getConst();
     }
 
     public String getSignature() {
