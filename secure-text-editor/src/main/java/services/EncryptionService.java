@@ -38,20 +38,18 @@ public class EncryptionService {
     private static final Logger logger = LoggerFactory.getLogger(EncryptionService.class);
     /**
      * serializes the MetaData into Json files and triggers the storing function
-     * @param algorithm
      * @param key
-     * @param iv
      * @return the UUID of the encrypted file
      */
-    public String prepareAndSerializeMetadata(String algorithm, EncryptionMetadata md,
-                                              byte[] key, byte[] iv) {
+    public String prepareAndSerializeMetadata(EncryptionMetadata md,
+                                              byte[] key) {
         Security.addProvider(new BouncyCastleProvider());
         logger.debug("here are the parameters: \n mode: " +md.getMode() +" \n padding: "+ md.getPadding()+" \n key: " + key.toString());
         EncryptionMetadata metadata = new EncryptionMetadata.Builder().setAlgorithm(md.getAlgorithm())//
                 .setMode(md.getMode())//
                 .setPadding(md.getPadding())//
                 .setKeySize(md.getKeySize())//
-                .setIv(Hex.toHexString(Objects.requireNonNullElseGet(iv, "null"::getBytes)))//
+                .setIv(md.getIv())//
                 .setHashValue(md.getHashValue())
                 .setMacKey(md.getMacKey())
                 .setIntegrityAlgorithm(md.getIntegrityAlgorithm())
@@ -109,7 +107,7 @@ public class EncryptionService {
         }
         byte[] encryptedText =  encrypt(c, plainText, key);
         if(!data.getMac().isEmpty()) {
-            SecretKey macKey  = buildKey(data.getEncryptionType(), Const.BC.getConst(), Integer.parseInt(metadata.getKeySize()));
+            SecretKey macKey  = buildKey(Const.AES.getConst(), Const.BC.getConst(), Integer.parseInt(metadata.getKeySize()));
             metadata.setMacKey(Hex.toHexString(macKey.getEncoded()));
             metadata.setIntegrityAlgorithm(data.getMac());
             metadata.setHashValue(IntegrityHandlerFactory.getHandler(data.getMac()).compute(encryptedText, metadata));
@@ -117,8 +115,8 @@ public class EncryptionService {
             metadata.setIntegrityAlgorithm(data.getSignature());
             metadata.setHashValue(IntegrityHandlerFactory.getHandler(data.getSignature()).compute(encryptedText, metadata));
         }
-        metadata.setIv(Hex.toHexString(c.getIV()));
-        String fileId = prepareAndSerializeMetadata(algorithm, metadata, key.getEncoded(),c.getIV());
+        metadata.setIv(Hex.toHexString(Objects.requireNonNullElseGet(c.getIV(), "null"::getBytes)));
+        String fileId = prepareAndSerializeMetadata(metadata, key.getEncoded());
         String encEncryptedText = Hex.toHexString(encryptedText);
 
 

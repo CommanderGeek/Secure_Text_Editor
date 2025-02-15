@@ -13,6 +13,7 @@ public enum Const {
     SHA256withDSA("SHA256withDSA"),
     JCEKS("JCEKS"),
     PBEWithSHA256And128BitAES("PBEWithSHA256And128BitAES-CBC-BC"),
+    NONE("NONE"),
     DEFAULT("DEFAULT");
 
 
