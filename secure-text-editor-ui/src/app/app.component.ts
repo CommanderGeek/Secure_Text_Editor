@@ -232,26 +232,32 @@ export class AppComponent {
     }
   }
 
-  // Save the encrypted content to a file on the client's machine
   saveFile(content: string): void {
     const blob = new Blob([content], { type: 'text/plain' });
     const url = window.URL.createObjectURL(blob);
-
     const a = document.createElement('a');
     a.href = url;
-    if (this.fileName === ''){
-      this.fileName  = 'encrypted-text.txt';
+
+    // Ensure fileName is set properly
+    if (!this.fileName || this.fileName.trim() === '') {
+      this.fileName = 'encrypted-text.txt';
     }
-    if(!this.fileName.includes(".txt")){
+
+    // Remove any unwanted timestamp from fileName
+    this.fileName = this.fileName.replace(/\s*\d{4}-\d{2}-\d{2}.*$/, ''); // Removes date if appended
+
+    // Ensure the correct file extension
+    if (!this.fileName.endsWith('.txt')) {
       this.fileName += '.txt';
     }
 
-    a.download = this.fileName; // Name of the saved file
+    a.download = this.fileName; // Set filename
     a.click();
 
-    window.URL.revokeObjectURL(url); // Clean up the object URL
+    window.URL.revokeObjectURL(url); // Clean up
     this.toastr.success('Encryption successful');
   }
+
   validateBlocks(text: string): boolean{
     return text.length > 15;
   }
@@ -398,7 +404,7 @@ export class AppComponent {
         this.encryptionService.decryptPBE(payload).subscribe({
           next: (decryptedText) => {
             this.toastr.success('Decryption successful!');
-            this.fileContent = decryptedText; // Speichere das entschlüsselte Ergebnis
+            this.fileContent = decryptedText;
             console.log('Decrypted Content:', decryptedText);
           },
           error: (err) => {

@@ -114,8 +114,6 @@ class AESAlgorithmHandlerTest {
         String finalEncryptedText = encryptedText;
         Exception exception = assertThrows(Exception.class, () -> handler.decrypt(finalEncryptedText, metadata));
         String consoleOutput = outContent.toString();
-        System.out.println("-----------");
-        System.out.println(outContent.toString());
         assertTrue(consoleOutput.contains("Bad padding") ||
                         consoleOutput.contains("IllegalBlockSizeException") || consoleOutput.contains("mac check in GCM failed"),
                 "Decryption should fail with invalid ciphertext");

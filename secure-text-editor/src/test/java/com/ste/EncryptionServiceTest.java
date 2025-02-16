@@ -26,6 +26,7 @@ public class EncryptionServiceTest {
     private static final String SAMPLE_TEXT = "EncryptionServiceTest";
     private static final String AES_ALGORITHM = "AES";
     private static final String PBE_ALGORITHM = Const.PBEWithSHA256And128BitAES.getConst();
+    private static final String CHACHA20_ALGORITHM = "ChaCha20";
     EncryptionMetaDataConverter converter = new EncryptionMetaDataConverter();
     KeyStoreService ks = new KeyStoreService();
 
@@ -133,7 +134,7 @@ public class EncryptionServiceTest {
     }
 
     /**
-     * 🔁 Tests Monte Carlo Decryption for robustness.
+     *  Tests Monte Carlo Decryption for robustness.
      */
     @Test
     void testMonteCarloDecryption() throws Exception {
@@ -165,7 +166,7 @@ public class EncryptionServiceTest {
 
 
     /**
-     * 📩 Tests Multi-Message Encryption/Decryption.
+     * Tests Multi-Message Encryption/Decryption.
      */
     @Test
     void testMultiMessageEncryptionDecryption() throws Exception {
@@ -178,7 +179,6 @@ public class EncryptionServiceTest {
                 .setKeySize("128")
                 .setFileId(UUID.randomUUID().toString())
                 .build();
-
         Cipher cipher = encryptionService.buildCipher(AES_ALGORITHM, metadata.getMode(), metadata.getPadding());
         IntegrityData integrityData = new IntegrityData("", "SHA-256");
 
@@ -198,4 +198,70 @@ public class EncryptionServiceTest {
         }
     }
 
+    /**
+     * **AES Known Answer Test (KAT)**
+     * Ensures AES encryption produces a **deterministic and expected output** for a known input.
+     */
+    @Test
+    void testAESKnownAnswer() throws Exception {
+        // Given metadata with predefined key
+        EncryptionMetadata metadata = new EncryptionMetadata.Builder()
+                .setAlgorithm(AES_ALGORITHM)
+                .setMode("CBC")
+                .setPadding("PKCS7Padding")
+                .setKeySize("128")
+                .setFileId(UUID.randomUUID().toString())
+                .setKey("00112233445566778899AABBCCDDEEFF") // Known key in hex
+                .build();
+
+        Cipher cipher = encryptionService.buildCipher(AES_ALGORITHM, metadata.getMode(), metadata.getPadding());
+        IntegrityData integrityData = new IntegrityData("", "SHA-256");
+
+        // Encrypt
+        String encryptedText = encryptionService.encryptAndStore(AES_ALGORITHM, cipher, SAMPLE_TEXT.getBytes(), metadata, integrityData);
+        assertNotNull(encryptedText, "Encryption should produce a valid output");
+
+        // Extract and decrypt
+        String[] parts = encryptedText.split("\\.");
+        metadata = converter.lookUpMetaData(parts[0]);
+        metadata.setKey(ks.retrieveKey(metadata));
+        String decryptedText = encryptionService.decrypt(parts[1], cipher, metadata);
+
+        // Check known answer
+        assertEquals(SAMPLE_TEXT, decryptedText, "Decrypted text should match original");
+    }
+
+    /**
+     * **ChaCha20 Known Answer Test (KAT)**
+     * Ensures ChaCha20 encryption produces the expected output.
+     */
+    @Test
+    void testChaCha20KnownAnswer() throws Exception {
+        // Given metadata with predefined key and nonce
+        EncryptionMetadata metadata = new EncryptionMetadata.Builder()
+                .setAlgorithm(CHACHA20_ALGORITHM)
+                .setMode("None")
+                .setPadding("None")
+                .setKeySize("256")
+                .setFileId(UUID.randomUUID().toString())
+                .setKey("000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F") // Known key in hex
+                .setIv("000000000000004A00000000") // Known nonce (12-byte)
+                .build();
+
+        Cipher cipher = encryptionService.buildCipher(CHACHA20_ALGORITHM);
+        IntegrityData integrityData = new IntegrityData("", "SHA-256");
+
+        // Encrypt
+        String encryptedText = encryptionService.encryptAndStore(CHACHA20_ALGORITHM, cipher, SAMPLE_TEXT.getBytes(), metadata, integrityData);
+        assertNotNull(encryptedText, "Encryption should produce a valid output");
+
+        // Extract and decrypt
+        String[] parts = encryptedText.split("\\.");
+        metadata = converter.lookUpMetaData(parts[0]);
+        metadata.setKey(ks.retrieveKey(metadata));
+        String decryptedText = encryptionService.decrypt(parts[1], cipher, metadata);
+
+        // Validate known output
+        assertEquals(SAMPLE_TEXT, decryptedText, "Decrypted text should match original");
+    }
 }
