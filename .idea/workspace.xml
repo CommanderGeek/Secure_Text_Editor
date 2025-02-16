@@ -4,17 +4,45 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="982cfcbf-422f-4344-94e8-23a20747ace7" name="Changes" comment="test cases for exam">
-      <change afterPath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/AEMAlgorithmHandlerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/AESAlgorithmHandlerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/EncryptionTest.java" afterDir="false" />
+    <list default="true" id="982cfcbf-422f-4344-94e8-23a20747ace7" name="Changes" comment="Extracting Integrity Checker and make it possible to validate text!">
+      <change afterPath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/BouncyCastleProviderTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/CipherBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/CipherBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/KeyBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/KeyBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/KeyPairBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/KeyPairBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/MacBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/MacBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/DTOs/DecryptPBERequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/DTOs/DecryptPBERequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/DTOs/EncryptionMetadata.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/DTOs/EncryptionMetadata.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/DTOs/EncryptionRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/DTOs/EncryptionRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/DTOs/IntegrityData.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/DTOs/IntegrityData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Enums/Const.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Enums/Const.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Factory/AlgorithmHandlerFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Factory/AlgorithmHandlerFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Factory/IntegrityHandlerFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Factory/IntegrityHandlerFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/AEMAlgorithmHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/AEMAlgorithmHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/AESAlgorithmHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/AESAlgorithmHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/AESCMACHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/AESCMACHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/ChaCha20AlgorithmHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/ChaCha20AlgorithmHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/CryptoAlgorithmHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/CryptoAlgorithmHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/HMACSHA256Handler.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/HMACSHA256Handler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/IntegrityHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/IntegrityHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/PBAESAlgorithmHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/PBAESAlgorithmHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/PBChaCha20AlgorithmHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/PBChaCha20AlgorithmHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/PBSHA256AESCBC.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/PBSHA256AESCBC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/SHA256DSAHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/SHA256DSAHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/SHA256Handler.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/SHA256Handler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/bouncyCastleExamples/Example_1.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Decryption.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Decryption.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Encryption.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Encryption.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Integrity.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Integrity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionMetaDataConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionMetaDataConverter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/DecryptionTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/KeyPairBuilderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/KeyPairBuilderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/IntegrityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/IntegrityService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/KeyStoreService.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/KeyStoreService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/AEMAlgorithmHandlerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/AEMAlgorithmHandlerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/AESAlgorithmHandlerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/AESAlgorithmHandlerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/EncryptionServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/EncryptionServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/EncryptionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/EncryptionTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +65,7 @@
     </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="ExtractIntegrity" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -59,9 +87,7 @@
   </component>
   <component name="JavaAutoRunManager">
     <enabled-run-configurations>
-      <run-configuration type="JUnit" name="AEMAlgorithmHandlerTest.testDecryptWithInvalidCiphertext" />
-      <run-configuration type="JUnit" name="AESAlgorithmHandlerTest.testEncryptAndDecrypt_ValidAES" />
-      <run-configuration type="JUnit" name="AESAlgorithmHandlerTest.testDecryptWithInvalidCiphertext" />
+      <run-configuration type="JUnit" name="BouncyCastleProviderTest.testMonteCarloEncryption" />
     </enabled-run-configurations>
   </component>
   <component name="MarkdownSettingsMigration">
@@ -94,11 +120,16 @@
     "JUnit.AESAlgorithmHandlerTest.testDecryptWithInvalidCiphertext.executor": "Run",
     "JUnit.AESAlgorithmHandlerTest.testEncryptAndDecrypt_ValidAES.executor": "Debug",
     "JUnit.AESAlgorithmHandlerTest.testEncryptWithMissingKey.executor": "Run",
+    "JUnit.BouncyCastleProviderTest.executor": "Run",
+    "JUnit.BouncyCastleProviderTest.testKnownAnswerEncryption.executor": "Run",
+    "JUnit.BouncyCastleProviderTest.testMonteCarloEncryption.executor": "Debug",
     "JUnit.CipherBuilderTest.executor": "Run",
     "JUnit.DecryptionTest.executor": "Run",
     "JUnit.DecryptionTest.testDecryptAES_CBC_InvalidIV.executor": "Debug",
     "JUnit.DecryptionTest.testDecryptPBE_Valid.executor": "Run",
     "JUnit.EncryptionMetaDataConverterTest.executor": "Run",
+    "JUnit.EncryptionServiceTest.executor": "Run",
+    "JUnit.EncryptionServiceTest.testAESEncryptionDecryption.executor": "Run",
     "JUnit.EncryptionTest.executor": "Run",
     "JUnit.EncryptionTest.testEncryptAES_CBC_Valid.executor": "Run",
     "JUnit.EncryptionTest.testEncryptPBE_Valid.executor": "Run",
@@ -116,7 +147,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Test",
+    "git-widget-placeholder": "Documentation",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
@@ -148,8 +179,8 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.DecryptionTest.testDecryptPBE_Valid">
-    <configuration name="AESAlgorithmHandlerTest.testDecryptWithInvalidCiphertext" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.EncryptionServiceTest">
+    <configuration name="BouncyCastleProviderTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="secure-text-editor (2) (com.ste)" />
       <extension name="coverage">
         <pattern>
@@ -158,14 +189,29 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.ste" />
-      <option name="MAIN_CLASS_NAME" value="com.ste.AESAlgorithmHandlerTest" />
-      <option name="METHOD_NAME" value="testDecryptWithInvalidCiphertext" />
+      <option name="MAIN_CLASS_NAME" value="com.ste.BouncyCastleProviderTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BouncyCastleProviderTest.testKnownAnswerEncryption" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="secure-text-editor (2) (com.ste)" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ste.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.ste" />
+      <option name="MAIN_CLASS_NAME" value="com.ste.BouncyCastleProviderTest" />
+      <option name="METHOD_NAME" value="testKnownAnswerEncryption" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AESAlgorithmHandlerTest.testEncryptAndDecrypt_ValidAES" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BouncyCastleProviderTest.testMonteCarloEncryption" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="secure-text-editor (2) (com.ste)" />
       <extension name="coverage">
         <pattern>
@@ -174,14 +220,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.ste" />
-      <option name="MAIN_CLASS_NAME" value="com.ste.AESAlgorithmHandlerTest" />
-      <option name="METHOD_NAME" value="testEncryptAndDecrypt_ValidAES" />
+      <option name="MAIN_CLASS_NAME" value="com.ste.BouncyCastleProviderTest" />
+      <option name="METHOD_NAME" value="testMonteCarloEncryption" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AESAlgorithmHandlerTest.testEncryptWithMissingKey" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="EncryptionServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="secure-text-editor (2) (com.ste)" />
       <extension name="coverage">
         <pattern>
@@ -190,14 +236,13 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.ste" />
-      <option name="MAIN_CLASS_NAME" value="com.ste.AESAlgorithmHandlerTest" />
-      <option name="METHOD_NAME" value="testEncryptWithMissingKey" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="MAIN_CLASS_NAME" value="com.ste.EncryptionServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DecryptionTest.testDecryptAES_CBC_InvalidIV" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="EncryptionServiceTest.testAESEncryptionDecryption" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="secure-text-editor (2) (com.ste)" />
       <extension name="coverage">
         <pattern>
@@ -206,24 +251,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.ste" />
-      <option name="MAIN_CLASS_NAME" value="com.ste.DecryptionTest" />
-      <option name="METHOD_NAME" value="testDecryptAES_CBC_InvalidIV" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="DecryptionTest.testDecryptPBE_Valid" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="secure-text-editor (2) (com.ste)" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.ste.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.ste" />
-      <option name="MAIN_CLASS_NAME" value="com.ste.DecryptionTest" />
-      <option name="METHOD_NAME" value="testDecryptPBE_Valid" />
+      <option name="MAIN_CLASS_NAME" value="com.ste.EncryptionServiceTest" />
+      <option name="METHOD_NAME" value="testAESEncryptionDecryption" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -345,11 +374,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.DecryptionTest.testDecryptPBE_Valid" />
-        <item itemvalue="JUnit.DecryptionTest.testDecryptAES_CBC_InvalidIV" />
-        <item itemvalue="JUnit.AESAlgorithmHandlerTest.testDecryptWithInvalidCiphertext" />
-        <item itemvalue="JUnit.AESAlgorithmHandlerTest.testEncryptWithMissingKey" />
-        <item itemvalue="JUnit.AESAlgorithmHandlerTest.testEncryptAndDecrypt_ValidAES" />
+        <item itemvalue="JUnit.EncryptionServiceTest" />
+        <item itemvalue="JUnit.EncryptionServiceTest.testAESEncryptionDecryption" />
+        <item itemvalue="JUnit.BouncyCastleProviderTest.testKnownAnswerEncryption" />
+        <item itemvalue="JUnit.BouncyCastleProviderTest.testMonteCarloEncryption" />
+        <item itemvalue="JUnit.BouncyCastleProviderTest" />
       </list>
     </recent_temporary>
   </component>
@@ -406,6 +435,9 @@
       <workItem from="1739529881645" duration="659000" />
       <workItem from="1739530554475" duration="75000" />
       <workItem from="1739530642857" duration="7664000" />
+      <workItem from="1739550091167" duration="807000" />
+      <workItem from="1739604019133" duration="4908000" />
+      <workItem from="1739715733573" duration="24459000" />
     </task>
     <task id="LOCAL-00001" summary="Frontend and backend wired up&#10;&#10;you can send now requests to the frontend via a proxy. Also added Angular Material">
       <created>1726901455813</created>
@@ -530,7 +562,23 @@
       <option name="project" value="LOCAL" />
       <updated>1739493533688</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Extracting Integrity Checker and make it possible to validate text!">
+      <option name="closed" value="true" />
+      <created>1739607498096</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1739607498096</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Extracting Integrity Checker and make it possible to validate text!">
+      <option name="closed" value="true" />
+      <created>1739607545156</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1739607545156</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -542,12 +590,17 @@
         <entry key="MAIN">
           <value>
             <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
               <option name="FILTERS">
                 <map>
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="Test" />
+                        <option value="Documentation" />
                       </list>
                     </value>
                   </entry>
@@ -575,9 +628,59 @@
     <MESSAGE value="small refactor" />
     <MESSAGE value="Password based encryption with entering password is now possible!" />
     <MESSAGE value="test cases for exam" />
-    <option name="LAST_COMMIT_MESSAGE" value="test cases for exam" />
+    <MESSAGE value="Extracting Integrity Checker and make it possible to validate text!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Extracting Integrity Checker and make it possible to validate text!" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/BouncyCastleProviderTest.java</url>
+          <line>36</line>
+          <option name="timeStamp" value="181" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/BouncyCastleProviderTest.java</url>
+          <line>44</line>
+          <option name="timeStamp" value="182" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/BouncyCastleProviderTest.java</url>
+          <line>48</line>
+          <option name="timeStamp" value="183" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/BouncyCastleProviderTest.java</url>
+          <line>42</line>
+          <option name="timeStamp" value="184" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/BouncyCastleProviderTest.java</url>
+          <line>49</line>
+          <option name="timeStamp" value="185" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/BouncyCastleProviderTest.java</url>
+          <line>51</line>
+          <option name="timeStamp" value="186" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java</url>
+          <line>62</line>
+          <option name="timeStamp" value="193" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java</url>
+          <line>63</line>
+          <option name="timeStamp" value="195" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java</url>
+          <line>64</line>
+          <option name="timeStamp" value="196" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="java.security.AlgorithmParameters" memberName="paramSpi" />

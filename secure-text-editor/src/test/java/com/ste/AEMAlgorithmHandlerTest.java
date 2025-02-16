@@ -36,10 +36,8 @@ class AEMAlgorithmHandlerTest {
 
     @Test
     void testEncryptAndDecrypt_ValidAES_AEM() {
-        // **Test Data**
         String originalText = "Sensitive data for AES_AEM encryption";
 
-        // **Metadata Configuration**
         EncryptionMetadata metadata = new EncryptionMetadata(new EncryptionMetadata.Builder()
                 .setAlgorithm("AES_AEM")
                 .setMode("GCM")
@@ -48,24 +46,23 @@ class AEMAlgorithmHandlerTest {
                 .setKey(""));
 
 
-        // **Generate AES Key**
         SecretKey key = new KeyBuilder()
                 .setAlgorithm("AES")
                 .setKeySize(256)
                 .build();
         metadata.setKey(Hex.toHexString(key.getEncoded()));
 
-        // **Integrity Data**
+
         IntegrityData integrityData = new IntegrityData("", "", "AES");
 
-        // **Encrypt Data**
+
         String encryptedFileString = handler.encrypt(originalText.getBytes(), metadata, integrityData);
         String[] parts = encryptedFileString.split("\\.");// Split on the first dot
         String encryptedText = parts[1];
         assertNotNull(encryptedText, "Encryption should return a valid encrypted string");
         assertTrue(encryptedText.length() > 10, "Encrypted text should be longer than input text");
 
-        // **Decrypt Data**
+
         String decryptedText = handler.decrypt(encryptedText, metadata);
         assertNotNull(decryptedText, "Decryption should return a valid string");
         assertEquals(originalText, decryptedText, "Decrypted text should match original text");
@@ -76,9 +73,9 @@ class AEMAlgorithmHandlerTest {
 
     @Test
     void testDecryptWithInvalidCiphertext() {
-        // **Test Data**
+
         String originalText = "Sensitive data for AES_AEM encryption";
-        // **Metadata Configuration**
+
         EncryptionMetadata metadata = new EncryptionMetadata(new EncryptionMetadata.Builder()
                 .setAlgorithm("AES_AEM")
                 .setMode("GCM")
@@ -87,7 +84,7 @@ class AEMAlgorithmHandlerTest {
                 .setKey(""));
 
 
-        // **Generate AES Key**
+
         SecretKey key = new KeyBuilder()
                 .setAlgorithm("AES")
                 .setKeySize(256)
@@ -101,10 +98,10 @@ class AEMAlgorithmHandlerTest {
         assertNotNull(encryptedText, "Encryption should return a valid encrypted string");
         assertTrue(encryptedText.length() > 10, "Encrypted text should be longer than input text");
 
-        // **Invalid Cipher Text**
+
         encryptedText = Hex.toHexString("Sensitive data for AES_AEM encryptio1".getBytes());
 
-        // **Expect Exception**
+
         String finalEncryptedText = encryptedText;
         Exception exception = assertThrows(Exception.class, () ->
                 handler.decrypt(finalEncryptedText, metadata));

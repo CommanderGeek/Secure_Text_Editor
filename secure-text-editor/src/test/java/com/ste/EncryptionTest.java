@@ -33,7 +33,6 @@ public class EncryptionTest {
 
     @Test
     void testEncryptAES_CBC_Valid() {
-        // **Prepare Encryption Request**
         EncryptionRequest request = new EncryptionRequest();
         request.setText("This is a test message");
         request.setEncryptionType("AES");
@@ -45,10 +44,8 @@ public class EncryptionTest {
         request.setSignatureType("");
         request.setKey("");
 
-        // **Run Encryption**
         String encryptedText = encryption.encryptText(request);
 
-        // **Validate Output**
         assertNotNull(encryptedText, "Encryption should return a valid encrypted string");
         assertTrue(encryptedText.length() > 10, "Encrypted text should be longer than input text");
         System.out.println("AES-CBC Encrypted Output: " + encryptedText);
@@ -56,7 +53,6 @@ public class EncryptionTest {
 
     @Test
     void testEncryptPBE_Valid() {
-        // **Prepare PBE Encryption Request**
         EncryptionRequest request = new EncryptionRequest();
         request.setText("Secret Message for PBE");
         request.setEncryptionType("ChaCha7539");
@@ -68,10 +64,8 @@ public class EncryptionTest {
         request.setSignatureType("");
         request.setKey("");
 
-        // **Run Encryption**
         String encryptedText = encryption.encryptText(request);
 
-        // **Validate Output**
         assertNotNull(encryptedText, "Encryption should return a valid encrypted string");
         assertTrue(encryptedText.length() > 10, "Encrypted text should be longer than input text");
         assertTrue(!encryptedText.equals(request.getText()), "Encrypted text should be different");
@@ -80,7 +74,6 @@ public class EncryptionTest {
 
     @Test
     void testEncryptWithSignature() {
-        // **Prepare Encryption Request with Signature**
         EncryptionRequest request = new EncryptionRequest();
         request.setText("Signed Message");
         request.setEncryptionType("AES");
@@ -92,10 +85,8 @@ public class EncryptionTest {
         request.setSignatureType("SHA256withDSA");
         request.setKey("");
 
-        // **Run Encryption**
         String encryptedText = encryption.encryptText(request);
 
-        // **Validate Output**
         assertNotNull(encryptedText, "Encryption should return a valid encrypted string");
         assertTrue(encryptedText.length() > 10, "Encrypted text should be longer than input text");
         System.out.println("Signed AES-CBC Encrypted Output: " + encryptedText);
@@ -104,15 +95,12 @@ public class EncryptionTest {
 
     @Test
     void testGenerateKey_ValidAES() {
-        // **Prepare Key Generation Request**
         EncryptionRequest request = new EncryptionRequest();
         request.setEncryptionType("AES");
         request.setKeySize("256_SYM");
 
-        // **Generate Key**
         String keyHex = encryption.generateKey(request);
 
-        // **Validate Output**
         assertNotNull(keyHex, "Generated key should not be null");
         assertEquals(64, keyHex.length(), "AES-256 key should be 64 hex characters");
         System.out.println("Generated AES-256 Key: " + keyHex);
@@ -120,15 +108,12 @@ public class EncryptionTest {
 
     @Test
     void testGenerateKey_ValidPBE() {
-        // **Prepare Key Generation Request**
         EncryptionRequest request = new EncryptionRequest();
         request.setEncryptionType("AES_PAS");
         request.setKeySize("256_SYM");
 
-        // **Generate Key**
         String keyHex = encryption.generateKey(request);
 
-        // **Validate Output**
         assertNotNull(keyHex, "Generated key should not be null");
         assertEquals(64, keyHex.length(), "AES 256-bit key should be 64 hex characters");
         System.out.println("Generated PBE Key: " + keyHex);
@@ -136,12 +121,10 @@ public class EncryptionTest {
 
     @Test
     void testGenerateKey_InvalidAlgorithm() {
-        // **Prepare Key Generation Request with Invalid Algorithm**
         EncryptionRequest request = new EncryptionRequest();
         request.setEncryptionType("INVALID_ALGO");
         request.setKeySize("128_SYM");
 
-        // **Expect Exception**
         Exception exception = assertThrows(Exception.class, () -> encryption.generateKey(request));
         String consoleOutput = outContent.toString();
         assertTrue(consoleOutput.contains("The given Algorithm does not exists"),

@@ -26,22 +26,25 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
 /**
- * This class provides encryption services.
- * It supports encrypting and decrypting text, building ciphers, and handling encryption metadata.
- *  @author Elias Harb
+ * @author Elias Harb
+ *
+ * EncryptionService provides functionality for encrypting and decrypting data using various cryptographic algorithms.
+ * It supports AES, PBE, Scrypt, and ChaCha20 encryption methods, along with key generation and metadata handling.
+ *
  */
-
 public class EncryptionService {
 
 
     private static final EncryptionMetaDataConverter converter = new EncryptionMetaDataConverter();
     private static final Logger logger = LoggerFactory.getLogger(EncryptionService.class);
     /**
-     * serializes the MetaData into Json files and triggers the storing function
-     * @param key
-     * @return the UUID of the encrypted file
+     * Serializes the encryption metadata and stores the encryption key if needed.
+     *
+     * @param md   The encryption metadata.
+     * @param key  The encryption key in byte format.
+     * @return The unique file ID associated with the encrypted data.
      */
-    public String prepareAndSerializeMetadata(EncryptionMetadata md,
+    private String prepareAndSerializeMetadata(EncryptionMetadata md,
                                               byte[] key) {
         Security.addProvider(new BouncyCastleProvider());
         logger.debug("here are the parameters: \n mode: " +md.getMode() +" \n padding: "+ md.getPadding()+" \n key: " + key.toString());
@@ -57,7 +60,7 @@ public class EncryptionService {
                 .setPublicKey(md.getPublicKey())//
                 .setSalt(md.getSalt())
                 .build();
-        if (md.getPassword() == null) {
+        if (md.getPassword() == null || md.getPassword().isEmpty()) {
             KeyStoreService ks = new KeyStoreService();
             ks.storeKey(metadata, key);
         }else{
@@ -67,6 +70,12 @@ public class EncryptionService {
         return serializeMetadata(metadata);
     }
 
+    /**
+     * Serializes and stores encryption metadata.
+     *
+     * @param encryptionMetadata The metadata to serialize.
+     * @return The unique file ID for the stored metadata.
+     */
     public String serializeMetadata(EncryptionMetadata encryptionMetadata){
         converter.storeMetaData(converter.serializeMetadata(encryptionMetadata), UUID.fromString(encryptionMetadata.getFileId()));
         return encryptionMetadata.getFileId();
@@ -95,6 +104,16 @@ public class EncryptionService {
         return new byte[0];
     }
 
+    /**
+     * Encrypts the given plaintext and stores the encrypted data.
+     *
+     * @param algorithm The encryption algorithm.
+     * @param c        The cipher instance.
+     * @param plainText The plaintext in byte format.
+     * @param metadata  The encryption metadata.
+     * @param data      The integrity data (MAC or signature).
+     * @return The encrypted text with its associated file ID.
+     */
     public String encryptAndStore(String algorithm, Cipher c, byte[] plainText, EncryptionMetadata metadata,
                                   IntegrityData data){
         SecretKey key;
@@ -124,6 +143,13 @@ public class EncryptionService {
         return fileId+"."+encEncryptedText;
     }
 
+    /**
+     * Decrypts an encrypted text using the provided cipher and key.
+     *
+     * @param c          The cipher instance configured for decryption.
+     * @param key   The encryption metadata containing algorithm and key details.
+     * @return The decrypted plaintext as a String.
+     */
     public byte[] decrypt(Cipher c, byte[] encryptedByteText,SecretKey key){
         try {
             c.init(Cipher.DECRYPT_MODE,key);
@@ -145,6 +171,16 @@ public class EncryptionService {
         }
         return new byte[0];
     }
+
+    /**
+     * Decrypts an encrypted text using the provided cipher and key.
+     *
+     * @param c          The cipher instance configured for decryption.
+     * @param encryptedByteText the encrypted byte text
+     * @param key   The required secretkey for encryption
+     * @param iv the used iv
+     * @return The decrypted plaintext as a String.
+     */
 
     public byte[] decrypt(Cipher c, byte[] encryptedByteText, SecretKey key, IvParameterSpec iv){
         try {
@@ -171,6 +207,15 @@ public class EncryptionService {
         return new byte[0];
     }
 
+
+    /**
+     * Decrypts an encrypted text using the provided cipher and key.
+     *
+     * @param cipherText The encrypted text in hexadecimal format.
+     * @param c          The cipher instance configured for decryption.
+     * @param metadata   The encryption metadata containing algorithm and key details.
+     * @return The decrypted plaintext as a String.
+     */
     public String decrypt(String cipherText, Cipher c,EncryptionMetadata metadata){
         byte[] text = Hex.decode(cipherText);
         byte[] keyByte = Hex.decode(metadata.getKey());
@@ -192,7 +237,14 @@ public class EncryptionService {
         logger.info("Successfully decrypted the text with result: \n"+decryptedText);
         return decryptedText;
     }
-
+    /**
+     * Decrypts an encrypted text using the provided cipher and key.
+     *
+     * @param cipherText The encrypted text in hexadecimal format.
+     * @param c          The cipher instance configured for decryption.
+     * @param metadata   The encryption metadata containing algorithm and key details.
+     * @return The decrypted plaintext as a String.
+     */
     public String decrypt(String cipherText, Cipher c,EncryptionMetadata metadata, SecretKey key){
         byte[] text = Hex.decode(cipherText);
         byte[] iv = Hex.decode(metadata.getIv());
@@ -208,7 +260,14 @@ public class EncryptionService {
     }
 
 
-
+    /**
+     * Builds a cipher instance for encryption or decryption.
+     *
+     * @param algorithm The algorithm name (e.g., "AES").
+     * @param mode      The mode (e.g., "CBC").
+     * @param padding   The padding scheme (e.g., "PKCS7Padding").
+     * @return The initialized Cipher instance.
+     */
     public Cipher buildCipher(String algorithm, String mode, String padding){
         if(algorithm.equals(Const.PBE.getConst())){
             return new CipherBuilder().setAlgorithm(Const.AES.getConst())//
@@ -226,6 +285,14 @@ public class EncryptionService {
         return new CipherBuilder().build(algorithm);
     }
 
+    /**
+     * Generates a cryptographic key.
+     *
+     * @param algorithm The algorithm for the key (e.g., "AES").
+     * @param provider  The security provider (e.g., "BC").
+     * @param keySize   The size of the key in bits.
+     * @return The generated SecretKey.
+     */
     public SecretKey buildKey(String algorithm, String provider, int keySize){
         Security.addProvider(new BouncyCastleProvider());
         return new KeyBuilder().
@@ -235,14 +302,27 @@ public class EncryptionService {
                 .build();
     }
 
+    /**
+     * Generates a cryptographic key.
+     *
+     * @param algorithm The algorithm for the key (e.g., "AES").
+     * @param keyByte  byte array of an existing key
+     * @return The generated SecretKey.
+     */
     public SecretKey buildKey(byte[] keyByte, String algorithm){
         return new KeyBuilder().setKey(keyByte).setAlgorithm(algorithm).build();
     }
 
+    /**
+     * Generates a Scrypt-based key from metadata.
+     *
+     * @param metadata The encryption metadata.
+     * @return The generated key as a byte array.
+     */
     public byte[] buildScryptKey(EncryptionMetadata metadata){
         try {
         byte[] salt = metadata.getSalt() == null ? generateSalt(Integer.parseInt(metadata.getKeySize())/8, metadata) : Hex.decode(metadata.getSalt());
-        int n = 16384;
+        int n = 65536;
         int r = 8;
         int p = 1;
         SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(Const.SCRYPT.getConst(), Const.BC.getConst());
@@ -261,6 +341,12 @@ public class EncryptionService {
         }
     }
 
+    /**
+     * Generates a PBE (Password-Based Encryption) key using metadata.
+     *
+     * @param metadata The encryption metadata.
+     * @return The generated SecretKey.
+     */
     public SecretKey buildPBEKey(EncryptionMetadata metadata)  {
         try {
             int iterations = 20000;
@@ -276,6 +362,13 @@ public class EncryptionService {
         }
     }
 
+    /**
+     * Generates a cryptographic salt.
+     *
+     * @param length   The length of the salt.
+     * @param metadata The encryption metadata.
+     * @return The generated salt as a byte array.
+     */
     private byte[] generateSalt(int length, EncryptionMetadata metadata) {
         byte[] salt = new byte[length];
         SecureRandom random = new SecureRandom();

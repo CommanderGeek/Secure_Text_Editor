@@ -1,16 +1,42 @@
 package DTOs;
 
+
+/**
+ * @author Elias Harb
+ * @version 1.0
+ * The {@code EncryptionMetadata} class stores metadata for encryption and decryption operations.
+ * <p>
+ * This metadata includes:
+ * <ul>
+ *   <li>Encryption algorithm, mode, and padding scheme</li>
+ *   <li>Key size, initialization vector (IV), and cryptographic keys</li>
+ *   <li>Integrity and authentication parameters such as MAC and digital signatures</li>
+ *   <li>Optional password-based encryption (PBE) attributes</li>
+ *   <li>Public and private keys for asymmetric encryption</li>
+ * </ul>
+ * </p>
+ *
+ * <p><b>Example Usage:</b></p>
+ * <pre>
+ *     EncryptionMetadata metadata = new EncryptionMetadata.Builder()
+ *         .setAlgorithm("AES")
+ *         .setMode("CBC")
+ *         .setPadding("PKCS7Padding")
+ *         .setKeySize("256")
+ *         .build();
+ * </pre>
+ */
 public class EncryptionMetadata {
 
-    private String fileId;
-    private String algorithm;
-    private String mode;
-    private String padding;
-    private String keySize;
+    private String fileId; //fileId is important for storage
+    private String algorithm;//Algorithm for encryption
+    private String mode;//block mode for encryption
+    private String padding;//padding for encryption
+    private String keySize;//key size for the key
     private String key;  // Hex encoded key
     private String iv;   // Hex encoded IV
-    private String integrityAlgorithm;
-    private String hashValue;
+    private String integrityAlgorithm;//Integrity algorithm like DSAWithSha256
+    private String hashValue;//HashValue
     private String macKey;
     private String tagLen;
 
@@ -21,9 +47,14 @@ public class EncryptionMetadata {
     private String publicKey;
     private String privateKey;
 
-    private String keyStorePassword;
+    private String keyStorePassword;//password for the stored AES key
 
     public EncryptionMetadata(){}
+    /**
+     * Constructs an {@code EncryptionMetadata} object using a builder pattern.
+     *
+     * @param builder The builder containing metadata values.
+     */
     public EncryptionMetadata(Builder builder){
         fileId = builder.fileId;
         algorithm = builder.algorithm;
@@ -365,7 +396,11 @@ public class EncryptionMetadata {
             return this;
         }
 
-        // Build method to create EncryptionMetadata object
+        /**
+         * Builds an {@code EncryptionMetadata} instance with the configured parameters.
+         *
+         * @return A new {@link EncryptionMetadata} instance.
+         */
         public EncryptionMetadata build() {
             return new EncryptionMetadata(this);
         }

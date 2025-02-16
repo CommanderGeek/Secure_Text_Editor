@@ -9,6 +9,27 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.Security;
 
+/**
+ * @author Elias Harb
+ * @version 1.0
+ *
+ * The {@code CipherBuilder} class provides a builder pattern for constructing a
+ * {@link Cipher} instance with a specified encryption algorithm, mode, and padding scheme.
+ * It ensures that the Bouncy Castle provider is used for cryptographic operations.
+ * <p>
+ * Example usage:
+ * <pre>
+ *     Cipher cipher = new CipherBuilder()
+ *             .setAlgorithm("AES")
+ *             .setMode("CBC")
+ *             .setPadding("PKCS5Padding")
+ *             .build();
+ * </pre>
+ * </p>
+ *
+ *
+ */
+
 public class CipherBuilder {
 
     private String algo;
@@ -30,6 +51,17 @@ public class CipherBuilder {
         return this;
     }
 
+
+    /**
+     * Builds and returns a {@link Cipher} instance configured with the specified
+     * algorithm, mode, and padding scheme.
+     * <p>
+     * The method adds the Bouncy Castle security provider before creating the cipher.
+     * If any of the required parameters (algorithm, mode, or padding) are missing, it returns {@code null}.
+     * </p>
+     *
+     * @return A configured {@link Cipher} instance, or {@code null} if an error occurs.
+     */
     public Cipher build() {
         try {
             if (algo != null && mode != null && padding != null) {
@@ -53,6 +85,16 @@ public class CipherBuilder {
         return null;
     }
 
+    /**
+     * Builds and returns a {@link Cipher} instance with the specified algorithm
+     * using the default Bouncy Castle provider.
+     * <p>
+     * This method is useful when only the algorithm is known, like in ChaCha20 case.
+     * </p>
+     *
+     * @param algo The encryption algorithm (e.g., "AES").
+     * @return A configured {@link Cipher} instance, or {@code null} if an error occurs.
+     */
     public Cipher build(String algo){
         try {
             if (algo != null) {

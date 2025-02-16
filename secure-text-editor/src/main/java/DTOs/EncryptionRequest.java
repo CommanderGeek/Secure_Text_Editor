@@ -1,15 +1,44 @@
 package DTOs;
 
+/**
+ * @author Elias Harb
+ * @version 1.0
+ * The {@code EncryptionRequest} class is a Data Transfer Object (DTO)
+ * used for handling encryption requests.
+ * <p>
+ * This DTO contains:
+ * <ul>
+ *   <li>The plaintext message that needs to be encrypted</li>
+ *   <li>The encryption type (e.g., AES, ChaCha20, PBE)</li>
+ *   <li>Encryption parameters such as key size, padding, and block mode</li>
+ *   <li>Optional cryptographic key, MAC, password, and digital signature settings</li>
+ * </ul>
+ * </p>
+ *
+ * <p><b>Example Usage:</b></p>
+ * <pre>
+ *     EncryptionRequest request = new EncryptionRequest();
+ *     request.setText("Hello, World!");
+ *     request.setEncryptionType("AES");
+ *     request.setKeySize("256");
+ *     request.setPadding("PKCS7Padding");
+ *     request.setBlockMode("CBC");
+ *     request.setMac("HMACSHA256");
+ *     request.setPassword("securePassword123");
+ * </pre>
+ *
+ */
+
 public class EncryptionRequest {
-    private String text;
-    private String encryptionType;
+    private String text;//plaintext
+    private String encryptionType;//type of encryption like AES, ChaCha etc.
     private String keySize;
     private String padding;
     private String blockMode;
-    private String key;
+    private String key;//pre-generated key
 
     private String mac;
-    private String password;
+    private String password; //for pbe
 
     private String signatureType;
 // Getters and Setters

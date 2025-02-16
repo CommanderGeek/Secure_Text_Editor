@@ -16,11 +16,57 @@ import services.EncryptionService;
 import javax.crypto.SecretKey;
 import java.security.Security;
 
+
+/**
+ * @author Elias Harb
+ * @version 1.0
+ * The {@code Encryption} class provides RESTful APIs for encrypting plaintext
+ * and generating encryption keys.
+ * <p>
+ * This class supports:
+ * <ul>
+ *   <li>Encryption of plaintext using various encryption algorithms</li>
+ *   <li>Support for multiple padding schemes, block modes, and hashing mechanisms</li>
+ *   <li>Generation of encryption keys based on specified parameters</li>
+ * </ul>
+ * </p>
+ *
+ * <p><b>Example Usage:</b></p>
+ * <pre>
+ *     POST /api/encrypt
+ *     Body: {
+ *         "text": "Hello, World!",
+ *         "encryptionType": "AES",
+ *         "keySize": "256",
+ *         "padding": "PKCS7Padding",
+ *         "blockMode": "CBC",
+ *         "password": "mypassword",
+ *         "signatureType": "SHA256withDSA"
+ *     }
+ * </pre>
+ *
+ */
+
 @Path("/api")
 public class Encryption {
    private static final Logger logger = LoggerFactory.getLogger(Encryption.class);
 
    EncryptionService service = new EncryptionService();
+
+    /**
+     * Encrypts a given plaintext using the specified encryption parameters.
+     * <p>
+     * This method:
+     * <ul>
+     *   <li>Retrieves encryption parameters from the request</li>
+     *   <li>Configures metadata including padding, block mode, and hashing</li>
+     *   <li>Encrypts the text using the appropriate algorithm</li>
+     * </ul>
+     * </p>
+     *
+     * @param request The {@link EncryptionRequest} containing encryption parameters and plaintext.
+     * @return The encrypted text in hexadecimal format.
+     */
 
  @POST
  @Path("/encrypt")
@@ -31,6 +77,7 @@ public class Encryption {
        logger.info("Received Text, ready to encrypt!");
         String plainText = request.getText();
         String encryptionType = request.getEncryptionType();
+        //getting the information for metadata with substrings and splits
         String keySize = request.getKeySize().substring(0,3);
         String padding = request.getPadding().split("_")[0];
         String blockMode = request.getBlockMode().split("_")[0];
@@ -55,6 +102,22 @@ public class Encryption {
         }
         return AlgorithmHandlerFactory.getHandler(request.getEncryptionType()).encrypt(plainText2Bytes,metadata, data);
     }
+
+    /**
+     * Generates an encryption key based on the specified algorithm and key size.
+     * <p>
+     * This method:
+     * <ul>
+     *   <li>Extracts encryption type and key size from the request</li>
+     *   <li>Uses the encryption service to generate a cryptographic key</li>
+     *   <li>Returns the generated key in hexadecimal format</li>
+     * </ul>
+     * </p>
+     *
+     * @param request The {@link EncryptionRequest} containing encryption type and key size.
+     * @return The generated encryption key as a hexadecimal string.
+     */
+
     @POST
     @Path("/generate-key")
     @Produces(MediaType.TEXT_PLAIN)

@@ -33,27 +33,22 @@ class AESAlgorithmHandlerTest {
 
     @Test
     void testEncryptAndDecrypt_ValidAES() {
-        // **Test Data**
         String originalText = "Sensitive data for AES encryption";
 
-        // **Metadata Configuration**
         EncryptionMetadata metadata = new EncryptionMetadata();
         metadata.setAlgorithm("AES");
         metadata.setMode("CBC");
         metadata.setPadding("PKCS7Padding");
         metadata.setKeySize("128");
 
-        // **Generate AES Key**
         SecretKey key = new KeyBuilder()
                 .setAlgorithm("AES")
                 .setKeySize(128)
                 .build();
         metadata.setKey(Hex.toHexString(key.getEncoded()));
 
-        // **Integrity Data**
         IntegrityData integrityData = new IntegrityData("", "", "AES");
 
-        // **Encrypt Data**
         String encryptedFileString = handler.encrypt(originalText.getBytes(), metadata, integrityData);
         String[] parts = encryptedFileString.split("\\.");// Split on the first dot
         String encryptedText = parts[1];
@@ -71,17 +66,14 @@ class AESAlgorithmHandlerTest {
 
     @Test
     void testEncryptWithMissingKey() {
-        // **Test Data**
         String originalText = "This is a test message without a key";
 
-        // **Metadata without a key**
         EncryptionMetadata metadata = new EncryptionMetadata();
         metadata.setAlgorithm("AES");
         metadata.setMode("CBC");
         metadata.setPadding("PKCS7Padding");
         metadata.setKeySize("128");
 
-        // **Integrity Data**
         IntegrityData integrityData = new IntegrityData("", "", "AES");
 
         String encryptedFileString = handler.encrypt(originalText.getBytes(), metadata, integrityData);
@@ -94,7 +86,6 @@ class AESAlgorithmHandlerTest {
 
     @Test
     void testDecryptWithInvalidCiphertext() {
-        // **Metadata Configuration**
 
         String originalText = "This is a test message without a key";
 
@@ -111,11 +102,7 @@ class AESAlgorithmHandlerTest {
                 .build();
         metadata.setKey(Hex.toHexString(key.getEncoded()));
 
-        // **Invalid Cipher Text**
-        String invalidCipherText = "invalidcipherdata";
-        // **Integrity Data**
         IntegrityData integrityData = new IntegrityData("", "", "AES");
-        // **Encrypt Data**
         String encryptedFileString = handler.encrypt(originalText.getBytes(), metadata, integrityData);
         String[] parts = encryptedFileString.split("\\.");// Split on the first dot
         String encryptedText = parts[1];
@@ -124,7 +111,6 @@ class AESAlgorithmHandlerTest {
 
         encryptedText = Hex.toHexString("invalidcipherdata".getBytes());
 
-        // **Decrypt Data**
         String finalEncryptedText = encryptedText;
         Exception exception = assertThrows(Exception.class, () -> handler.decrypt(finalEncryptedText, metadata));
         String consoleOutput = outContent.toString();

@@ -241,9 +241,11 @@ export class AppComponent {
     a.href = url;
     if (this.fileName === ''){
       this.fileName  = 'encrypted-text.txt';
-    }else if(!this.fileName.indexOf(".txt")){
-      this.fileName += ".txt";
     }
+    if(!this.fileName.includes(".txt")){
+      this.fileName += '.txt';
+    }
+
     a.download = this.fileName; // Name of the saved file
     a.click();
 
