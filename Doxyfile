@@ -1,0 +1,15 @@
+# Doxyfile - Doxygen Konfigurationsdatei für Java-Projekte
+
+PROJECT_NAME           = "Secure Text Editor"
+PROJECT_NUMBER         = "1.0"
+OUTPUT_DIRECTORY       = "docs"
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+GENERATE_XML           = YES
+INPUT                  = src/main/java
+RECURSIVE              = YES
+EXTRACT_ALL            = YES
+JAVADOC_AUTOBRIEF      = YES
+QUIET                  = NO
+WARNINGS               = YES
+WARN_IF_UNDOCUMENTED   = NO

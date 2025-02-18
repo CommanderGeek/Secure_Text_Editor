@@ -3,8 +3,6 @@ package Builder;
 import Enums.Const;
 
 import java.security.*;
-import java.security.spec.DSAParameterSpec;
-import java.security.spec.InvalidParameterSpecException;
 
 /**
  * @author Elias Harb
@@ -23,8 +21,8 @@ import java.security.spec.InvalidParameterSpecException;
  * <p><b>Example usage:</b></p>
  * <pre>
  *     KeyPair keyPair = new KeyPairBuilder()
- *             .setAlgorithm("RSA")
- *             .setKeySize(4096)
+ *             .setAlgorithm("DSA")
+ *             .setKeySize(3072)
  *             .build();
  * </pre>
  *
@@ -71,13 +69,12 @@ public class KeyPairBuilder {
      * @return A {@link KeyPair} instance.
      * @throws RuntimeException If the algorithm or provider is not available.
      */
-    public KeyPair build()  {
-        KeyPairGenerator keyPair = null;
+    public KeyPair build() {
         try {
-            keyPair = KeyPairGenerator.getInstance(algorithm, Const.BC.getConst());
+            KeyPairGenerator keyPair = KeyPairGenerator.getInstance(algorithm, new org.bouncycastle.jce.provider.BouncyCastleProvider());
             keyPair.initialize(keySize);
             return keyPair.generateKeyPair();
-        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
+        } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
     }

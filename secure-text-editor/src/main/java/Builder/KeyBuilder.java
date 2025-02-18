@@ -1,7 +1,6 @@
 package Builder;
 
 import Enums.Const;
-import org.bouncycastle.util.encoders.Hex;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;

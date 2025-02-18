@@ -1,19 +1,12 @@
 package Handler;
 
-import Builder.KeyBuilder;
 import DTOs.EncryptionMetadata;
 import DTOs.IntegrityData;
 import Enums.Const;
-import org.bouncycastle.util.encoders.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
-import java.util.Arrays;
-import java.util.Objects;
-
 /**
  * @author Elias Harb
  * @version 1.0

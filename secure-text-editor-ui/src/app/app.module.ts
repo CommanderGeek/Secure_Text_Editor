@@ -8,20 +8,17 @@ import { SecureTextEditorComponent } from './secure-text-editor/secure-text-edit
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 
-
 @NgModule({
-  declarations: [
-  ],
   imports: [
     BrowserModule,
     FormsModule,
     CommonModule,
-    AppRoutingModule,
-    SecureTextEditorComponent,
-    provideAnimations,
-    provideToastr
+    AppRoutingModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    provideAnimations(),
+    provideToastr()
+  ]
 })
 export class AppModule { }
+
