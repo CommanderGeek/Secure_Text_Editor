@@ -19,6 +19,7 @@ import java.security.spec.X509EncodedKeySpec;
  */
 
 public class IntegrityService {
+    //logging the progressing
     private static final Logger logger = LoggerFactory.getLogger(IntegrityService.class);
 
 

@@ -30,8 +30,9 @@ import java.util.UUID;
  */
 public class EncryptionService {
 
-
+    //converter of json string to text
     private static final EncryptionMetaDataConverter converter = new EncryptionMetaDataConverter();
+    //logger for logging progress
     private static final Logger logger = LoggerFactory.getLogger(EncryptionService.class);
 
     /**

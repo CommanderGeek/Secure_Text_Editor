@@ -32,8 +32,11 @@ import java.security.Security;
 
 public class CipherBuilder {
 
+    //storing the algorithm
     private String algo;
+    //storing the block mode
     private String mode;
+    //storing the padding
     private String padding;
 
     public CipherBuilder setAlgorithm(String algo) {

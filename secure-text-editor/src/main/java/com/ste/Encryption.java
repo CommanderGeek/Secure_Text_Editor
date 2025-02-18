@@ -48,6 +48,9 @@ import java.security.Security;
 public class Encryption {
    private static final Logger logger = LoggerFactory.getLogger(Encryption.class);
 
+
+
+   //service is used here for building keys
    EncryptionService service = new EncryptionService();
 
     /**
@@ -75,7 +78,7 @@ public class Encryption {
         String plainText = request.getText();
         String encryptionType = request.getEncryptionType();
         //getting the information for metadata with substrings and splits
-        String keySize = request.getKeySize().substring(0,3);
+        String keySize = request.getKeySize().substring(0,3); //getting keySize from request
         String padding = request.getPadding().split("_")[0];
         String blockMode = request.getBlockMode().split("_")[0];
         String mac = request.getMac().split("_")[0];
@@ -95,7 +98,7 @@ public class Encryption {
             metadata.setKey(request.getKey());
         }
         //if integrity data is used, store data in this data structure
-     IntegrityData data = new IntegrityData(mac, signature, encryptionType);
+     IntegrityData data = new IntegrityData(mac, signature);
         if(!password.isEmpty()){
             metadata.setPassword(password);
         }

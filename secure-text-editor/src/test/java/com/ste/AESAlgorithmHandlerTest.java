@@ -46,7 +46,7 @@ class AESAlgorithmHandlerTest {
                 .build();
         metadata.setKey(Hex.toHexString(key.getEncoded()));
 
-        IntegrityData integrityData = new IntegrityData("", "", "AES");
+        IntegrityData integrityData = new IntegrityData("", "");
 
         String encryptedFileString = handler.encrypt(originalText.getBytes(), metadata, integrityData);
         String[] parts = encryptedFileString.split("\\.");// Split on the first dot
@@ -73,7 +73,7 @@ class AESAlgorithmHandlerTest {
         metadata.setPadding("PKCS7Padding");
         metadata.setKeySize("128");
 
-        IntegrityData integrityData = new IntegrityData("", "", "AES");
+        IntegrityData integrityData = new IntegrityData("", "");
 
         String encryptedFileString = handler.encrypt(originalText.getBytes(), metadata, integrityData);
         String[] parts = encryptedFileString.split("\\.");// Split on the first dot
@@ -101,7 +101,7 @@ class AESAlgorithmHandlerTest {
                 .build();
         metadata.setKey(Hex.toHexString(key.getEncoded()));
 
-        IntegrityData integrityData = new IntegrityData("", "", "AES");
+        IntegrityData integrityData = new IntegrityData("", "");
         String encryptedFileString = handler.encrypt(originalText.getBytes(), metadata, integrityData);
         String[] parts = encryptedFileString.split("\\.");// Split on the first dot
         String encryptedText = parts[1];

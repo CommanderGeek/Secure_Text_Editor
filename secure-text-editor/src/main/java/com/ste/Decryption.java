@@ -54,8 +54,12 @@ import java.security.Security;
 @Path("/api/decrypt")
 public class Decryption {
 
+
+    //for logging the method calls and progress
     private static final Logger logger =  LoggerFactory.getLogger(Decryption.class);
+    //converter for getting the metadata from drive
     private static final EncryptionMetaDataConverter converter = new EncryptionMetaDataConverter();
+    //service for building the PBE keys
     private static final EncryptionService service = new EncryptionService();
 
     /**
@@ -89,10 +93,11 @@ public class Decryption {
             cipherText = "";
         }
 
-        // Retrieve metadata
+        // Retrieve metadata by looking it up in the converter
         EncryptionMetadata metadata = converter.lookUpMetaData(fileID);
 
         if (metadata == null) {
+            //if metadata was not found, then respond with 404
             return Response.status(Response.Status.NOT_FOUND)
                     .entity("No metadata found for the given file ID")
                     .build();
@@ -101,6 +106,7 @@ public class Decryption {
         metadata.setKey(ks.retrieveKey(metadata));
 
         if (metadata.getKey().isEmpty()) {
+            //if key was not found, respond with 404 as well
             return Response.status(Response.Status.NOT_FOUND)
                     .entity("No key found for the given file ID")
                     .build();
@@ -140,7 +146,7 @@ public class Decryption {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response decryptPBE(DecryptPBERequest request) {
         logger.info("Received PBE decryption request");
-
+        //if password or text is missing, the Response with 403 should be thrown
         if (request.getPassword() == null || request.getText() == null) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Missing password or text")
@@ -182,7 +188,7 @@ public class Decryption {
                     .entity("WRONG PASSWORD!")
                     .build();
         }
-        // Perform decryption
+        // Perform decryption with a selected Algorithm by the AlgorithmHandlerFactory
         String decryptedText = AlgorithmHandlerFactory.getHandler(metadata.getAlgorithm()).decrypt(cipherText, metadata);
         return Response.ok(decryptedText).build();
     }

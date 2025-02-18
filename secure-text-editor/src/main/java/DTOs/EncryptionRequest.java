@@ -32,15 +32,15 @@ package DTOs;
 public class EncryptionRequest {
     private String text;//plaintext
     private String encryptionType;//type of encryption like AES, ChaCha etc.
-    private String keySize;
-    private String padding;
-    private String blockMode;
+    private String keySize;//received keySize
+    private String padding;//received padding from request
+    private String blockMode;//received block mode
     private String key;//pre-generated key
 
-    private String mac;
+    private String mac;//requested mac
     private String password; //for pbe
 
-    private String signatureType;
+    private String signatureType;//requested signature
 // Getters and Setters
 
     public String getText() {

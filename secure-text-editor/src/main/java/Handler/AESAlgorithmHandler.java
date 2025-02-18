@@ -43,8 +43,6 @@ import javax.crypto.Cipher;
 
 public class AESAlgorithmHandler implements CryptoAlgorithmHandler{
 
-    private static final Logger logger = LoggerFactory.getLogger(AESAlgorithmHandler.class);
-
     /**
      * Encrypts the provided plaintext using AES encryption.
      * <p>
@@ -64,7 +62,6 @@ public class AESAlgorithmHandler implements CryptoAlgorithmHandler{
 
     @Override
     public String encrypt(byte[] plainText, EncryptionMetadata metadata, IntegrityData data) {
-
         Cipher c = service.buildCipher(Const.AES.getConst(), metadata.getMode(), metadata.getPadding());
         return service.encryptAndStore(Const.AES.getConst(), c, plainText, metadata, data);
     }

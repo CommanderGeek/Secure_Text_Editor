@@ -39,7 +39,7 @@ import java.security.NoSuchProviderException;
  */
 
 public class HMACSHA256Handler implements IntegrityHandler {
-
+    //service for providing encryption services
     private final EncryptionService service = new EncryptionService();
 
     /**

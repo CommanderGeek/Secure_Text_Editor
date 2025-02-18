@@ -38,7 +38,7 @@ export class AppComponent {
   title = 'secure-text-editor-ui';
   fileContent: string = '';  // This holds the text from the uploaded file
   encryptedContent: string = ''; // Holds the encrypted content
-  selectedKeySize: string = '';
+  selectedKeySize: string = "256_SYM"; // Default selection
   selectedPasswordAlgorithm: string = '';
   selectedChaCha20Algorithm:string = '';
   selectedEncryptionType: string = '';
@@ -331,14 +331,24 @@ export class AppComponent {
 
 
   onEncryptionTypeChange(): void {
-    if (this.selectedEncryptionType === 'ChaCha20_SYM') {
-      this.selectedKeySize = '256';
-      this.clearAllFields();
-    }else{
-      this.selectedKeySize = '256';
-      this.clearAllFields();
-      this.selectedKeySize = '';
-      this.clearKey();
+    switch (this.selectedEncryptionType) {
+      case 'AES_SYM':
+      case 'AES_AEM':
+      case 'ChaCha20_SYM':
+        this.selectedKeySize = "256_SYM";
+        break;
+      case 'AES_PAS':
+        this.selectedBlockMode = 'GCM_PAS';
+        this.selectedKeySize = "256_PAS";
+        break;
+      case 'ChaCha20_PAS':
+        this.selectedKeySize = "256_PAS";
+        break;
+      case 'PBE_PAS':
+        this.selectedKeySize = "128";
+        break;
+      default:
+        this.selectedKeySize = "";
     }
   }
 
@@ -351,6 +361,9 @@ export class AppComponent {
     if (this.enableMAC) {
       this.enableSignature = false; // Disable signature if MAC is enabled
       this.selectedSignature = '';  // Clear signature selection
+    }
+    if(!this.enableMAC){
+      this.selectedMAC = '';
     }
   }
 
@@ -381,7 +394,9 @@ export class AppComponent {
   onSignatureEnableChange(): void {
     if (this.enableSignature) {
       this.enableMAC = false; // Disable MAC if Signature is enabled
-      this.selectedMAC = '';  // Clear MAC selection
+      this.selectedMAC = '';  // Reset MAC selection
+    } if(!this.enableSignature){
+      this.selectedSignature = '';
     }
   }
 
