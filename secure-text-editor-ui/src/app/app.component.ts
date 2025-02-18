@@ -81,12 +81,11 @@ export class AppComponent {
             next: (decryptedText) => {
               this.toastr.success('Decryption successful');
               this.fileContent = decryptedText; // Update editor with decrypted text
-              console.log(fileContent.length);
               console.log('The file was successfully decrypted: '+ new Date());            },
-            error: (err) => {
-              console.error('Decryption failed:', err);
-              this.toastr.error('Decryption failed', 'Decryption Failure');
-            }
+          error: (err) => {
+            console.error('Decryption failed:', err.message);
+            this.toastr.error(err.message, 'Decryption Failure');
+          }
           });
         }
         else if(isPBE){
@@ -104,7 +103,7 @@ export class AppComponent {
               },
               error: (err) => {
                 console.error('Decryption failed:', err);
-                this.toastr.error('Decryption failed', 'Decryption Failure');
+                this.toastr.error('Verification failed!', err.toString());
               }
             }
           );
@@ -336,6 +335,7 @@ export class AppComponent {
       this.selectedKeySize = '256';
       this.clearAllFields();
     }else{
+      this.selectedKeySize = '256';
       this.clearAllFields();
       this.selectedKeySize = '';
       this.clearKey();
@@ -408,8 +408,8 @@ export class AppComponent {
             console.log('Decrypted Content:', decryptedText);
           },
           error: (err) => {
-            console.error('Decryption failed:', err);
-            this.toastr.error('Decryption failed', 'Error');
+            console.error('Decryption failed:', err.message);
+            this.toastr.error(err.message, 'Error');
           }
         });
       }

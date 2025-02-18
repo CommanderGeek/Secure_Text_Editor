@@ -4,7 +4,6 @@ package com.ste;
 import Builder.KeyBuilder;
 import DTOs.EncryptionMetadata;
 import DTOs.IntegrityData;
-import Enums.Const;
 import Handler.AEMAlgorithmHandler;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Hex;
@@ -22,15 +21,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class AEMAlgorithmHandlerTest {
 
     private AEMAlgorithmHandler handler;
-    private EncryptionService encryptionService;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
 
     @BeforeEach
     void setUp() {
         Security.addProvider(new BouncyCastleProvider());
         handler = new AEMAlgorithmHandler();
-        encryptionService = new EncryptionService();
         System.setOut(new PrintStream(outContent));
     }
 

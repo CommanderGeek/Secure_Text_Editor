@@ -221,7 +221,7 @@
       <!-- Show MAC selection only if MAC is enabled -->
       <div *ngIf="enableMAC">
         <mat-form-field>
-          <mat-label>MAC Method</mat-label>
+          <mat-label>MAC/SHA Method</mat-label>
           <mat-select [(ngModel)]="selectedMAC" name="MAC" required>
             <mat-option value="SHA-256_MAC">SHA-256</mat-option>
             <mat-option value="AESCMAC_MAC">AESCMAC</mat-option>

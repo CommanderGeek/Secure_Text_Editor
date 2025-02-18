@@ -10,16 +10,16 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import services.EncryptionMetaDataConverter;
 import services.EncryptionService;
-import services.KeyStoreService;
-
 import javax.crypto.SecretKey;
 import java.security.Security;
+import java.util.UUID;
 
 /**
  * @author Elias Harb
@@ -75,13 +75,12 @@ public class Integrity {
     @Path("/protect")
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_JSON)
-    public String encryptText(EncryptionRequest request) {
+    public String secureText(EncryptionRequest request) {
         Security.addProvider(new BouncyCastleProvider());
         logger.info("Received Text, ready to encrypt!");
         String plainText = request.getText();
         String mac = request.getMac().split("_")[0];
         String signature = request.getSignatureType();
-        byte[] plainText2Bytes = plainText.getBytes();
         IntegrityData data = new IntegrityData(mac, signature);
         EncryptionMetadata metadata = new EncryptionMetadata.Builder()//
                 .setHash(mac)
@@ -93,12 +92,19 @@ public class Integrity {
             SecretKey macKey  = service.buildKey(Const.AES.getConst(), Const.BC.getConst(), 256);
             metadata.setMacKey(Hex.toHexString(macKey.getEncoded()));
         }
+        String id = UUID.randomUUID().toString();
+       metadata.setFileId(id);
+        String output = id+"."+plainText;
         String computed = IntegrityHandlerFactory.
                 getHandler(!data.getMac().isEmpty() ? data.getMac() : data.getSignature())
-                .compute(plainText2Bytes, metadata);
-        metadata.setHashValue(computed);
-        String id = service.serializeMetadata(metadata);
-        return "PT"+":"+id+"."+plainText;
+                .compute(output.getBytes(), metadata);
+        if(!data.getMac().isEmpty()){
+            metadata.setHashValue(computed);
+        }else{
+            metadata.setSignature(computed);
+        }
+        service.serializeMetadata(metadata);
+        return "PT"+":"+output;
     }
 
     /**
@@ -117,26 +123,41 @@ public class Integrity {
      */
     @Path("/verify")
     @POST
-    public String verify(String encryptedTextWithId) {
+    @Produces(MediaType.TEXT_PLAIN)
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response verify(String encryptedTextWithId) {
         Security.addProvider(new BouncyCastleProvider());
-        KeyStoreService ks = new KeyStoreService();
         logger.info("Received the encrypted text");
 
-        String[] parts = encryptedTextWithId.split("\\.");// Split on the first dot
-        String fileID = parts[0];
+        int dotIndex = encryptedTextWithId.indexOf(".");
+        String fileID;
         String text;
-        if(parts.length > 1) {
-            text = parts[1];
-        }else{
-            text = "";
+
+        if (dotIndex == -1) {
+            // No dot found, handle error or default behavior
+            fileID = "-1";
+            text = ""; // No ciphertext available
+        } else {
+            fileID = encryptedTextWithId.substring(0, dotIndex); // Extract file ID
+            text = encryptedTextWithId.substring(dotIndex + 1); // Extract rest as text, preserving spaces
         }
         EncryptionMetadata metadata = converter.lookUpMetaData(fileID);
 
+        if (metadata == null) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("No metadata found for the given file ID")
+                    .build();
+        }
+
         // Verify message integrity if a hash is provided
-        if (isMessageCompromised(text, metadata)) {
-            return "MESSAGE COMPROMISED!";
+        if (isMessageCompromised(encryptedTextWithId, metadata)) {
+            logger.warn("Message verification failed: Message has been compromised.");
+            return Response.status(Response.Status.FORBIDDEN)
+                    .entity("MESSAGE COMPROMISED!")
+                    .build();
         } else {
-            return  text;
+            logger.info("Verification successful. Returning the original message.");
+            return Response.ok(text).build();
         }
     }
 

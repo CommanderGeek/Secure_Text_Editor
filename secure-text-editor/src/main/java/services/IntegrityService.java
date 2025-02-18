@@ -2,13 +2,10 @@ package services;
 
 import DTOs.EncryptionMetadata;
 import Enums.Const;
-import com.ste.Encryption;
 import org.bouncycastle.util.encoders.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.security.*;
-import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 
 
@@ -23,24 +20,26 @@ import java.security.spec.X509EncodedKeySpec;
 
 public class IntegrityService {
     private static final Logger logger = LoggerFactory.getLogger(IntegrityService.class);
-    public byte[] sign(EncryptionMetadata metadata, byte[] plaintext, KeyPair kp){
 
-        /**
-         * Signs the given plaintext using the provided key pair and stores metadata.
-         *
-         * <p> The signing process involves:
-         * <ol>
-         *     <li>Initializing a SHA256withDSA signature.</li>
-         *     <li>Signing the provided plaintext using the private key.</li>
-         *     <li>Storing the public/private key and algorithm in metadata.</li>
-         * </ol>
-         *
-         * @param metadata  The encryption metadata where signature-related information is stored.
-         * @param plaintext The byte array of the plaintext data to be signed.
-         * @param kp        The key pair used for signing (DSA private key required).
-         * @return The generated digital signature as a byte array.
-         * @throws RuntimeException If an error occurs during the signing process.
-         */
+
+    /**
+     * Signs the given plaintext using the provided key pair and stores metadata.
+     *
+     * <p> The signing process involves:
+     * <ol>
+     *     <li>Initializing a SHA256withDSA signature.</li>
+     *     <li>Signing the provided plaintext using the private key.</li>
+     *     <li>Storing the public/private key and algorithm in metadata.</li>
+     * </ol>
+     *
+     * @param metadata  The encryption metadata where signature-related information is stored.
+     * @param plaintext The byte array of the plaintext data to be signed.
+     * @param kp        The key pair used for signing (DSA private key required).
+     * @return The generated digital signature as a byte array.
+     * @throws RuntimeException If an error occurs during the signing process.
+     */
+
+    public byte[] sign(EncryptionMetadata metadata, byte[] plaintext, KeyPair kp){
 
         try {
             Signature signature = Signature.getInstance(Const.SHA256withDSA.getConst(), Const.BC.getConst());
@@ -79,14 +78,14 @@ public class IntegrityService {
         try {
             // Convert the stored public key from Hex to PublicKey object
             PublicKey key = KeyFactory.getInstance(Const.DSA.getConst())
-                    .generatePublic(new X509EncodedKeySpec(Hex.decode(metadata.getPublicKey())));
+                    .generatePublic(new X509EncodedKeySpec(Hex.decode(metadata.getPublicKey()), Const.DSA.getConst()));
 
             Signature signature = Signature.getInstance(Const.SHA256withDSA.getConst(), Const.BC.getConst());
             signature.initVerify(key);
 
             signature.update(signedData);
-            // Verify the signature against the stored hash value metadata
-            return signature.verify(Hex.decode(metadata.getHashValue()));
+            // Verify the signature against the stored enc value metadata
+            return signature.verify(Hex.decode(metadata.getSignature()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

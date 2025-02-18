@@ -15,7 +15,6 @@ import java.nio.file.Paths;
 import java.security.*;
 import java.security.cert.CertificateException;
 import java.util.Arrays;
-import java.util.Iterator;
 
 /**
  * @author Elias Harb
@@ -70,6 +69,7 @@ public class KeyStoreService {
             SecretKey secretKey = new KeyBuilder().setKey(key).setAlgorithm(metadata.getAlgorithm()).build();
 
             SecureRandom random = SecureRandom.getInstance(Const.DEFAULT.getConst(), Const.BC.getConst());
+            //creating a random password with secure random
             byte[] password = new byte[32];
             random.nextBytes(password);
 

@@ -1,7 +1,6 @@
 package com.ste;
 
 import DTOs.DecryptPBERequest;
-import Enums.Const;
 import Factory.AlgorithmHandlerFactory;
 import Factory.IntegrityHandlerFactory;
 import Handler.SHA256Handler;
@@ -9,6 +8,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import DTOs.EncryptionMetadata;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -73,10 +73,12 @@ public class Decryption {
      * @return The decrypted text, or an error message if integrity verification fails.
      */
     @POST
-    public String decryptText(String encryptedTextWithId) {
+    @Produces(MediaType.TEXT_PLAIN)
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response decryptText(String encryptedTextWithId) {
         Security.addProvider(new BouncyCastleProvider());
         KeyStoreService ks = new KeyStoreService();
-        logger.info("Received the encrypted text");
+        logger.info("Received encrypted text for decryption");
 
         String[] parts = encryptedTextWithId.split("\\.");// Split on the first dot
         String fileID = parts[0];
@@ -86,15 +88,35 @@ public class Decryption {
         }else{
             cipherText = "";
         }
+
+        // Retrieve metadata
         EncryptionMetadata metadata = converter.lookUpMetaData(fileID);
+
+        if (metadata == null) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("No metadata found for the given file ID")
+                    .build();
+        }
+
         metadata.setKey(ks.retrieveKey(metadata));
 
-        // Verify message integrity if a hash is provided
-        if (isMessageCompromised(cipherText, metadata)) {
-            return "MESSAGE COMPROMISED!";
+        if (metadata.getKey().isEmpty()) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("No key found for the given file ID")
+                    .build();
         }
-        // Decrypt the text
-        return decryptText(cipherText, metadata);
+
+        // Verify message integrity if a hash is provided
+        if (isMessageCompromised(encryptedTextWithId, metadata)) {
+            logger.warn("Message verification failed: Message has been compromised.");
+            return Response.status(Response.Status.FORBIDDEN)
+                    .entity("MESSAGE COMPROMISED!")
+                    .build();
+        }
+
+        // Perform decryption
+        String decryptedText = decryptText(cipherText, metadata);
+        return Response.ok(decryptedText).build();
     }
 
     /**
@@ -116,8 +138,14 @@ public class Decryption {
     @POST
     @Path("/pbe")
     @Consumes(MediaType.APPLICATION_JSON)
-    public String decryptPBE(DecryptPBERequest request) {
+    public Response decryptPBE(DecryptPBERequest request) {
         logger.info("Received PBE decryption request");
+
+        if (request.getPassword() == null || request.getText() == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Missing password or text")
+                    .build();
+        }
         String[] parts = request.getText().split("\\.");// Split on the first dot
         String fileID = parts[0];
         String cipherText;
@@ -126,33 +154,37 @@ public class Decryption {
         }else{
             cipherText = "";
         }
+
         EncryptionMetadata metadata = converter.lookUpMetaData(fileID);
+        if (metadata == null) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("No metadata found for the given file ID")
+                    .build();
+        }
+
         metadata.setPassword(request.getPassword());
-
-        if (request.getPassword() == null || request.getText() == null) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Missing password or text").toString();
+        // Derive key based on the encryption algorithm
+        if ("PBE_PAS".equals(metadata.getAlgorithm())) {
+            SecretKey derivedKey = service.buildPBEKey(metadata);
+            metadata.setKey(Hex.toHexString(derivedKey.getEncoded()));
+        } else {
+            metadata.setKey(Hex.toHexString(service.buildScryptKey(metadata)));
         }
-            if(metadata.getAlgorithm().equals("PBE_PAS")) {
-                SecretKey derivedKey = service.buildPBEKey(metadata);
-                metadata.setKey(Hex.toHexString(derivedKey.getEncoded()));
-            }else{
-                metadata.setKey(Hex.toHexString(service.buildScryptKey(metadata)));
-            }
-            // Verify message integrity if a hash is provided
-            if (isMessageCompromised(cipherText, metadata)) {
-                return "MESSAGE COMPROMISED!";
-            }
-
-            if(!new SHA256Handler().verify(metadata.getPassword().getBytes(), Hex.decode(metadata.getPasswordHash()))){
-                return "WRONG PASSWORD!";
-            }
-
-            // Decrypt the text
-        if (metadata.getAlgorithm() == null || metadata.getAlgorithm().isEmpty()) {
-            throw new IllegalArgumentException("Algorithm cannot be null or empty");
+        // Check for integrity compromise
+        if (isMessageCompromised(request.getText(), metadata)) {
+            return Response.status(Response.Status.FORBIDDEN)
+                    .entity("MESSAGE COMPROMISED!")
+                    .build();
         }
-
-            return AlgorithmHandlerFactory.getHandler(metadata.getAlgorithm()).decrypt(cipherText, metadata);
+        // Verify password
+        if (!new SHA256Handler().verify(metadata.getPassword().getBytes(), Hex.decode(metadata.getPasswordHash()))) {
+            return Response.status(Response.Status.UNAUTHORIZED)
+                    .entity("WRONG PASSWORD!")
+                    .build();
+        }
+        // Perform decryption
+        String decryptedText = AlgorithmHandlerFactory.getHandler(metadata.getAlgorithm()).decrypt(cipherText, metadata);
+        return Response.ok(decryptedText).build();
     }
 
 
@@ -175,10 +207,11 @@ public class Decryption {
         }
         String baseAlgorithm = metadata.getAlgorithm().contains("_")
                 ? metadata.getAlgorithm().split("_")[0]
-               : metadata.getAlgorithm();
+                : metadata.getAlgorithm();
         metadata.setAlgorithm(baseAlgorithm);
         return AlgorithmHandlerFactory.getHandler(metadata.getAlgorithm()).decrypt(encryptedText, metadata);
     }
+
 
 
     /**
@@ -193,7 +226,7 @@ public class Decryption {
      * @return {@code true} if the message is compromised, otherwise {@code false}.
      */
     private boolean isMessageCompromised(String text, EncryptionMetadata metadata) {
-        byte[] decodedText = Hex.decode(text);
+        byte[] decodedText = text.getBytes();
         String hashAlgorithm = metadata.getIntegrityAlgorithm();
         if (hashAlgorithm == null || hashAlgorithm.isEmpty()) {
             return false; // No integrity check required if hash is absent

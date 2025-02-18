@@ -3,15 +3,12 @@ package Handler;
 import Builder.KeyPairBuilder;
 import DTOs.EncryptionMetadata;
 import Enums.Const;
-import org.bouncycastle.crypto.util.PublicKeyFactory;
 import org.bouncycastle.util.encoders.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import services.EncryptionService;
 import services.IntegrityService;
 
 import java.security.*;
-import java.security.spec.X509EncodedKeySpec;
 
 
 /**

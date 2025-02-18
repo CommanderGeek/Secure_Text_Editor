@@ -3,7 +3,6 @@ package Handler;
 import DTOs.EncryptionMetadata;
 import DTOs.IntegrityData;
 import Enums.Const;
-import org.bouncycastle.util.encoders.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -46,10 +46,10 @@ public class EncryptionMetadata {
     private String salt;
     private String publicKey;
     private String privateKey;
+    private String signature;
 
     private String keyStorePassword;//password for the stored AES key
 
-    public EncryptionMetadata(){}
     /**
      * Constructs an {@code EncryptionMetadata} object using a builder pattern.
      *
@@ -73,8 +73,9 @@ public class EncryptionMetadata {
         integrityAlgorithm = builder.integrityAlgorithm;
         keyStorePassword = builder.keyStorePassword;
         passwordHash = builder.passwordHash;
+        this.signature = builder.signature;
     }
-
+    public EncryptionMetadata(){}
 
     // Getters and setters for all fields
     public String getAlgorithm() {
@@ -209,6 +210,15 @@ public class EncryptionMetadata {
         this.passwordHash = passwordHash;
     }
 
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
+
     public static class Builder {
         private String passwordHash;
         private String fileId;
@@ -231,6 +241,7 @@ public class EncryptionMetadata {
         private String publicKey;
         private String privateKey;
         private String integrityAlgorithm;
+        private String signature;
 
         private String getTagLen() {
             return tagLen;
@@ -395,6 +406,19 @@ public class EncryptionMetadata {
             this.passwordHash = passwordHash;
             return this;
         }
+
+
+        public String getPasswordHash() {
+            return passwordHash;
+        }
+
+
+        public  Builder setSignature(String signature) {
+            this.signature = signature;
+            return this;
+        }
+
+
 
         /**
          * Builds an {@code EncryptionMetadata} instance with the configured parameters.

@@ -8,7 +8,6 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Hex;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import services.EncryptionService;
 
 import javax.crypto.SecretKey;
 import java.io.ByteArrayOutputStream;
@@ -112,7 +111,7 @@ class AESAlgorithmHandlerTest {
         encryptedText = Hex.toHexString("invalidcipherdata".getBytes());
 
         String finalEncryptedText = encryptedText;
-        Exception exception = assertThrows(Exception.class, () -> handler.decrypt(finalEncryptedText, metadata));
+        assertThrows(Exception.class, () -> handler.decrypt(finalEncryptedText, metadata));
         String consoleOutput = outContent.toString();
         assertTrue(consoleOutput.contains("Bad padding") ||
                         consoleOutput.contains("IllegalBlockSizeException") || consoleOutput.contains("mac check in GCM failed"),

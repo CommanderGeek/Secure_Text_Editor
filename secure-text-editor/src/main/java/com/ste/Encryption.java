@@ -3,7 +3,6 @@ import DTOs.EncryptionMetadata;
 import DTOs.IntegrityData;
 import Enums.Const;
 import Factory.AlgorithmHandlerFactory;
-import Factory.IntegrityHandlerFactory;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import DTOs.EncryptionRequest;
@@ -12,8 +11,6 @@ import org.bouncycastle.util.encoders.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import services.EncryptionService;
-
-import javax.crypto.SecretKey;
 import java.security.Security;
 
 
@@ -85,6 +82,7 @@ public class Encryption {
         String password = request.getPassword();
         String signature = request.getSignatureType();
         byte[] plainText2Bytes = plainText.getBytes();
+        //setting the metadata, which is used to store all encryption information
         EncryptionMetadata metadata = new EncryptionMetadata.Builder()//
                 .setKeySize(keySize)//
                 .setPadding(padding)//
@@ -92,10 +90,11 @@ public class Encryption {
                 .setHash(mac)
                 .setAlgorithm(request.getEncryptionType())
                 .build();
+        //if pre-generated key is there, set the bytes
         if (!request.getKey().isEmpty()){
             metadata.setKey(request.getKey());
         }
-
+        //if integrity data is used, store data in this data structure
      IntegrityData data = new IntegrityData(mac, signature, encryptionType);
         if(!password.isEmpty()){
             metadata.setPassword(password);
