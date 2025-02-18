@@ -43,6 +43,7 @@ public class AlgorithmHandlerFactory {
      */
 
     public static CryptoAlgorithmHandler getHandler(String algorithm) {
+        //Pattern to determine the selected Algorithm
         return switch (algorithm) {
             case "AES_SYM", "AES" -> new AESAlgorithmHandler();
             case "ChaCha7539", "ChaCha20_SYM", "ChaCha20" -> new ChaCha20AlgorithmHandler();

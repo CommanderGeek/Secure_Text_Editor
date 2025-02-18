@@ -34,10 +34,14 @@ import java.security.*;
 
 public class KeyBuilder {
 
+    //storing the algorithm in this builder
     private String algorithm;
-    private String provider;
+    //storing the keySize for build method
     private int keySize;
+    //if key byte[] is provided, store it!
     private byte[] key;
+    //storing the provider!
+    private String provider;
 
 
     /**

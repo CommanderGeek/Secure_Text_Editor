@@ -39,6 +39,7 @@ public class EncryptionMetaDataConverter {
      */
     final Path baseDir = Paths.get(System.getProperty("user.home"), "STE", "encryption", "MetaData");
 
+    //logger for logging progress
     private static final Logger logger = LoggerFactory.getLogger(EncryptionMetaDataConverter.class);
 
     /**
@@ -68,7 +69,7 @@ public class EncryptionMetaDataConverter {
         try {
             return Files.readString(path);
         } catch (IOException e) {
-            System.out.println("File does not exist!");
+            logger.error("File does not exist!", e);
             e.printStackTrace();
         }
         return "";

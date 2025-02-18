@@ -68,6 +68,7 @@ public class PBAESAlgorithmHandler implements CryptoAlgorithmHandler{
         SecretKey key = service.buildKey(derivedKey, metadata.getAlgorithm());
         metadata.setKey(Hex.toHexString(derivedKey));
         metadata.setAlgorithm(metadata.getAlgorithm().split("_")[0]);
+        //building the cipher by using the encryption service
         Cipher c = service.buildCipher(metadata.getAlgorithm(), metadata.getMode(), metadata.getPadding());
         return service.decrypt(cipherText, c, metadata, key);
     }

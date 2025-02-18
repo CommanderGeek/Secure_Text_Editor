@@ -38,7 +38,6 @@ import javax.crypto.Cipher;
  */
 
 public class AEMAlgorithmHandler implements CryptoAlgorithmHandler {
-    private static final Logger logger = LoggerFactory.getLogger(AEMAlgorithmHandler.class);
 
     /**
      * Encrypts the provided plaintext using AES with an authenticated encryption mode.

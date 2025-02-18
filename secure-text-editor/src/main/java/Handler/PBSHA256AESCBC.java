@@ -60,7 +60,7 @@ public class PBSHA256AESCBC implements CryptoAlgorithmHandler {
         metadata.setKey(Hex.toHexString(derivedKey));
         // Ensure that AES encryption is performed using CBC mode
         metadata.setMode(Const.CBC.getConst());
-        // Encrypt the plaintext using AES-CBC and prefix it with "PBE:"
+        // Encrypt the plaintext using C and prefix it with "PBE:"
         return Const.PBE.getConst() + ":" + new AESAlgorithmHandler().encrypt(plainText, metadata, data);
     }
 
@@ -85,7 +85,7 @@ public class PBSHA256AESCBC implements CryptoAlgorithmHandler {
         SecretKey key = service.buildPBEKey(metadata);
         // Normalize the algorithm name by removing "_PAS" suffix if present
         metadata.setAlgorithm(metadata.getAlgorithm().split("_")[0]);
-        // Initialize a Cipher instance for AES-CBC decryption
+        // Initialize a Cipher instance for decryption
         Cipher c = service.buildCipher(metadata.getAlgorithm(), metadata.getMode(), metadata.getPadding());
         // Decrypt and return the original plaintext
         return service.decrypt(cipherText, c, metadata, key);

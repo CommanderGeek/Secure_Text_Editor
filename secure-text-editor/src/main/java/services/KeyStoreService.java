@@ -72,10 +72,11 @@ public class KeyStoreService {
             //creating a random password with secure random
             byte[] password = new byte[32];
             random.nextBytes(password);
-
+            //storing password with KeyStore params and secretKey Entry
             KeyStore.ProtectionParameter protectionParam = new KeyStore.PasswordProtection(Arrays.toString(password).toCharArray());
             KeyStore.SecretKeyEntry secretKeyEntry = new KeyStore.SecretKeyEntry(secretKey);
             keyStore.setEntry(metadata.getFileId(), secretKeyEntry, protectionParam);
+            //storing the key with the .p12
             Path filePath = baseDir.resolve(metadata.getFileId() + ".p12");
 
             try (FileOutputStream fos = new FileOutputStream(filePath.toString())) {

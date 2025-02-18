@@ -42,7 +42,8 @@ import java.security.MessageDigest;
  *
  */
 public class AESCMACHandler implements IntegrityHandler {
-    private static final Logger logger = LoggerFactory.getLogger(AESCMACHandler.class);
+
+    //for building the key
     private final EncryptionService service = new EncryptionService();
 
     /**
@@ -64,9 +65,8 @@ public class AESCMACHandler implements IntegrityHandler {
     public String compute(byte[] plainText, EncryptionMetadata metadata) {
         try {
             Mac mac = new MacBuilder(metadata.getIntegrityAlgorithm()).build();
+            //building the key with the encryption service
             SecretKey key = service.buildKey(Hex.decode(metadata.getMacKey()), Const.AES.getConst());
-            String k = Hex.toHexString(key.getEncoded());
-           logger.info(k);
             mac.init(key);
             mac.update(plainText);
             return Hex.toHexString(mac.doFinal());
@@ -92,9 +92,8 @@ public class AESCMACHandler implements IntegrityHandler {
      */
     @Override
     public boolean verify(byte[] plainText, EncryptionMetadata metadata) {
-            byte[] computedHash = Hex.decode(compute(plainText,metadata)); // Compute the hash of the input text
-            byte[] storedHash = Hex.decode(metadata.getHashValue()); // Decode the stored hash from metadata
+            byte[] computedHash = Hex.decode(compute(plainText,metadata));
+            byte[] storedHash = Hex.decode(metadata.getHashValue());
             return MessageDigest.isEqual(computedHash, storedHash); // Secure comparison of with MessageDigests
-
     }
 }

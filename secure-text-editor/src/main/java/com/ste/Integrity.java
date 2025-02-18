@@ -52,8 +52,11 @@ import java.util.UUID;
 
 @Path("/api")
 public class Integrity {
+    //for logging the method calls and progress
     private static final Logger logger = LoggerFactory.getLogger(Integrity.class);
+    //converter for getting the metadata from drive
     private static final EncryptionMetaDataConverter converter = new EncryptionMetaDataConverter();
+    //for serializing the metadata
     private static final EncryptionService service = new EncryptionService();
 
 
@@ -78,6 +81,7 @@ public class Integrity {
     public String secureText(EncryptionRequest request) {
         Security.addProvider(new BouncyCastleProvider());
         logger.info("Received Text, ready to encrypt!");
+        //splitting the request
         String plainText = request.getText();
         String mac = request.getMac().split("_")[0];
         String signature = request.getSignatureType();
@@ -93,7 +97,7 @@ public class Integrity {
             metadata.setMacKey(Hex.toHexString(macKey.getEncoded()));
         }
         String id = UUID.randomUUID().toString();
-       metadata.setFileId(id);
+        metadata.setFileId(id);
         String output = id+"."+plainText;
         String computed = IntegrityHandlerFactory.
                 getHandler(!data.getMac().isEmpty() ? data.getMac() : data.getSignature())

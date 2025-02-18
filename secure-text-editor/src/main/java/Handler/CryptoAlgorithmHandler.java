@@ -43,6 +43,7 @@ import services.EncryptionService;
  */
 
 public interface CryptoAlgorithmHandler {
+    //service for providing encryption services
     EncryptionService service = new EncryptionService();
     /**
      * Encrypts the given plaintext using the specified encryption algorithm.

@@ -41,6 +41,7 @@ import javax.crypto.Cipher;
 
 public class ChaCha20AlgorithmHandler implements CryptoAlgorithmHandler{
 
+    //logs the progression
     private static final Logger logger = LoggerFactory.getLogger(ChaCha20AlgorithmHandler.class);
 
 

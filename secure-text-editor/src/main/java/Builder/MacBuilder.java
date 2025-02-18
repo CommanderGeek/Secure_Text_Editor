@@ -26,6 +26,7 @@ import java.security.NoSuchProviderException;
  */
 
 public class MacBuilder {
+    //storing the calculated hash
     private String hash;
 
     /**

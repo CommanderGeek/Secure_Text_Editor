@@ -40,6 +40,7 @@ public class IntegrityHandlerFactory {
      * @throws UnsupportedOperationException if the specified algorithm is not supported.
      */
     public static IntegrityHandler getHandler(String algorithm) {
+        //Pattern to determine the selected Integrity Handler
         return switch (algorithm) {
             case "SHA-256" -> new SHA256Handler();
             case "AESCMAC" -> new AESCMACHandler();

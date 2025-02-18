@@ -29,7 +29,10 @@ import java.security.*;
  */
 
 public class KeyPairBuilder {
+
+    //storing the algorithm for building
     private String algorithm;
+   //standard keysize of 3072 because it is secure on long term!
     private int keySize = 3072;
 
     /**

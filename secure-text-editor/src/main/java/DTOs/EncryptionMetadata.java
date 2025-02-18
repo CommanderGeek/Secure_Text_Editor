@@ -36,17 +36,17 @@ public class EncryptionMetadata {
     private String key;  // Hex encoded key
     private String iv;   // Hex encoded IV
     private String integrityAlgorithm;//Integrity algorithm like DSAWithSha256
-    private String hashValue;//HashValue
-    private String macKey;
-    private String tagLen;
+    private String hashValue; //HashValue
+    private String macKey; //Key for MAC
+    private String tagLen; //from GCM
 
-    private String password;
-    private String passwordHash;
+    private String password; //stored password
+    private String passwordHash; //hashed password for verification
 
-    private String salt;
-    private String publicKey;
+    private String salt; //stored salt
+    private String publicKey; //public key is also stored
     private String privateKey;
-    private String signature;
+    private String signature;//store the signature byte as Hex
 
     private String keyStorePassword;//password for the stored AES key
 

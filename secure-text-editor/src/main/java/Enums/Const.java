@@ -42,7 +42,7 @@ public enum Const {
 
 
 
-
+    //constant variable which stores the string
     private String constant;
 
     /**

@@ -24,7 +24,9 @@ package DTOs;
  *
  */
 public class DecryptPBERequest {
+    //received text from request
     private String text;
+    //password input by user
     private String password;
 
     // Getters and Setters

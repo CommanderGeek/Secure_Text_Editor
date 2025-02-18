@@ -9,8 +9,6 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Hex;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import services.EncryptionService;
-
 import javax.crypto.SecretKey;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -49,7 +47,7 @@ class AEMAlgorithmHandlerTest {
         metadata.setKey(Hex.toHexString(key.getEncoded()));
 
 
-        IntegrityData integrityData = new IntegrityData("", "", "AES");
+        IntegrityData integrityData = new IntegrityData("", "");
 
 
         String encryptedFileString = handler.encrypt(originalText.getBytes(), metadata, integrityData);
@@ -87,7 +85,7 @@ class AEMAlgorithmHandlerTest {
                 .build();
         metadata.setKey(Hex.toHexString(key.getEncoded()));
         // **Integrity Data**
-        IntegrityData integrityData = new IntegrityData("", "", "AES");
+        IntegrityData integrityData = new IntegrityData("", "");
         String encryptedFileString = handler.encrypt(originalText.getBytes(), metadata, integrityData);
         String[] parts = encryptedFileString.split("\\.");// Split on the first dot
         String encryptedText = parts[1];
