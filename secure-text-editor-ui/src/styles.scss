@@ -44,6 +44,12 @@ html, body {
   overflow: hidden; /* Prevent scrolling */
 }
 
+app-root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
