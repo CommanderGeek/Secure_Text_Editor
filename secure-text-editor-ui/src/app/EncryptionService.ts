@@ -51,7 +51,7 @@ export class EncryptionService {
         } else if (error.status === 400) {
           return throwError(() => new Error('Invalid input format for PBE decryption'));
         } else {
-          return throwError(() => new Error('PBE Decryption failed: Unknown error'));
+          return throwError(() => new Error('PBE Decryption failed: Ciphertext contains errors'));
         }
       })
     );

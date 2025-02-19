@@ -20,7 +20,6 @@ import { ToastrService } from "ngx-toastr";
 import {MatCheckbox} from "@angular/material/checkbox";
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { InputDialogComponent } from './components/input-dialog/input-dialog.component';
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 
 @Component({
@@ -42,19 +41,18 @@ export class AppComponent {
   selectedPasswordAlgorithm: string = '';
   selectedChaCha20Algorithm:string = '';
   selectedEncryptionType: string = '';
-  selectedPadding: string = 'NoPadding';
+  selectedPadding: string = '';
   selectedBlockMode: string = '';
   submitted: boolean = false;
   fileName: string= '';
   key: string='';
   selectedMAC: string='';
-  enableMAC: boolean = false;
+  enableMAC: boolean = true;
   password: string = '';
   passwordError: string = '';
   hidePassword: boolean = true;
   enableSignature: boolean = false;
   selectedSignature: string = '';
-
 
   noPaddingModes = ['GCM_SYM', 'CTS_SYM', 'OFB_SYM', 'CTR_SYM', 'CFB_SYM', 'ChaCha20_SYM', 'CCM_SYM'];
   constructor(private encryptionService: EncryptionService,
@@ -173,13 +171,12 @@ export class AppComponent {
       signatureType: this.selectedSignature
     };
     console.log(payload.signatureType)
-    if('NoPadding_SYM' === payload.padding &&  !this.validateForAESNoPadding(payload.text, payload.blockMode)){
-
-      this.toastr.error('The text length must be a multiple of 16 bytes for AES with NoPadding.');
+    if('NoPadding_SYM' === payload.padding &&  !this.validateForAESNoPadding(payload.text, payload.blockMode) ){
+      this.toastr.info('The text length must be a multiple of 16 bytes for AES with NoPadding.');
       return;
-    }else if(this.noPaddingModes.includes(payload.blockMode) && !this.validateBlocks(payload.text)){
+    }else if(this.noPaddingModes.includes(payload.blockMode) && !this.validateBlocks(payload.text) && !this.isCTS(payload.blockMode)){
       console.log(payload.text.length)
-      this.toastr.error('The text length must be a at least 16 bytes for AES with '+payload.blockMode);
+      this.toastr.info('The text length must be a at least 16 bytes for AES with '+payload.blockMode);
       return;
     }else{
       this.snackBar.open('Encrypting the payload!', 'Close', { duration: 3000 });
@@ -206,7 +203,7 @@ export class AppComponent {
         const payload = {
           text: this.fileContent,
           mac: this.selectedMAC,
-          signatureType: this.selectedSignature
+          signatureType: this.selectedSignature,
         };
         this.encryptionService.protect(payload).subscribe({
           next: (protectedData) => {
@@ -261,20 +258,21 @@ export class AppComponent {
     return text.length > 15;
   }
   validateForAESNoPadding(text: string, blockMode: string): boolean {
-    // Allow NoPadding only for specific block modes
-
-
-    // Check if block mode requires no padding
     if (this.noPaddingModes.includes(blockMode)) {
-      return true;
+      return true; // Allow all text lengths for these modes
     }
-      if (text.length > 0) {
-        const encoder = new TextEncoder();
-        const textBytes = encoder.encode(text);
-        return textBytes.length % 16 === 0; // Valid only if multiple of 16 bytes
-      }
-      return false; // Invalid if text is empty or doesn't meet criteria
+
+    if (text.length === 0) {
+      return true; // Allow empty plaintext for any mode
+    }
+
+    const encoder = new TextEncoder();
+    const textBytes = encoder.encode(text);
+
+    return textBytes.length % 16 === 0; // Ensure 16-byte alignment for CBC/ECB
   }
+
+
 
   isPaddingAllowed(blockMode: string): boolean {
     // Only allow other padding modes for ECB and CBC
@@ -282,6 +280,10 @@ export class AppComponent {
     return allowedModes.includes(blockMode);
   }
 
+
+  isCTS(blockMode: string): boolean{
+    return blockMode !== 'CTS_SYM';
+  }
 
   onBlockModeChange(): void {
     if (this.selectedBlockMode === 'GCM_SYM' || this.selectedBlockMode === 'CTS_SYM') {
@@ -334,8 +336,14 @@ export class AppComponent {
     switch (this.selectedEncryptionType) {
       case 'AES_SYM':
       case 'AES_AEM':
+        this.selectedKeySize = "256_SYM";
+        this.key = '';
+        break;
       case 'ChaCha20_SYM':
         this.selectedKeySize = "256_SYM";
+        this.selectedPadding = '';
+        this.selectedBlockMode = '';
+        this.key = '';
         break;
       case 'AES_PAS':
         this.selectedBlockMode = 'GCM_PAS';
@@ -360,7 +368,7 @@ export class AppComponent {
   onMACEnableChange(): void {
     if (this.enableMAC) {
       this.enableSignature = false; // Disable signature if MAC is enabled
-      this.selectedSignature = '';  // Clear signature selection
+      this.selectedSignature = '';// Clear signature selection
     }
     if(!this.enableMAC){
       this.selectedMAC = '';

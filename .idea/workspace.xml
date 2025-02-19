@@ -6,37 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="982cfcbf-422f-4344-94e8-23a20747ace7" name="Changes" comment="This is the begin of the end!">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/src/app/EncryptionService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/app/EncryptionService.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/CipherBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/CipherBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/KeyBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/KeyBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/KeyPairBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/KeyPairBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/MacBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/MacBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/DTOs/DecryptPBERequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/DTOs/DecryptPBERequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/DTOs/EncryptionMetadata.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/DTOs/EncryptionMetadata.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/DTOs/EncryptionRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/DTOs/EncryptionRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/DTOs/IntegrityData.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/DTOs/IntegrityData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Enums/Const.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Enums/Const.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Factory/AlgorithmHandlerFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Factory/AlgorithmHandlerFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Factory/IntegrityHandlerFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Factory/IntegrityHandlerFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/AEMAlgorithmHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/AEMAlgorithmHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/AESAlgorithmHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/AESAlgorithmHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/AESCMACHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/AESCMACHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/ChaCha20AlgorithmHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/ChaCha20AlgorithmHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/CryptoAlgorithmHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/CryptoAlgorithmHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/HMACSHA256Handler.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/HMACSHA256Handler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/PBAESAlgorithmHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/PBAESAlgorithmHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/PBSHA256AESCBC.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/PBSHA256AESCBC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Decryption.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Decryption.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Encryption.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Encryption.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Integrity.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Integrity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionMetaDataConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionMetaDataConverter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/IntegrityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/IntegrityService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/KeyStoreService.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/KeyStoreService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/AEMAlgorithmHandlerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/AEMAlgorithmHandlerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/AESAlgorithmHandlerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/AESAlgorithmHandlerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -156,7 +129,7 @@
     "nodejs_package_manager_path": "npm",
     "run.configurations.included.in.services": "true",
     "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "D:\\Entwicklung\\Projekts\\Secure_Text_Editor\\secure-text-editor-ui\\node_modules\\typescript\\lib",
+    "ts.external.directory.path": "C:\\Users\\elharb\\Documents\\Studium\\7.Semester\\Fortgeschrittene IT-Sicherheit\\Projekt\\STE\\Secure Text Editor\\secure-text-editor-ui\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -258,76 +231,12 @@
     </configuration>
     <configuration name="secure-text-editor (1) (com.example)" type="QuarkusRunConfigurationType" factoryName="Quarkus" nameIsGenerated="true">
       <module name="secure-text-editor (1) (com.example)" />
-      <QsMavenRunConfiguration>
-        <MavenSettings>
-          <option name="myGeneralSettings" />
-          <option name="myRunnerSettings" />
-          <option name="myRunnerParameters">
-            <MavenRunnerParameters>
-              <option name="cmdOptions" />
-              <option name="profiles">
-                <set />
-              </option>
-              <option name="goals">
-                <list>
-                  <option value="quarkus:dev" />
-                </list>
-              </option>
-              <option name="multimoduleDir" />
-              <option name="pomFileName" value="pom.xml" />
-              <option name="profilesMap">
-                <map />
-              </option>
-              <option name="projectsCmdOptionValues">
-                <list />
-              </option>
-              <option name="resolveToWorkspace" value="false" />
-              <option name="workingDirPath" value="$PROJECT_DIR$" />
-            </MavenRunnerParameters>
-          </option>
-        </MavenSettings>
-        <targetMavenLocalRepo />
-        <emulateTerminal>false</emulateTerminal>
-        <profile>dev</profile>
-      </QsMavenRunConfiguration>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration name="secure-text-editor (2) (com.ste)" type="QuarkusRunConfigurationType" factoryName="Quarkus" nameIsGenerated="true">
       <module name="secure-text-editor (2) (com.ste)" />
-      <QsMavenRunConfiguration>
-        <MavenSettings>
-          <option name="myGeneralSettings" />
-          <option name="myRunnerSettings" />
-          <option name="myRunnerParameters">
-            <MavenRunnerParameters>
-              <option name="cmdOptions" />
-              <option name="profiles">
-                <set />
-              </option>
-              <option name="goals">
-                <list>
-                  <option value="quarkus:dev" />
-                </list>
-              </option>
-              <option name="multimoduleDir" />
-              <option name="pomFileName" value="pom.xml" />
-              <option name="profilesMap">
-                <map />
-              </option>
-              <option name="projectsCmdOptionValues">
-                <list />
-              </option>
-              <option name="resolveToWorkspace" value="false" />
-              <option name="workingDirPath" value="$PROJECT_DIR$/secure-text-editor" />
-            </MavenRunnerParameters>
-          </option>
-        </MavenSettings>
-        <targetMavenLocalRepo />
-        <emulateTerminal>false</emulateTerminal>
-        <profile>dev</profile>
-      </QsMavenRunConfiguration>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -340,7 +249,6 @@
           <option name="myRunnerSettings" />
           <option name="myRunnerParameters">
             <MavenRunnerParameters>
-              <option name="cmdOptions" />
               <option name="profiles">
                 <set />
               </option>
@@ -349,13 +257,9 @@
                   <option value="quarkus:dev" />
                 </list>
               </option>
-              <option name="multimoduleDir" />
               <option name="pomFileName" value="pom.xml" />
               <option name="profilesMap">
                 <map />
-              </option>
-              <option name="projectsCmdOptionValues">
-                <list />
               </option>
               <option name="resolveToWorkspace" value="false" />
               <option name="workingDirPath" value="$PROJECT_DIR$/secure-text-editor" />
@@ -363,8 +267,6 @@
           </option>
         </MavenSettings>
         <targetMavenLocalRepo />
-        <emulateTerminal>true</emulateTerminal>
-        <profile>dev</profile>
       </QsMavenRunConfiguration>
       <method v="2">
         <option name="Make" enabled="true" />
@@ -611,7 +513,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="Refactoring" />
+                        <option value="master" />
                       </list>
                     </value>
                   </entry>
@@ -647,14 +549,49 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java</url>
-          <line>247</line>
-          <option name="timeStamp" value="50" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Integrity.java</url>
           <line>184</line>
           <option name="timeStamp" value="75" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Decryption.java</url>
+          <line>236</line>
+          <option name="timeStamp" value="89" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Decryption.java</url>
+          <line>235</line>
+          <option name="timeStamp" value="90" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Decryption.java</url>
+          <line>234</line>
+          <option name="timeStamp" value="91" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Decryption.java</url>
+          <line>239</line>
+          <option name="timeStamp" value="92" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Encryption.java</url>
+          <line>104</line>
+          <option name="timeStamp" value="93" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Integrity.java</url>
+          <line>96</line>
+          <option name="timeStamp" value="95" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Integrity.java</url>
+          <line>95</line>
+          <option name="timeStamp" value="96" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/SHA256DSAHandler.java</url>
+          <line>61</line>
+          <option name="timeStamp" value="101" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

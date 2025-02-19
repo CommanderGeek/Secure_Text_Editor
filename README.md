@@ -15,7 +15,7 @@ then change to the secure-text-editor directory and start with the command
 then try to start the backend via
 ````mvn quarkus:dev````
 
-after that open a new terminal and change to secure-text-editor
+after that open a new terminal and change to secure-text-editor-ui 
 
 there you should run the command 
 

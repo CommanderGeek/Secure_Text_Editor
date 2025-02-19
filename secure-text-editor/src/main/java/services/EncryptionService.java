@@ -23,10 +23,10 @@ import java.util.Objects;
 import java.util.UUID;
 /**
  * @author Elias Harb
- *
+ * <p>
  * EncryptionService provides functionality for encrypting and decrypting data using various cryptographic algorithms.
  * It supports AES, PBE, Scrypt, and ChaCha20 encryption methods, along with key generation and metadata handling.
- *
+ *</p>
  */
 public class EncryptionService {
 
@@ -72,10 +72,10 @@ public class EncryptionService {
      * Serializes and stores encryption metadata.
      *
      * @param encryptionMetadata The metadata to serialize.
-     * @return The unique file ID for the stored metadata.
      */
     public void serializeMetadata(EncryptionMetadata encryptionMetadata){
-        converter.storeMetaData(converter.serializeMetadata(encryptionMetadata), UUID.fromString(encryptionMetadata.getFileId()));
+        converter.storeMetaData(converter.serializeMetadata(encryptionMetadata),
+                UUID.fromString(encryptionMetadata.getFileId()));
     }
 
 
@@ -248,7 +248,7 @@ public class EncryptionService {
             decryptedByteText = decrypt(c, text, key, new IvParameterSpec(iv));
         }
         String decryptedText = new String(decryptedByteText);
-        logger.info("Successfully decrypted the text with result: \n"+decryptedText);
+        logger.info("Successfully decrypted the text\n");
         return decryptedText;
     }
     /**
@@ -269,7 +269,7 @@ public class EncryptionService {
             decryptedByteText = decrypt(c, text, key, new IvParameterSpec(iv));
         }
         String decryptedText = new String(decryptedByteText);
-        logger.info("Successfully decrypted the text with result: \n"+decryptedText);
+        logger.info("Successfully decrypted the text\n");
         return decryptedText;
     }
 
